@@ -1,0 +1,32 @@
+#
+# this test looks at various error conditions
+#
+a
+No such file
+/
+nothing
+#
+# no file and -k
+b
+No such file and -k
+/
+-k nothing
+#
+# permission problems
+c
+Permission denied
+TESTDIR
+02
+#
+# deep directory with long names
+#
+d
+deep directory, long names
+TESTDIR
+03
+#
+# random tes
+e
+look at /usr/include
+
+/usr/include

@@ -1,0 +1,52 @@
+<html>
+<head>
+	<title>oo design for pong</title>
+</head>
+<body bgcolor=white>
+<b>Don't Overdo OO Design</b>
+<blockquote>
+	The purpose of asking you to separate the ball storage and
+	functions from the rest of the code is to acquaint you with
+	basic design principles and techniques for modular coding
+	in C.  I am not expecting you to similate classes and 
+	methods for this assignment.  
+	<p>
+	All you really need to do
+	is to build a file called ball.c and a file called ball.h
+	to hide the internals of the ball and present a clear
+	interface.
+	<p>
+	The following example is not a requirement, and it may
+	not even be the best fit for your code.
+	<p>
+</blockquote>
+<b>A Potential Direction</b>
+<p>
+Object Oriented Ideas for Pong
+<p>
+If you want to add multiple pladdles or multiple balls to the game,
+the best solution is to dynamically create paddles and balls.  In your
+ball.c file, for example, define a constructors that allocate a 
+struct for the object, initialize the values, and returns a pointer to
+a ball.  The code could look like:
+<pre>
+
+     BALL *new_ball(char ballsym, int y, int x)
+     {
+           BALL * retval;
+           retval = malloc(sizeof(struct ppb));
+           if ( retval == NULL )
+                fatal("out of memory in new_ball");
+           retval->sym = ballsym;
+           retval->xttm = retval->xttg = 0;
+           retval->yttm = retval->yttg = 0;
+	   retval->x    = x;
+	   retval->y    = y;
+           return retval;
+     }
+
+</pre>
+That way, the main program could allocate as many as it pleased.
+This is much more flexible than the static var mentioned for the
+simple solution.
+</body>

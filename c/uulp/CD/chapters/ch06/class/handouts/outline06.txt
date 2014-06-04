@@ -1,0 +1,66 @@
+
+
+
+
+
+			    Lecture 6			  Outline
+_________________________________________________________________
+
+	  Topics:   Even More tty control: Programming for Humans
+
+	  Approach: Use User Programs, Write a User Program
+
+	  Main Questions:
+
+		    How Can I Control the User Input Stream?
+		    What Does the tty Driver Do?
+		    What does Ctrl-C do?
+
+	  Outline
+
+		    The Big Picture again
+			 Today: Getting data from keyboards
+
+		    Software tools vs. User Programs
+			 Software tools are attached to abstract data streams
+			 User Programs are attached to keyboards
+
+		    Special Concerns of User Programs
+			 Immediate response to chars
+			 Limited input set
+			 Timeout on input
+			 Resistent to Ctrl-C
+
+		    Exploring the tty Driver
+
+		    Concrete Example: ATM security
+			 play_again0: minimal operation
+			 play_again1: one-char input
+			 play_again2: one-char input, no echo, ignore other input
+			 play_again3: crmode, noecho, nonblocking
+
+		    Signals
+			 How they work
+			 What they are
+			 Where they come from
+			 What they can do
+			 Setting a response
+
+		    Back to play_again
+			 play_again4: catches signals and cleans up
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

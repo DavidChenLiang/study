@@ -1,0 +1,59 @@
+.sp 0.8i
+.ft B
+.tl ''Lecture 5'Outline'
+\l'6.5i'
+
+.nf
+.in +1i
+.ta 1i +1.5i
+\fBTopics\fR:	Devices and Files
+
+\fBApproach\fR:	Ideas, Examples, Applications
+\fBFeaturing\fR:	write, stty
+
+\fBMain Ideas\fR:
+	
+	Device I/O works just like disk file I/O
+	Devices have names, properties, contents, use open, read, write
+	Devices work differently from disk files
+	Connections to disk files have specific attributes
+	Connections to terminal files have specific attributes
+	stty is a command that allows one to examine/change attribs
+
+\fBOutline\fR
+
+	The story so far
+	   We know how to read, write, create, rename, remove files
+
+	Questions for tonight
+	   What about devices: terminals, printer, scanners, sound
+	   Is programming for devices like programming for files?
+	   How can a programmer gain access to and control devices?
+
+	Device I/O is just like Disk File I/O
+	   open, read, write, close, lseek can all be used
+	   Every device has a name in the file system
+	   examples:  who > /dev/ttyp2 ; od -c /dev/ttyp2
+	   Every device has attributes ( ls -l /dev/xxx )
+	   application: the write command, our versions
+
+	Device I/O is nothing like Disk File I/O
+	   Disk files use buffering; terminals cannot use buffering
+	   Terminals have baud rate, parity, echo, buffering...
+
+	Attributes of file descriptors: using fcntl and open
+	   buffering can be turned on or off  ( \s-2O_SYNC\s+2 )
+	   auto-append can be turned on or off ( \s-2O_APPEND\s+2 )
+	   using fcntl()
+
+	The kernel processes data going to and from terminals
+	   The kernel software is called the \fIterminal driver\fR
+	   The terminal driver can do lots of things and has many settings
+	   The stty command is the user interface
+	   The tcgetattr() and tcsetattr() are the programmer interface
+
+	Bits on Parade
+	   How to (1) test a bit, (2) set a bit, (3) clear a bit
+	   echostate, setecho
+
+	Writing stty

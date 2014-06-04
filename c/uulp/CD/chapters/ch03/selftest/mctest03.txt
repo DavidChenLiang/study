@@ -1,0 +1,49 @@
+[Chapter 03]
+  3.1) You can use the ls command to list files
+    A. in any directory to which you have read access
+    B. only in directories you own
+
+  3.2) The ls command does not list files with names beginning with a dot because
+    A. ls does not list them
+    B. the kernel assigns those files a "hidden" attribute
+
+  3.3) Trying to use the open system call on a directory will fail if
+    A. you try to open the directory for writing
+    B. you are not the superuser
+
+  3.4) A Unix directory contains
+    A. names and sizes of files
+    B. names and inode numbers of files
+
+  3.5) The readdir function returns
+    A. a pointer to the name of a file
+    B. a pointer to a struct dirent
+
+  3.6) Entries in a directory are
+    A. sorted by date of file creation
+    B. not sorted
+
+  3.7) The stat system call can tell you
+    A. how many people have a file open
+    B. who owns a file
+
+  3.8) A bitmask is used for
+    A. protecting data from other processes
+    B. examining parts of an integer value
+
+  3.9) The st_ctime attribute of a file indicates
+    A. the last time file contents were changed
+    B. the last time file attributes were changed
+
+  3.10) The owner of a file is recorded in a struct stat as
+    A. a username string
+    B. a user id number
+
+  3.11) A program with the set user id bit set will
+    A. change the username of the person running the program
+    B. run with the effective user id of the owner of the program
+
+  3.12) The type of a file can be changed
+    A. only by the superuser
+    B. by no user
+

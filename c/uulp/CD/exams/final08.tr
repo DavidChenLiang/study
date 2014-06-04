@@ -1,0 +1,330 @@
+.de UL \" underline argument, don't italicize
+.if t \&\\$1\l'|0\(ul'\\$2
+.if n .I \\$1 \\$2
+..
+.hy 14
+.sp 2i
+.ft I
+.ps 12
+.ce
+COURSE Final Exam 08
+
+.ft R
+.ft I
+.ps 12
+
+.ce
+DATE
+.ft R
+.sp 24p
+.ps 12p
+
+
+
+.ce
+Your Name Here: \l'2i'
+
+
+
+
+
+.in +1i
+.ll -1i
+.vs 15p
+\fIInstructions\fR:  You have TIME for this exam.  
+Please write your answers on the pages in this exam booklet.  
+No scrap paper or additional sheets will be accepted.  Watch 
+your time and be concise.  Write clearly (illegible answers will 
+be `silently ignored'), and \fIalways\fR check the return value 
+of a system call.  Good luck.
+.in -1i
+.ll +1i
+.bp
+.sp 1i
+.TS
+linesize(8) center allbox;
+c c c l
+n n n n.
+prob	points	got	section
+1	4
+2	4
+3	4
+4	4
+5	4
+6	4
+7	4
+8	4
+
+9	5
+10	5
+11	5
+12	5
+13	5
+
+14	4
+15	4
+16	4
+17	4
+
+18	10
+
+19	
+a	3
+b	2
+c	3
+d	2
+e	7
+
+
+.TE
+.bp
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part One'Eight Problems, each worth 4 points'page 1'
+\l'6.5i'
+.sp 3p
+.ft R
+.ft B
+Problems 1-8:  Short answer questions.  Answer each question clearly,
+precisely, and refer to specific system calls when appropriate.  Write
+your answer in the space provided.
+.br
+
+.ft R
+1. Why is it considered a bad idea to write programs that make more system
+calls than are necessary?
+.sp 1.1i
+2. If you know the name of a file, how can you find 
+the name of the user that owns that file?
+.sp 1.1i
+3. List four system calls that return file descriptors.  For each system
+call, explain what the file descriptor refers to.
+.sp 1.1i
+
+4. What is the relationship between the systems calls \fIexit()\fR and
+\fIwait()\fR?  
+.sp 1.1i
+
+5. What is the purpose of the \fCfork()\fR system call?  What value
+does it return, and what does that value indicate?
+.sp 1.1i
+
+6. Why is the system call that deletes a file called \fCunlink()\fR rather
+than \fCdelete()\fR?
+.sp 1.1i
+.bp
+.sp 0.4i
+.tl 'Part One'continued'page 2'
+\l'6.5i'
+7. What is the meaning of \fConlcr\fR mode, and why is it useful?
+.sp 1.1i
+8. What is a signal?  Give an example and explain how it is useful.
+.sp 1.2i
+.tl 'Part Two''Five problems, each worth 5 points'
+\l'6.5i'
+
+Problems 9-13: Compare and contrast.  Each of these problems mentions
+two related concepts, system calls, or operations.  For each pair, explain
+briefly and clearly (a) what they have in common, (b) when you would use
+the first item, and (c) when you would use the second item.
+
+.ft R
+
+9. \fCpopen()\fR vs \fCfopen()\fR
+.sp 1.05i
+10. \fCprogram\fR vs \fCprocess\fR
+.sp 1.05i
+11. \fCaccept()\fR vs \fCconnect()\fR
+.sp 1.05i
+12. \fCblocking input\fR vs \fCnon-blocking input\fR
+.sp 1.005i
+13. \fCsymbolic link\fR vs \fChard link\fR
+.bp
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'Four questions, each worth 4 points'page 3'
+\l'6.5i'
+.ft R
+`\fIGetting System Status\fR'\ \ Some system calls request actions,
+and some request information.  For example, the time() system call
+requests information, while the chdir system() system call requests
+an action.  Each of the following system calls does both: initiates
+an action and requests information.  For each of these system
+calls, explain what information is returned by the call, and describe how
+the returned value is useful.
+
+14. read()
+.sp 1.4i
+15. lseek()
+.sp 1.4i
+16. signal()
+.sp 1.4i
+17. alarm()
+.bp
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Four'One problem, 7 points'page 4'
+\l'6.5i'
+.ft R
+
+18. An enhancement to your small shell - the \fCtrap\fR built-in
+
+The shell you wrote for homework was supposed to ignore interrupts
+but allow its children processes to catch them.  The `real' shell
+is more flexible.  It has a \fItrap\fR built-in command that allows
+the user to set the shell to respond to signals.
+Here is what the manual says about trap:
+
+.in +0.5i
+.ll -0.5i
+.na 
+.ft C
+.ti -0.2i
+trap [arg] [n] ..
+.br
+.UL "Arg"
+is a command to be read and executed when the shell receives
+signal(s)
+.UL n
+\&. 
+If
+.UL arg
+is absent then all trap(s)
+.UL n
+are reset to their original values.  If 
+.UL arg
+is the null string then this signal is ignored by the shell
+and by invoked commands.  If 
+.UL n
+is 0 then the command
+.UL arg
+is executed on exit from the shell, otherwise upon receipt of
+signal 
+.UL n
+as numbered in 
+.UL signal
+(2).
+.UL Trap
+with no arguments prints a list of commands associated with
+each signal number.
+.ft R
+.ad
+.in -0.5i
+.ll +0.5i
+
+Describe how you would modify your shell to handle the
+\fItrap\fR built-in command.  You do not need to include code or
+low-level details.  You must cover at least three topics: 1) any
+data structures you will add to implement this built-in, (2) how the
+code for the trap built-in will operate, (3) how setting traps
+affects execution of commands.
+
+
+.bp
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Five'One problem, 17 points'page 5'
+\l'6.5i'
+.ft R
+
+19. \fIBiff Lives!\fR 
+.sp 6p
+.UL "Mail Notification"
+\ \  Email is now a standard, relied-upon means of communication.  
+Some people who depend on email want to be notified when new messages
+appear, just as people who depend on the
+telephone expect to hear the telephone ring when someone calls.
+
+This is the question: devise a program that notifies a user when
+new mail has arrived.  In this problem, you will explore three solutions
+to this problem.
+
+On most Unix machines, mail is delivered by appending the message to 
+a file called \fC/usr/spool/mail/logname\fR where \fClogname\fR is the
+logname of the user.  Some systems use \fC/usr/mail/logname\fR and some
+use other directories.  The full pathname of the user's mailfile is 
+usually stored in an environment variable called $MAIL.
+
+.UL "Method I: The Shell Watches [5 points]"
+\ \ Many Unix shells are programmed to check for the arrival of new mail.
+The shells usually print out a message like "You have new mail" just before
+they print out a new prompt.  The shell checks for new mail every \fIn\fR
+seconds, where \fIn\fR is a variable set by the user.
+
+.in +0.2i 
+.ll -0.2i
+a) Explain what additions you would need to make to your shell to
+implement the above-described feature.  What system calls would
+you need to use?
+
+b) Why is this not an ideal solution?  That is, why might you not
+hear about new mail if you are using this method?
+
+.in -0.2i 
+.ll +0.2i
+
+.UL "Method II: A Dedicated Process Watches [5 points]"
+\ \ One solution to the problem mentioned in (b) is to run a separate
+background process, running in the background just as your \fCwatch\fR
+program did.
+
+.in +0.2i 
+.ll -0.2i
+c) Write a simple stand-alone program (in C or C++) that
+can be run in the background and will notify a user when new mail
+arrives.  The program should take as a command-line argument the 
+number of seconds between checks for new mail.
+
+d) What are the drawbacks of this method?
+
+.in -0.2i 
+.ll +0.2i
+.UL "Method III: A Single Program Watches for Everyone [7 points]"
+\ \ The Unix program called \fCbiff\fR (named after a dog said to
+bark when the mailman arrived) uses a somewhat bizarre method.  When
+you run the biff command, it sets the `user execute bit' in the special
+file that represents your terminal.  That is, if you are logged in
+at \fC/dev/ttyq3\fR, then the protection mode for \fC/dev/ttyq3\fR
+will be \fB-rwx-w--w-\fR .  There is no meaning to the idea of a
+terminal being executable; therefore the bit has no practical use for
+file access in this case.
+
+A single background program watches for incoming mail for all users
+who had run the \fCbiff\fR command.  The \fCbiff\fR watcher program
+checks for new mail at an interval set when it starts.  By examining
+all terminal devices in the \fC/dev\fR directory, the program can
+determine which users have new mail and can notify the user.
+
+.in +0.2i 
+.ll -0.2i
+e) Write an outline for the biff watcher program.  Mention in your
+description which system calls you need to make to implement this
+program.  Make your algorithm clear.  Be sure you explain how the
+program knows if new mail has arrived and how the program gets the
+notification to the user.
+
+.in -0.2i 
+.ll +0.2i
+.bp
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'continued'page 6'
+\l'6.5i'
+.ft R
+.bp
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'continued'page 7'
+\l'6.5i'

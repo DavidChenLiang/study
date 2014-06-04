@@ -1,0 +1,110 @@
+<html>
+<head>
+	<title>
+	The Four-Backslash Problem
+	</title>
+</head>
+
+<body bgcolor=white>
+<h3>
+The Four-Backslash Problem
+</h3>
+	<blockquote>
+	When you type  <tt>echo \\</tt> to the bourne shell, it
+	prints back <tt>\</tt> which is what you would expect.
+	If you type  <tt>echo \\\\</tt> to the bourne shell, it
+	prints back <tt>\</tt> which is not what I would expect.
+	The korn shell also prints one backslash for four.  Bash, 
+	though prints two.  The bourne shell prints two when asked 
+	to print six .
+	<p>
+	What is going on?
+	</blockquote>
+<h4>
+The <tt>man</tt> page says
+</h4>
+	<blockquote>
+	The man page ( <tt>man 1b sh</tt> ) says, in the section on
+	quoting:
+	<pre>
+  Quoting Mechanisms
+
+
+  The following	characters have	a special meaning to the shell and cause ter-
+  mination of a	word unless quoted:
+
+       ; &amp; ( ) | ^ &lt; &gt; &lt;newline&gt; &lt;space&gt; &lt;tab&gt;
+
+  Using	' ' (single) and " " (double) quotes to	surround a string or a \
+  (backslash) before a single character	enables	the character to stand for
+  itself, instead of conveying special meaning to the shell.
+
+  Within single	quotes,	all characters (except the single quote	character
+  itself), are taken literally,	with any special meaning removed.  Thus,
+  entering:
+
+       stuff='echo $? $*; ls * | wc'
+
+  results only in the literal string echo $? $*; ls * |	wc being assigned to
+  the stuff variable; the echo,	ls, and	wc commands are	not executed, nor are
+  the variables	$? and $* and the special character * expanded by the shell.
+
+  To verify this you could export the variable stuff with the command export
+  stuff, and then use the command printenv stuff to view it.  This is differ-
+  ent from the simple command echo $stuff.
+
+  Within double	quotes,	the special meaning of certain characters ($, `, and
+  ") does persist, while all other characters are taken	literally. Thus,
+  within double	quotes,	command	and variable substitution takes	place.	In
+  addition, the	quotes do not affect the commands within a command substitu-
+  tion that is part of the quoted string, so characters	there retain their
+  special meanings.
+
+  Consider the following sequence:
+
+  You enter:
+
+       ls *
+
+  System displays:
+
+       file1
+       file2
+       file3
+
+  You enter:
+
+       message="This directory contains	`ls * `	"
+       echo $message
+
+  System displays:
+
+       This directory contains file1 file2 file3
+
+  This shows that the *	special	character inside the command substitution was
+  expanded.
+
+  <font color=blue>
+  To hide the special meaning of $, `, and " within double quotes, precede
+  these	characters with	a \ (backslash). Outside of double quotes, preceding
+  a character with \ (backslash) is equivalent to placing it within single
+  quotes.  Hence, a \ (backslash) immediately preceding	the newline character
+  (that	is, a \	(backslash) at the end of the line) hides the newline charac-
+  ter and allows you to	continue the command line on the next physical line.
+  </font>
+</pre>
+	Notice the section in blue.  It says that <tt>\x</tt> is equivalent
+        to <tt>x</tt> .  If that is true, then  <tt>\\</tt> must be equivalent
+	to <tt>\</tt>.  But what does the shell do with that backslash?  Does
+	the shell now apply that backslash to the next character in 
+	the line?  If so, is the string <tt>\\\</tt> the same 
+	as <tt>\\</tt> which is <tt>\</tt> ?  When does it stop?
+</blockquote>
+<h4>
+What does the Source Say?
+</h4>
+<blockquote>
+	Search the Web for the source to the Bourne shell or the source
+	for the korn shell (http://kornshell.com).  The Bourne shell
+	source shows that the first <tt>\\</tt> actually turns 
+	into <tt>""</tt>.  

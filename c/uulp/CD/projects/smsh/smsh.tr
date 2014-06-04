@@ -1,0 +1,264 @@
+.rm CH
+.ds RH \s8smallsh\s0
+.ds RF \s8page %\s0
+.DS C
+.ft B
+Programming Project: small shell
+.ft R
+.DE
+.SH
+Introduction
+.sp 6p
+.LP
+A Unix shell is a tool that allows users to manage processes.  Using
+a shell, a person can run programs, control input and output, and create
+pipelines.  
+
+Unix shells do more than launch programs.  Most shells are comprehensive 
+programming languages.  The shell programming language includes
+variables (local and global), functions, and a full range of control
+flow syntax, including \fIif\fR statements and \fIwhile\fR loops.
+Programs written in a shell programming language are called shell
+scripts.
+
+The sample shell in the text implements some of the 
+features of a typical shell.  It runs programs, it allows some
+control of environment variables, has a limited if..then structure, and
+it does not allow one to use the shell variables in statements.
+
+For this assignment, you will build on ideas and code from the text
+to create a more sophisticated shell.  By adding mechanisms to input and 
+retrieve shell variables, by extending the  `if' statement, and 
+by allowing the shell to read scripts in addition to standard input, 
+you will give the shell enough structure to be programmed.
+
+.SH
+The Big Picture
+.sp 6p
+.LP
+In its simplest form, a shell executes programs on request.  You
+type the name of a program, the shell creates a new process, and then
+the shell runs the requested program in the new process.
+When the program ends, the shell wakes up and awaits the next request.
+
+.LP
+The main loop for a shell is:
+.DS
+.ft C
+.ps 9
+.vs 10p
+.sp 4p
+        setup();
+        while ( (cmdline = next_cmd(prompt, stdin)) != NULL ){
+                if ( (arglist = splitline(cmdline)) != NULL  ){
+                        process(arglist);
+                        freelist(arglist);
+                } 
+                free(cmdline); 
+        }
+.sp 4p
+.vs 12p
+.ps 10
+.ft R
+.DE
+.SH
+The Story So Far
+.sp 6p
+.LP
+In the shells presented in class ( psh1, psh2, and smsh1),
+`setup' consists of initializing the list of shell variables and
+setting signal handling.  The
+`next_cmd' function reads a command from standard
+input.  `splitline' splits the input line into
+white-space separated strings.  The `process' 
+operation acts on the list of arguments. 
+If the command is a built-in command, the shell calls an internal
+function to do the work.  If the command
+is not built-in, then the shell tries to fork() and execvp() it. 
+If the command is part of the 'if..then' control structure, the
+shell determines if it needs to execute the code at all.
+
+.SH
+Where to Go from Here
+.sp 6p
+.LP
+There are lots of ways to expand a shell.  Just as there are several
+styles of word processing programs, there are several styles of shells,
+each with unique features and designs.  You do not have to stick with
+the design provided; sometimes you have to rearrange components or 
+change the basic elements.  You may select any method that makes sense 
+to you and meets the requirements of the assignment.
+
+For this assignment, you will write a shell that includes the
+features from the example in class plus specific additions.
+The specific additions you will make are:
+
+.IP 1)
+\fIAlternate Input\fR\ \ \ Smsh1 reads commands from standard input.
+This is the interactive mode: the user types a command, the shell 
+executes it.  
+The real shell can also read commands from a file.  This is the
+scripted mode: the user prepares a file that contains commands and
+then passes the name of that `script file' to the shell as a command
+line argument.  For example: \fC\s-1smsh file.of.commands\s0\fP
+
+Your program, smsh2, should check the command line.  
+If there is an argument, your smsh2 should use that file as a shell script.  
+When reading from a script, your shell should not print prompts 
+before each line.
+
+.IP 2)
+\fIThe cd built-in\fR\ \ \ The shell executes the change-directory
+command (cd) directly; it does not call a program to do this.
+Be sure to understand why the shell cannot call a program to do this.
+Then add cd to smsh2.
+
+.IP 3)
+\fIThe exit built-in\fR\ \ \ The exit command causes the shell to
+exit.  If exit is given a numeric argument, the shell passes the
+value of that argument to the exit() system call.  The exit command
+is particularly useful in shell scripts.  Add this feature to your shell.
+
+.IP 4)
+\fIInput\fR\ \ \ Implement a new built-in command `read' that works
+sort of like the Bourne shell read command.  The read command takes
+one argument: the name of the variable
+into which the input is read.
+The shell reads one line from standard input (not from the script)
+and stores that line in the variable.  It therefore similar to
+C's gets() function, Perl's \s-1<STDIN>\s0, and \s-1BASIC\s0's input command.
+The Unix shell allows the read command to accept several variables and
+assigns strings in the input to separate variables.   You may add that
+operation if you like.
+
+.IP 5)
+\fIVariable Substitution\fR\ \ \ Consider this fragment:\ \ \ 
+.ft C
+.ps 9
+.vs 10p
+DIR=/usr/bin ; ls $DIR $DIR.old 
+.vs 12p
+.ps 10
+.ft R
+\ \ \ it assigns a string to the variable DIR and then uses that variable
+in another command.  The program `ls' sees the 
+arguments /usr/bin and /usr/bin.old, not the
+strings $DIR and $DIR.old.  
+Add this feature to smsh2.  Where does this substitution
+take place?  During reading in the line? During parsing the line?  The
+way you add variable substitution to your program affects the design of
+your input and parsing sections.
+
+Think through this carefully.  When the shell sees a dollar sign, it
+reads the following characters as the name of a variable.  How does it
+know where the variable name ends?  The shell looks for upper and lower
+case letters, digits, and the underscore.  Any sequence of those
+characters is a legal variable name, as long as the first character is
+not a digit.  Thus, in \fC\s-1$DIR.old\s0\fP the variable 
+name is \fC\s-1DIR\s0\fP .
+
+Your program, therefore, will consider the variable name to end when it
+encounters any character not in this set.  Make sure you
+modify the assignment statement so that the user is not allowed to create
+variables with illegal characters.
+
+.IP 6)
+\fIQuoted Characters\fR\ \ \ What if you want to include a real dollar
+sign in your command, and you do not want your shell to try to substitute
+a variable value?  As soon as you introduce special characters, you need
+to create a mechanism for un-specialing them.  The Unix tradition is
+to use the backslash in front of each special character that you want
+treated `as is.'  Add this feature to your shell.  More sophisticated
+quoting (using " and ') is not required.
+
+.IP 7)
+\fINested if commands\fR\ \ \ The hallmark of a programming language is
+the if command.  The example in the text handles the if, then, and
+fi parts of the structure, but lacks the 'else' part and cannot do
+nested if's.  The shell should accept:
+.DS
+.ft C
+.ps 9
+.vs 10p
+.sp 2p
+    echo Name to look up\e?
+    read NAME
+    if grep $NAME $HOME/phonelist
+    then
+          echo there is the name
+    else
+          echo cannot locate $NAME
+          if grep -i $NAME $HOME/phonelist
+          then
+              echo but a case-insensitive search succeeds
+          fi
+    fi
+.sp 2p
+.vs 12p
+.ps 10
+.ft R
+.DE
+.IP
+The word \fIif\fR is followed by a command and its arguments.
+The shell runs the command normally
+and keeps track of the exit status of the command.  If the command
+exits with status 0, the lines after the `then' line are executed
+by the shell.  If the command exits with non-zero status, then the
+lines after `else' (if there be any) are executed.  The if command
+is terminated by a line consisting of the word `fi'.  The other
+keywords `then' and `else' must appear on their own lines.  The
+else clause is optional.  The shell must support any depth of
+nested if's.
+
+.SH
+Getting Started
+.sp 6p
+.LP
+Various supporting documents and code are in ~COURSE/hw/smsh .
+Copy what you want to play with to your account and test out the
+shell.  Start with any version of smsh from the lecture samples.
+Add chdir() just to get started.  It is not tricky.
+
+Think about variable substitution.
+There are two popular approaches to this problem.  
+
+One method reads the entire input line into an array then
+calls a function to copy characters from that array to a new
+one, replacing each instance of $var with its value.  This
+translation program also takes care of backslashes.
+
+The other method performs variable substitution as part of
+a wrapper to getc().  Usually, getc() returns the next
+character from the current input stream.  Note, to support
+item (1), your shell will not just read from stdin.  It
+will read from stdin or from a script.  This getc wrapper
+will read the next character.  If it is a boring character,
+that is neither backslash nor dollar sign, the function
+will pass that character to its caller.  
+
+On the other hand, if the character is a backslash or dollar
+sign, the function will need to do something fancier in
+order to return the next character to its caller.
+
+Regardless of how you handle variable substitution, you
+need to make sure you are splitting the input stream into
+separate arguments.
+
+.LP
+Plan out the `if' command implementation.  One approach is to read
+the line from 'if' to 'fi' into a tree-like data structure in memory
+and then traverse the tree deciding which branches to take by executing
+statements.  Another approach is to extend the state model from the
+text with a stack of return values or recursive processing of input.
+
+.LP
+Your shell is a subset of the standard Bourne shell (sh),
+so test how things are supposed to work under sh.
+.sp 3p
+.SH
+What to Turn In
+.sp 6p
+Full source, Makefile, a clean gcc -Wall, and a sample run.  
+You \fImust\fR test the script provided
+in ~COURSE/hw/smsh/test.smsh .  Other samples of its execution
+are welcome.  

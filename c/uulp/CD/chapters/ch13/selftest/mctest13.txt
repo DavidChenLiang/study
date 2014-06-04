@@ -1,0 +1,53 @@
+[Chapter 13]
+  13.1) Software vendors provide hardware keys to
+    A. protect user data from intruders
+    B. prevent unauthorized use of their programs
+
+  13.2) Managing company cars is similar to managing software licenses because
+    A. both involve sharing a fixed number of items among several users
+    B. you have to pay for a new one in case of a crash
+
+  13.3) The major difference between datagram sockets and stream sockets is
+    A. datagram sockets are not connected
+    B. stream sockets are not reliable
+
+  13.4) An advantage of datagram sockets over stream sockets is
+    A. they do not require socket addresses
+    B. they require less work from the network software
+
+  13.5) A server uses the address argument to the recvfrom system call to
+    A. specify which clients may send it messages
+    B. be told which client sent a message
+
+  13.6) The sendto system call does not use a return address argument
+    A. because the network software adds the address of the socket
+    B. so some clients can remain anonymous
+
+  13.7) Datagram sockets would be a good choice for transmitting
+    A. automated teller machine transactions
+    B. background music for elevators
+
+  13.8) The client should check the address in the do_transaction function
+    A. to make sure the datagram is complete
+    B. to make sure the datagram comes from the server
+
+  13.9) If a client crashes before it returns its ticket
+    A. the server will have an incorrect count of running programs
+    B. the server will receive SIGCHLD
+
+  13.10) The server checks if a client is still active by
+    A. sending a datagram to the client
+    B. sending signal 0 to the client
+
+  13.11) A client cannot give its ticket to another process because
+    A. the protocol specifies that clients talk only to the server
+    B. a process may only send datagrams to a related process
+
+  13.12) Ticket validation is a technique used to
+    A. prevent clients from crashing
+    B. recover data if the server crashes
+
+  13.13) A socket with an address in the Unix domain
+    A. can be reached by clients on any Unix machine
+    B. can only be reached by clients on the same machine
+

@@ -1,0 +1,317 @@
+.de UL \" underline argument, don't italicize
+.if t \&\\$1\l'|0\(ul'\\$2
+.if n .I \\$1 \\$2
+..
+.hy 14
+.sp 2i
+.ft I
+.ps 12
+.ce
+COURSE Final Exam 10
+
+.ft R
+.ft I
+.ps 12
+
+.ce
+DATE
+.ft R
+.sp 24p
+.ps 12p
+
+
+
+.ce
+Your Name Here: \l'2i'
+
+
+
+
+
+.in +1i
+.ll -1i
+.vs 15p
+\fIInstructions\fR:  You have TIME for this exam.  
+Please write your answers on the pages in this exam booklet.  
+No scrap paper or additional sheets will be accepted.  Watch 
+your time and be concise.  Write clearly (illegible answers will 
+be `silently ignored'), and \fIalways\fR check the return value 
+of a system call.  Good luck.
+.in -1i
+.ll +1i
+.bp
+\&.
+.sp 1i
+.TS
+linesize(8) center allbox;
+c c c l
+n n n n.
+prob	points	got	section
+1	4
+2	4
+3	4
+4	4
+5	4
+6	4
+7	4
+8	4
+
+9	6
+10	6
+11	6
+12	6
+13	6
+
+14	3
+15	3
+16	3
+17	3
+
+18	9
+
+19	
+a	3
+b	2
+c	3
+d	2
+e	3
+f	2
+g	2
+
+
+.TE
+.bp
+\&.
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part One'Eight Problems, each worth 4 points'page 1'
+\l'6.5i'
+.sp 3p
+.ft R
+.ft B
+Problems 1-8:  Short answer questions.  Answer each question clearly,
+precisely, and refer to specific system calls when appropriate.  Write
+your answer in the space provided.
+.br
+
+.ft R
+1. Where can a programmer find information about the format of structs
+used in Unix system calls?
+.sp 1.2i
+
+2. What is the meaning and value of \fIbuffered\fR input and output?
+.sp 1.2i
+
+3. What are \fIinodes\fR and where are they stored?
+.sp 1.2i
+
+4. How does Unix store time and date values for things like file modification
+times and user login times?
+.sp 1.2i
+
+5. What is the role of the \fIwait()\fR system call and what does its
+return value represent?
+.sp 1.2i
+
+6. How does a program turn off keyboard echoing without calling an external
+program?
+.bp
+\&.
+.sp 0.8i
+.tl 'Part One'continued'page 2'
+\l'6.5i'
+7. What does the function \fCperror()\fR do, and when would you use it?
+.sp 1.1i
+8. Name two attributes of a process and the system calls a process uses
+to determine those attributes.
+.sp 1.2i
+.tl 'Part Two''Five problems, each worth 6 points'
+\l'6.5i'
+.sp 4p
+Problems 9-13: Compare and contrast.  Each of these problems mentions
+two related concepts, system calls, or operations.  For each pair, explain
+briefly and clearly (a) what they have in common, (b) when you would use
+the first item, \fIand\fR (c) when you would use the second item.
+.ft R
+.sp 9p
+9. \fCfopen()\fR vs \fCfdopen()\fR
+.sp 1.05i
+10. \fCstat()\fR vs \fCtcgetattr()\fR
+.sp 1.05i
+11. \fCdatagram socket\fR vs \fCstream socket\fR
+.sp 1.05i
+12. \fCkill()\fR vs \fCexit()\fR
+.sp 1.005i
+13. \fCconnect()\fR vs \fCpipe()\fR
+.bp
+\&.
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'Four questions, each worth 3 points'page 3'
+\l'6.5i'
+.ft R
+`\fIParent-Child Communication\fR'\ \ 
+Unix provides many means for one process to send information to another
+process.  Consider the situation where a parent process has some
+strings it wants to transmit to another process.  For each of these
+four methods, explain how the strings are sent and how they are received.
+
+14. transmitting data using a disk file
+.sp 2.0i
+15. transmitting data using execvp()
+.sp 2.0i
+16. transmitting data using a pipe
+.sp 2.0i
+17. transmitting data using the environment
+.bp
+\&.
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Four'One problem, 9 points'page 4'
+\l'6.5i'
+.ft R
+.sp 6p
+19. An enhancement to your small shell - $(cmd)
+
+The shell you wrote for homework does variable substitution.  That is,
+it scans each command line for strings of the form
+\fC$varname\fR and substitutes for the dollar sign and variable name
+the value of the variable.  
+
+The real shell does other sorts of substitution.  My favorite kind
+of substitution is command output substitution.  The Bourne and C
+shells use the backwards apostrophe notation \fB`\fR while the korn
+shell uses the \fB$(cmd)\fR notation.
+For example if the user types:
+.sp 5p
+    \fCX=$(pwd)\fR\ \ \ \ \ or \ \ \ \ \fCecho the date and time now are $(date)\fR
+.sp 5p
+the shell replaces the pattern \fC$(pwd)\fR with the \fIoutput\fR of the pwd
+command and the replaces the pattern \fC$(date)\fR with the output
+of the date commaand.  In the bourne shell, the notation would be \fC`date`\fR.
+The korn shell notation is more powerful because it allows nested
+expressions.
+
+Describe how you would implement $(cmd) 
+command output substitution in your shell.  Include pseudo-code that 
+demonstrates the logic of the new feature.
+Please be sure to discuss: (a) What parts of your shell program 
+you need to modify and (b) What system calls you would use.
+
+c) The korn shell allows for embedded variables and embedded
+command substitution like:
+.sp 5p
+   \fCF=/etc/passwd\fR
+   \fCecho the number of registered users is $(wc -l $F) at $(echo $(date))\fR
+.sp 5p
+How would your solution support this expression nesting?
+.bp
+\&.
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Five'One problem, 17 points'page 5'
+\l'6.5i'
+.ft R
+
+20. \fIMulti-Sumac\fR
+.sp 6p
+Your \s-1SUMAC\s+1 program allows you to read your mail on any POP server
+on which you have an account.  Some people receive mail in more than one place.
+Sometimes you are waiting for mail from a particular person or one with
+a particular subject.  It is a nuisance to use \s-1SUMAC\s+1 every few minutes
+to check several mail servers for a letter from user \fIX\fR or about subject \fIS\fR .
+
+It sure might be handy to have a different version of \s-1SUMAC\s+1 that would
+scan a list of sites at a regular interval and display, using the standard 
+\s-1SUMAC\s+1 screen display the letters you have been waiting for.
+
+For convenience, you could prepare a file that contains the hostnames of the
+pop servers and your logname on each one.  For security, you would not want to
+put the passwords in that file.
+
+The program would start up and prompt you for the passwords for each of the
+machines in your list of mail servers.   If you do not enter a password for
+a machine that machine is not included in the list of scanned sites.  The
+program then prompts you for an interval in seconds and then for the
+name of the sender you want to hear from or a subject you want to hear about.
+
+The program then polls the various mail servers at the specified interval
+and lists in the standard format any letters that match your criteria.  You
+may view or save any of the matching letters.  
+
+Ok so far?  For this problem, you will discuss the general design of this
+mail watching program.
+
+.UL "Part I: Watching for Special Letters [5 points]"
+.sp 6p
+.in +0.2i 
+.ll -0.2i
+a) Describe how the program will watch for letters at multiple sites.
+What is the procedure for doing so?  You do not need to write code, but
+you do need to describe what functions you need to contact the servers
+and get the desired information.
+
+b) How is the scheduling done?
+.in -0.2i 
+.ll +0.2i
+
+.UL "Part II: Finding Special Letters [5 points]"
+.sp 6p
+.in +0.2i 
+.ll -0.2i
+c) Once you find a letter that matches the search criteria, how do you
+keep track of it so you can find it when the user wants to view or
+save it?  
+
+d) How do you inform the user that such a letter has arrived?
+.in -0.2i 
+.ll +0.2i
+
+.UL "Part III: User Interface [3 points]"
+.sp 6p
+.in +0.2i
+.ll -0.2i
+e) One or more letters appear in the list.  A user asks to view or
+save one of them.  What does the program do to perform this operation?
+Describe the steps in some detail.
+.in -0.2i 
+.ll +0.2i
+
+.UL "Part IV: Resource Management [2 points]"
+.sp 6p
+.in +0.2i
+.ll -0.2i
+f) What if a new letter is detected when the user is viewing a letter?  Can
+the screen be updated when the user is running `more' or `less'?  Should
+the searching activity be suspended during viewing?  
+.in -0.2i 
+.ll +0.2i
+
+.UL "Part V: Other Ideas[2 points]"
+\ \ Add any other ideas or questions you have about this project.
+.bp
+\&.
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'continued'page 6'
+\l'6.5i'
+.ft R
+.bp
+\&.
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'continued'page 7'
+\l'6.5i'
+

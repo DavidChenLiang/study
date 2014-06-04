@@ -1,0 +1,58 @@
+.sp 0.6i
+.ft B
+.tl ''Lecture 14'Outline'
+\l'6.5i'
+
+.nf
+.in +1i
+.ta 1i +0.5i
+\fBTopics\fR:	Multithreaded Programming
+.sp 8p
+\fBApproach\fR:	Study Two Problems
+.sp 8p
+\fBToday's New Ideas\fR: Thread, Mutex, Condition Variable
+
+\fBOutline\fR
+
+    \fBStatement of Two Projects\fR
+	Animation in parallel - many animations on one web page
+    	Counting in parallel - counting votes, counting words in documents
+	Big Idea: one program, but several things happen at once
+.sp 8p
+    \fBIdea: A Thread of Execution\fR
+	A flow of control through a sequence of program steps
+	Example: hello_simple.c
+	Traditional programs have one thread of execution
+.sp 8p
+    \fBNew Idea: Multiple Threads (of Execution)\fR
+	A single program can run multiple, simultaneous threads
+	A thread runs a function, which may call other functions
+	Example: hello_multi.c
+	Functions: pthread_create(), pthread_join()
+.sp 8p
+    \fBShared Variables: The Two Big Questions\fR
+	Good: All threads in a program share global variables
+	Example: incprint.c - two threads share a counter
+	Questions:
+	    Can simultaneous access to memory cause problems?
+	    How does the reading thread know when there is new data?
+.sp 8p
+    \fBAnswer 1: Cooperation - Mutual Exclusion Locks\fR
+	Bad: All threads in a program share global variables
+	Example: twordcount1.c - Two threads update one counter
+	Solution: twordcount2.c - Use a mutex to prevent simultaneous access
+	Side issue: twordcount3.c - Multiple arguments for threads
+.sp 8p
+    \fBAnswer 2: Coordination - Condition Variables\fR
+	Question: How can a thread know when to read a shared variable?
+	Answer: A thread waits for a signal from another thread
+	Analogy: Receiving early voting returns from small towns
+	Solution: twordcount4.c - Use a condition variable
+	Condition variables - The dinner bell of programming
+	    Threads can wait for variable to be signaled, and
+	    Other threads can signal the variable
+	Note: A condition variable is used with a locked, shared variable
+.sp 8p
+    \fBProject 2: Multi-threaded Animation\fR
+	Example: tbounce1d.c - threads for use input and for animation
+	Example: tanimate.c - Multiple animations, multiple threads

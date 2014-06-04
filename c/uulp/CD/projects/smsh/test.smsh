@@ -1,0 +1,440 @@
+#!/bin/sh
+#
+#	test.smsh	version 1.5	
+#
+#	modifications:
+#			allowed user to continue past failing tests
+#
+#			changed cd test so it offers more info
+#
+#			changed error tests so they no longer require
+#			EXACT duplicate of /bin/sh error messages
+#
+#			shell script to test smsh
+#
+#	tests the following functions
+#
+#	1. read commands from a script
+#	2. performs cd 
+#	3. read varname
+#		works like gets(), input a$, or readln() not
+#		like the read in sh
+#	4. variable substitution in command lines
+#		- handles variables terminated by non-varname-chars
+#		- must work like sh so that
+#			X="-l /tmp" ; ls $X
+#		  passes two args to ls, not one
+#		- assignment operation must check varname chars
+#			so that X.Y=3 is NOT an assignment statement
+#		- handles $ in strings, not just at start of them
+#
+#	5. Quoted chars
+#		- single backslash quotes next char ($, space, tab.. )
+#
+#	6. the if command
+#		- should execute command, check exit status
+#		- perform all then commands if true
+#		- skip all then commands if false
+#		- perform else commands if any if false
+#		- identifies syntax errors 
+#			a. missing fi	( hits eof )
+#			b. missing then ( sees else or fi but no then )
+
+	PROG=smsh
+
+# ---------------------------------------------------------------------
+# 	get command name if not the standard name
+# ---------------------------------------------------------------------
+
+if test -x smsh
+then
+	PROG="./smsh"
+else
+	echo    "There is no program called smsh here.  What program should"
+	echo -n "I test? "
+	read PROG
+	[ "_$PROG" = "_" ] && exit 1
+	case $PROG in 
+		*/*)	;;
+		*)	PROG="./$PROG";;
+	esac
+fi
+
+echo "  Testing $PROG as of `date`"
+ls -l $PROG
+echo ""
+
+# ---------------------------------------------------------------------
+# 	test 1: read from script
+# ---------------------------------------------------------------------
+
+echo "	* Test 1: Does the program read commands from a script? "
+
+					# -- write script
+echo "echo hello world
+mkdir __testdir
+cd __testdir
+touch a b c d e f
+ls a b c d e f
+cd ..
+rm -r __testdir" > __script1
+
+$PROG __script1   > __output1.smsh	# -- run script
+/bin/sh __script1 > __output1.sh		# -- with both shells
+
+if diff __output1.sh __output1.smsh > test1.diffs
+then
+	echo "		OK"
+else
+	echo "		Not OK."
+	exit
+fi
+
+rm -f __script1 __output1.smsh __output1.sh test1.diffs
+
+# ---------------------------------------------------------------------
+# 	test 2: Does cd work correctly?
+# ---------------------------------------------------------------------
+
+echo -n "	* Test 2: Does cd work correctly? 
+		"
+
+echo "cd /tmp
+pwd
+cd /bad.directory
+pwd" > __test2.in
+
+$PROG < __test2.in 2> __test2.err > __test2.out		# -- test them
+
+if grep -s /tmp __test2.out
+then
+	echo "cd works when the directory exists"
+else
+	echo "cd failed"
+	echo -n "Continue with tests (y/n)? "
+	read answer
+	case "$answer" in 
+		y*|Y*)	;;
+		*)	exit ;;
+	esac
+fi
+
+echo -n "		"
+if egrep "ad directory|No such file" __test2.err	# -- look for 
+then							# -- some pattern
+	echo "cd detects bad directories"		# -- like sh's
+else
+	echo "cd does not report errors in a way I understand,"
+	echo "or $PROG does not understand the command chdir."
+	echo -n "Continue with tests (y/n)? "
+	read answer
+	case "$answer" in 
+		y*|Y*)	;;
+		*)	exit ;;
+	esac
+fi
+
+rm -f __test2.in __test2.err __test2.out
+
+# ---------------------------------------------------------------------
+# 	check for variable substitution
+# ---------------------------------------------------------------------
+
+echo -n "	* Test 3: Does the shell do variable substitution correctly?
+		and ignore dollar signs when asked?
+		"
+
+echo 'FIVE=5
+Y=3
+expr $FIVE + $Y
+expr $FIVE$Y - 1
+echo $Y/$Y.$FIVE
+/bin/echo \$Y\\\$FIVE$FIVE' > test3.scr
+
+$PROG test3.scr > test3.out.smsh
+/bin/sh test3.scr > test3.out.sh
+
+if diff test3.out.smsh test3.out.sh > test3.diffs
+then
+	echo "OK"
+else
+	echo "Did not work for"
+	cat test3.scr
+fi
+
+rm -f test3.scr test3.out.smsh test3.out.sh test3.diffs
+
+# -------------------------------------------------------
+# the substring variable name test
+#
+#
+    printf "	* Test 3v: Does shell handle substring varnames?\n\n"
+
+    echo 'A=hello
+    ANT=bug
+    ANTLER=elk
+    echo line1: $A\\$A$A
+    echo line2: $ANT $ANTLER $A $ANT$LER$ANT' > test3v.scr
+
+    $PROG test3v.scr > test3v.out.smsh
+    /bin/sh test3v.scr > test3v.out.sh
+
+    if diff test3v.out.smsh test3v.out.sh > test3v.diffs
+    then
+	echo "OK"
+    else
+	echo "Did not work for"
+	cat test3v.scr
+    fi
+
+	printf "\n"
+
+    rm -f test3v.scr test3v.out.smsh test3v.out.sh test3v.diffs
+
+
+	
+# ---------------------------------------------------------------------
+# 	check the read command
+#	this differs from how the real shell parses line
+#	then assigns tokens to variables until no more
+# ---------------------------------------------------------------------
+
+echo -n "	* Test 4: Does the shell read in variables correctly?
+		"
+set `who am i`
+echo 'read NAME
+echo hello, $NAME
+read LSARGS
+ls $LSARGS' > test4.scr
+echo $1 > test4.in
+echo "-l /tmp" >> test4.in
+cat test4.in | $PROG   test4.scr > test4.out.smsh
+cat test4.in | /bin/sh test4.scr > test4.out.sh
+rm test4.in
+
+if diff test4.out.smsh test4.out.sh > test4.diffs
+then
+	echo "OK"
+else
+	echo "Did not work for"
+	cat test4.scr
+	echo "The problem could be that read does not work,"
+	echo "or the problem could be your shell is treating $LSARGS as"
+	echo "on token even though it contains two strings"
+fi
+
+rm -f test4.scr test4.out.smsh test4.out.sh test4.diffs
+
+# ---------------------------------------------------------------------
+# 	check the if command with some syntax errors
+# ---------------------------------------------------------------------
+
+echo -n "	* Test 5a: Does the if command work?
+		"
+echo 'LOOKFOR=root
+ETC=etc
+WORD=wd
+if grep $LOOKFOR /$ETC/pass$WORD
+then
+	echo this system has a root login
+	echo that is a good thing
+else
+	echo something is wrong here
+	echo there is no login for root
+fi' > test5.scr
+
+$PROG   test5.scr > test5.out.smsh
+/bin/sh test5.scr > test5.out.sh
+
+if diff test5.out.smsh test5.out.sh > test5.diffs
+then
+	echo "OK"
+else
+	echo "Did not work for"
+	cat test5.scr
+fi
+
+rm -f test5.scr test5.out.smsh test5.out.sh test5.diffs
+
+# ------------------- error test 1 ----------------------------
+
+echo -n "	* Test 5b: Does the if detect missing thens ?
+		"
+echo 'LOOKFOR=root
+ETC=etc
+WORD=wd
+if grep $LOOKFOR /$ETC/pass$WORD
+	echo this system has a root login
+	echo that is a good thing
+else
+	echo something is wrong here
+	echo there is no login for root
+fi' > test5.scr
+
+					# we should get errors
+
+$PROG   test5.scr 2> test5.out.smsh >/dev/null
+
+if grep -s unexpected test5.out.smsh
+then
+	echo "OK"
+else
+	echo "was hoping to find the word unexpected in error stream"
+	echo "script looked like.."
+	cat test5.scr
+	echo "and error stream looked like"
+	cat test5.out.smsh
+	echo -n "Continue with tests (y/n)? "
+	read answer
+	case "$answer" in 
+		y*|Y*)	;;
+		*)	exit ;;
+	esac
+fi
+ 
+
+rm -f test5.scr test5.out.smsh test5.out.sh test5.diffs
+
+# ------------------- error test 2 ----------------------------
+
+echo -n "	* Test 5c: Does the if command find unexpected EOFS?
+		"
+echo 'LOOKFOR=root
+ETC=etc
+WORD=wd
+if grep $LOOKFOR /$ETC/pass$WORD
+then
+	echo this system has a root login
+	echo that is a good thing
+else
+	echo something is wrong here
+	echo there is no login for root' > test5.scr
+
+$PROG   test5.scr 2> test5.out.smsh
+
+					# we should get errors
+
+$PROG   test5.scr 2> test5.out.smsh >/dev/null
+
+if grep -s unexpected test5.out.smsh
+then
+	echo "OK"
+else
+	echo "was hoping to find the word unexpected in error stream"
+	echo "script looked like.."
+	cat test5.scr
+	echo "and error stream looked like"
+	cat test5.out.smsh
+	echo -n "Continue with tests (y/n)? "
+	read answer
+	case "$answer" in 
+		y*|Y*)	;;
+		*)	exit ;;
+	esac
+fi
+
+rm -f test5.scr test5.out.smsh 
+
+# ------------------- error test 3 ----------------------------
+
+echo -n "	* Test 5d: Does the if catch missing ifs?
+		"
+echo 'LOOKFOR=root
+ETC=etc
+WORD=wd
+grep $LOOKFOR /$ETC/pass$WORD
+then
+	echo this system has a root login
+	echo that is a good thing
+else
+	echo something is wrong here
+	echo there is no login for root
+fi' > test5.scr
+
+$PROG   test5.scr 2> test5.out.smsh
+					# we should get errors
+
+$PROG   test5.scr 2> test5.out.smsh >/dev/null
+
+if grep -s unexpected test5.out.smsh
+then
+	echo "OK"
+else
+	echo "was hoping to find the word unexpected in error stream"
+	echo "script looked like.."
+	cat test5.scr
+	echo "and error stream looked like"
+	cat test5.out.smsh
+	echo -n "Continue with tests (y/n)? "
+	read answer
+	case "$answer" in 
+		y*|Y*)	;;
+		*)	exit ;;
+	esac
+fi
+
+rm -f test5.scr test5.out.smsh 
+
+
+# ---------------------------------------------------------------------
+# 	check the exit command
+#	generate a random 2-digit number from pid
+#	write a script and then check $?
+# ---------------------------------------------------------------------
+
+echo -n "	* Test 6: Does the shell process the exit built-in ok?
+		"
+NUM=`expr $$ : '\(..\).*'`		# pick a number
+echo "echo hello
+echo about to exit with code $NUM
+exit $NUM
+echo should not print this line" > test6.scr
+/bin/sh test6.scr > test6.out.sh
+$PROG   test6.scr > test6.out.smsh
+RESULT=$?
+
+OOPS=NO
+if diff test6.out.smsh test6.out.sh > test6.diffs
+then
+	if test $RESULT = $NUM
+	then
+		echo "OK"
+	else
+		echo "Did not exit with correct exit value"
+		OOPS=YES
+	fi
+else
+	echo "Output did not look ok."
+	OOPS=YES
+fi
+
+if test $OOPS = "YES"
+then
+	echo "script looked like.."
+	cat test6.scr
+	echo "and output stream looked like"
+	cat test6.out.smsh
+
+	echo -n "Continue with tests (y/n)? "
+	read answer
+	case "$answer" in 
+		y*|Y*)	;;
+		*)	exit ;;
+	esac
+fi
+rm -f test6.out.sh test6.out.smsh test6.diffs test6.scr
+
+# ---------------------------------------------------------------------
+# 	a manual test.  Why do all the work for students?
+# ---------------------------------------------------------------------
+
+echo -n "	* Test 7: A manual test
+		"
+echo "
+	Does your shell reject assignment statements of the
+	form   
+		9xyz=tuna  
+	or      x.y=fun
+	
+	 That is, assignments to names that are not legal
+	variable identifiers"

@@ -1,0 +1,107 @@
+#!/bin/sh
+#
+#    script: setup for wsng
+#   purpose: install the pieces of the wsng project
+#   details: makes a public html directory and installs the
+#            wsng subdir, chmods stuff correctly and
+#
+#
+
+#
+# customization for your course go here
+#
+	# SOURCE_DIR is where the course will put the project source material
+	SOURCE_DIR=/home/COURSE/hw/wsng
+
+	# PUBDIR is the directory in a user's account. Typically public_html
+	PUBDIR=public_html
+
+	# USEACL is Y or N depending 
+	USEACL=N
+
+#
+#
+	PROJECT_DIR=`pwd`
+	CPFILES="socklib.c socklib.h Makefile web-time.c"
+	LNFILES="rfc1945.txt"
+
+	if test $PROJECT_DIR = $SOURCE_DIR
+	then
+		echo "Don't run it here, silly!"
+		exit
+	fi
+
+	echo "The current directory is $PROJECT_DIR"
+	echo "Is this the directory for the project? "
+	read answer
+	case "$answer" in
+		y*|Y*)	;;
+		*)	echo "Ok, then change there and try again"
+			exit
+			;;
+	esac
+
+	echo `date` $USER >> install.log
+
+#
+#  setup web site here
+#  Many web sites will use chmod to make directories readable/executable
+#  for outsiders, but some places use acls for better security.
+#  If these don't work, change these to chmod
+#
+	cd $HOME
+	echo "Installing Sample Web Site.."
+	tar xvf $SOURCE_DIR/website.tar
+	SITE=$PUBDIR/wsng
+	
+	if test $USEACL = "Y" 
+	then
+		setacl -u user:nobodyV:--x .
+		setacl -u user:nobodyV:r-x $PUBDIR $PUBDIR/wsng
+		setacl -u user:nobodyV:r-x `find $SITE -type d -print`
+		setacl -u user:nobodyV:r-- `find $SITE -type f -print`
+		setacl -u user:nobodyV:r-x `find $SITE -name '*cgi' -print`
+	else
+		chmod og+x .
+		chmod og+rx $PUBDIR $PUBDIR/wsng
+		chmod og+rx `find $SITE -type d -print`
+		chmod og+r `find $SITE -type f -print`
+		chmod og+rx `find $SITE -name '*cgi' -print`
+	fi
+
+#
+#  now customize the starting version
+#
+	echo "Setting PORTNUM and SERVER_ROOT in ws.c"
+	cd $PROJECT_DIR
+	ME=`whoami`
+	UID=`id | sed 's/uid=\([0-9]*\).*/\1/'`
+	SITE=$HOME/$PUBDIR/wsng
+	sed 	-e "/^#define.*PORTNUM/s/[0-9][0-9]*/$UID/" 	\
+		-e '/^#define.*SERVER_ROOT/s@".*"@"'$SITE'"@'	\
+		-e "s/YOURNAMEHERE/$ME/"			\
+			$SOURCE_DIR/ws.c > ws.c
+
+	echo "done."
+#
+# now copy the other stuff for the project
+#
+
+	echo "Copying other files..."
+	for f in $CPFILES
+	do
+		printf "$f "
+		cp $SOURCE_DIR/$f .
+	done
+	echo ""
+
+	echo "Linking other files..."
+	for f in $LNFILES
+	do
+		printf "$f "
+		if test ! -f $f 
+		then
+			ln -s $SOURCE_DIR/$f $f
+		fi
+	done
+	echo ""

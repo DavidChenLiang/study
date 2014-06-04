@@ -1,0 +1,60 @@
+.sp 0.8i
+.ft B
+.tl ''Lecture 9'Outline'
+\l'6.5i'
+
+.nf
+.in +1i
+.ta 1i +1.5i
+\fBTopics\fR:	A Programmable Shell - Creating A Programming Environment
+
+\fBApproach\fR:	What's it do?   How's it work?    How'd I code it?
+
+\fBToday's System Calls\fR: 
+	review of fork(), execvp(), wait()
+
+\fBOutline\fR
+
+     \fIFeatures of a Unix Shell\fR
+.sp 6p
+	a. Runs programs
+	b. Allows users to program the execution of programs
+	   1. simple batch files - a list of commands
+	   2. real programs - variables, user input, control flow
+	   3. global variables - passing values to other programs
+.sp 6p
+	Let's add these features to our shell
+
+     \fIReview of How the Shell Runs Programs\fR
+.sp 6p 
+	a. forkquiz.c - shows how fork, exec, exit, wait work
+	b. Details of how wait() works
+	c. Add status report to our shell ( smsh2.c )
+
+     \fIControl Flow in the Shell\fR
+.sp 6p
+	a. The if statement - why 
+	b. The if statement - what it does
+	c. The if statement - how it works
+	d. adding if to our shell
+	e. Intro to other control structures
+
+     \fIVariables in the Shell\fR
+.sp 6p
+	a. shell variables - why
+	b. assign, reference, input, list all variables
+	c. variables - how it works
+	d. adding variables to our shell - the varlib ( smsh3.c )
+
+     \fIGlobal Variables in the Shell: the environment\fR
+.sp 6p
+	a. environment variables - why ?
+	b. environment - what it is/does
+	c. the getenv() function
+	d. the export shell command
+	e. environment - how it works
+	f. some demos - showenv.c, envchange.c
+	g. adding environment processing to our shell
+	    - loading our variable list from environment
+	    - sending our variables back to the environment
+	    - adding new variables to the environment

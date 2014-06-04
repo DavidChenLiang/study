@@ -1,0 +1,45 @@
+[Chapter 12]
+  12.1) One thing a server does that a client does not do is
+    A. a server loops 
+    B. a server waits for a connection
+
+  12.2) A server can handle several requests at once by
+    A. using fork to create a new process for each request
+    B. using socket to create a new socket for each request
+
+  12.3) The signal SIGCHLD is sent to a process each time
+    A. a child of the process exits or is killed
+    B. fork successfully creates a new process
+
+  12.4) The default effect of SIGCHLD on a parent process is
+    A. nothing
+    B. the process is terminated
+
+  12.5) The NOHANG option to the waitpid call tells the system
+    A. not to wait if there are no zombies
+    B. not to wait if there are no children
+
+  12.6) One function of a web server is to
+    A. copy files to a socket
+    B. interpret HTML
+
+  12.7) The HTTP GET command is
+    A. sent by the server to the client to get user credentials
+    B. sent by the client to the server to request a document
+
+  12.8) A web server indicates success to the client by
+    A. sending back a reply with code 200
+    B. calling exit with a value of 0
+
+  12.0) A web server sends output of programs to the client by
+    A. opening a new socket for the program
+    B. using dup2 to redirect standard output
+
+  12.10) The reply from a web server consists of
+    A. a text header and text-encoded content
+    B. a text header and then content of any form
+
+  12.11) If a web server does not use fork
+    A. it cannot run CGI programs
+    B. it will not work with most browsers
+

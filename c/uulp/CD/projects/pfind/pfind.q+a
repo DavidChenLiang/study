@@ -1,0 +1,30 @@
+
+Q2: I have a question about stat()
+
+	I used  switch (info.st_mode & S_IFMT)
+		   case S_IFREG - means a regular file
+		   case S_IFDIR - means directory
+		   default -      do not care
+
+    -- Problem is : that the linked dir is being picked up as a regular 
+    dir.   If this is how stat works then how do I distinguish between 
+    regular dir and lin ked dir?
+
+A2: use the system call   lstat()  rather than  stat().   lstat will 
+    tell you about the link, not about the thing to which the link
+    points.
+
+Q1: If we have recursively gone into our searchdir function, and find a
+    matching file name, how do we reconstruct the complete path name? Do
+    we need to write a function like the sample spwd in the book?
+
+A1: You do not need to reconstruct the path.  The first argument on the
+    command line is the initial part of the path (even if it is `.').
+    Each time your function steps into a new subdirectory, it can append
+    that string (the name of the subdirectory) to a string that holds the
+    path so far.  When it returns from that function, it can remove the
+    trailing component.  Alternatively, the function could be passed the
+    current path, then make a copy with the additional part appended
+    (malloc enough for strlen(current_path) + strlen(sub_dir_name) + glue)
+    and use that to print and/or pass to itself recursively.   Is this too
+    general?

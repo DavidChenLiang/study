@@ -1,0 +1,27 @@
+#
+# this test checks the basic operation of the program
+#
+a
+Default Case: no args
+TESTDIR/01
+
+b
+One arg: -k only
+TESTDIR/01
+-k
+c
+One arg: a filename
+
+/vmunix
+d
+Two args: a file and -k
+
+-k /vmunix
+e
+One arg: a dirname
+TESTDIR
+01
+f
+Two args: a dirname and -k
+TESTDIR
+-k 01

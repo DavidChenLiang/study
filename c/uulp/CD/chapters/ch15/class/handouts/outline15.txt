@@ -1,0 +1,66 @@
+
+
+
+
+			    Lecture 15			  Outline
+_________________________________________________________________
+
+	  Topics:   Communication Choices
+
+	  Approach: Problems, Tools, Solutions
+
+	  Today's New Ideas: select, named pipes, shared memory, semaphores
+
+	  Outline
+
+	      IPC So Far
+		    We have seen several methods for one process to communicate
+		    with another process.  We have seen files, pipes, sockets, and
+		    signals.  How do you choose which method to use?
+
+	      Theme for Today: Multiplicity in Communication
+		    Reading from multiple inputs
+		    Multiple methods to transfer data
+		    Multiple methods to lock data
+		    Printing multiple files on multiple printers
+
+	      I. Reading from Multiple Inputs: the talk command
+		    What talk does
+		    How talk works: the select system call
+		    Design choices for writing talk
+
+	      II. Comparing IPC Methods
+		    Disk Files
+		    Shared Memory
+		    Named Pipes
+
+	      III. Techniques for Locking Data
+		    Read locks and write locks
+		    File locks with fcntl
+		    Locks with semaphores
+
+	      IV. Making Choices
+		    Handling multiplicity in printing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,58 @@
+.sp 0.8i
+.ft B
+.tl ''Lecture 7'Outline'
+\l'6.5i'
+
+.nf
+.in +1i
+.ta 1i +1.5i
+\fBTopics\fR:	signals, timers, curses, animation
+
+\fBApproach\fR:	Writing a Video Game
+
+\fBMain Questions\fR:
+
+	How to control a terminal screen?
+	How animate a terminal screen?
+	How does sleep() work?
+	How do signals work?
+	How to create animation with user control?
+
+\fBOutline\fR
+
+	Overview: programming for humans II
+	   focus: screen and output control
+	   method: write a video game
+	   outline: determine what skills we need
+
+	2 Screen Management: the curses library
+	   hello1 : simple example
+	   hello2 : programming with curses
+	3  hello3 : add a timer
+	   hello4 : add erase for animation
+	   hello5 : add bouncing 
+
+	4 Questions based on hello3 - hello5
+	   How does sleep work? Ans: signal(), alarm(), pause()
+
+	5 More signals: reliable vs. unreliable, etc
+	   idea: what happens if more than one signal arrives?
+	   questions: window of opportunity, stackable signals?
+	     EINTR on slow devices
+	   code: sigdemo.c
+
+	  Better Time Control than alarm()
+	   setitimer(2) offers three timers, hi-res, pulsing
+	   alarmlib() simplifies its use
+	   code: hello6.c
+	   code: play_again5.c
+
+	6 User-Controlled Animation
+	   bounce1d : ticker drives animation, user changes state
+
+	7 Animaton in Two Dimensions
+	    Extend ideas from bounce1d to two directions of motion
+	    two sets of state variables: 
+	       horizontal speed, position, and ticks to go
+	       vertical   speed, position, and ticks to go
+

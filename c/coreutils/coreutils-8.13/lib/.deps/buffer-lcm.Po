@@ -1,0 +1,8 @@
+buffer-lcm.o: buffer-lcm.c config.h buffer-lcm.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stddef.h
+
+config.h:
+
+buffer-lcm.h:
+
+/usr/lib/gcc/i686-linux-gnu/4.6/include/stddef.h:

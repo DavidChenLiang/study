@@ -1,0 +1,53 @@
+[Chapter 10]
+  10.1) The Unix comm command is designed to compare
+    A. any two lists of usernames
+    B. any two sorted files
+
+  10.2) A shell script can store data in a file by using
+    A. the = assignment operator
+    B. the > redirection operator
+
+  10.3) The shell notation "prog1 | prog2" is a request to
+    A. send the standard output of prog1 to the standard input of prog2
+    B. send all output from prog1 to the standard input of prog2
+
+  10.4) Standard input means
+    A. the keyboard
+    B. file descriptor 0
+
+  10.5) The input redirection symbol "<" is processed by
+    A. the program that reads the data
+    B. the shell
+
+  10.6) When Unix opens a file, it selects an unused file descriptor
+    A. with the lowest value
+    B. that was closed most recently
+
+  10.7) The dup system call copies
+    A. an array entry 
+    B. the contents of a file
+
+  10.8) The dup2 system call differs from dup in that it
+    A. makes two copies of a file descriptor
+    B. is given a specific destination for the copy
+
+  10.9) The argument to the pipe system call is
+    A. the size of the pipe
+    B. an array of two integers
+
+  10.10) When setting up a pipe to a child, the order of system calls is
+    A. the parent calls fork, then both processes call pipe
+    B. the parent calls pipe then calls fork
+
+  10.11) Connections to a pipe remain in effect after exec because
+    A. the array of open files is part of the process, not the program
+    B. the parent adds the pipe to the environment
+
+  10.12) The kernel sends the signal SIGPIPE to a process that
+    A. tries to read from a pipe with a closed writing end
+    B. tries to write into a pipe with a closed reading end
+
+  10.13) A pipe can connect two children of the same process if
+    A. the parent creates the pipe before creating both children
+    B. the parent creates two pipes and connects them
+

@@ -1,0 +1,5 @@
+This file contains wtmp data with a crash and reboot.  I did it
+by just powering off my machine after making sure I sync'ed the
+disks and had almost no processes running.  It came up ok.
+
+I then copied the wtmp file for testing purposes.

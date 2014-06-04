@@ -1,0 +1,21 @@
+Test of dulite 
+	at Thu Feb 24 02:36:34 EST 2000
+	
+  a. Default Case: no args ..NOT OK
+      system du stdout says:
+        |50<tab>.<nl>
+      your du stdout says:
+        |25<tab>.<nl>
+  b. One arg: -k only     ..OK
+  c. One arg: a filename  ..NOT OK
+      system du stdout says:
+        |18448<tab>/vmunix<nl>
+      your du stdout says:
+        |9224<tab>/vmunix<nl>
+  d. Two args: a file and -k ..OK
+  e. One arg: a dirname   ..NOT OK
+      system du stdout says:
+        |50<tab>01<nl>
+      your du stdout says:
+        |25<tab>01<nl>
+  f. Two args: a dirname and -k ..OK

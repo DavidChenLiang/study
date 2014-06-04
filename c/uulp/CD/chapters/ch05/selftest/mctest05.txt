@@ -1,0 +1,41 @@
+[Chapter 05]
+  5.1) Unix determines if a filename refers to a device by
+    A. seeing if the file is in the /dev directory
+    B. checking the file type stored in the inode of the file
+
+  5.2) The major number of a device represents
+    A. the maximum data rate for the device
+    B. a way to locate the device driver
+
+  5.3) One difference between disk files and device files is
+    A. device files cannot be unlinked
+    B. device files use no data blocks
+
+  5.4) Kernel buffering can be turned off for a file descriptor with
+    A. the write system call
+    B. the fcntl system call
+
+  5.5) The O_APPEND flag is used to prevent
+    A. data loss
+    B. data duplication
+
+  5.6) The terminal driver can
+    A. change the size of a terminal window
+    B. translate lower case letters to upper case letters
+
+  5.7) Changing terminal driver settings for a file descriptor affects
+    A. all file descriptors connected to that driver
+    B. only the file descriptor used to change the settings
+
+  5.8) The TCSAFLUSH command to tcsetattr tells the driver to
+    A. discard all input and output
+    B. discard all unread input
+
+  5.9) A race condition is a result of
+    A. unpredictable scheduling of actions
+    B. fast processor speeds
+
+  5.10) O_APPEND is not used for terminal drivers because
+    A. a terminal driver represents a stream of data
+    B. O_APPEND is only allowed for disk files
+

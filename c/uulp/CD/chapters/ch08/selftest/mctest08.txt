@@ -1,0 +1,57 @@
+[Chapter 08]
+  8.1) A process is
+    A. a sequence of instructions a computer executes
+    B. memory space and data structures
+
+  8.2) A process is identified by
+    A. the name of the program being run
+    B. an integer 
+
+  8.3) A user can list
+    A. only the processes that belong to that user
+    B. all the processes running on the system
+
+  8.4) The execvp system function
+    A. runs a program in the calling process
+    B. creates a new process and runs a program
+
+  8.5) The array argument to execvp tells the kernel
+    A. what strings to pass to main in the new program 
+    B. what list of directories to search to find the new program
+
+  8.6) The execvp function returns a value
+    A. only if it successfully runs the program
+    B. only if it fails to find or run the program
+
+  8.7) The fork system call
+    A. creates a new, empty process
+    B. makes a copy of a process
+
+  8.8) The fork system call returns 0
+    A. when the new process finishes
+    B. in the new process
+
+  8.9) A shell runs a program by
+    A. using the system calls fork and exec
+    B. calling the library function called "system"
+
+  8.10) If a process has no child processes, the wait system call returns
+    A. 0
+    B. -1
+
+  8.11) The wait system call suspends a process until
+    A. the user presses a key
+    B. a child process exits or is killed
+
+  8.12) A child process returns a value to its parent by
+    A. calling exit
+    B. sending a signal
+
+  8.13) The return value of the wait system call represents
+    A. the process id number of a child that is done
+    B. the exit value of a child process that is done
+
+  8.14) A child can use exit to return to its parent any
+    A. 8-bit value
+    B. string
+

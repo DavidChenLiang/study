@@ -1,0 +1,53 @@
+[Chapter 11]
+  11.1) The bc/dc pair of programs is an example of
+    A. parallel processing
+    B. client/server design
+
+  11.2) You use the function fdopen instead of fopen to
+    A. redirect standard input
+    B. add standard buffering to an open file descriptor
+
+  11.3) You cannot use fopen for pipes because
+    A. pipes do not have file names
+    B. pipes have a limited capacity
+
+  11.4) If a process that reads from a pipe does not close the writing end
+    A. that process will receive two copies of all data
+    B. that process will never see end of file on the pipe
+
+  11.5) A pipe can be used to transfer data between
+    A. exactly two processes
+    B. any number of processes
+
+  11.6) Socket connections are similar to pipe connections in that
+    A. both use their file descriptors as addresses
+    B. processes transfer data through both with the read and write system calls 
+
+  11.7) In Unix terminology, the difference between a host and a server is
+    A. a server is process, a host is a computer
+    B. a server is smaller computer, a host supports more users
+
+  11.8) A server program uses the bind system call to
+    A. attach an address to its socket
+    B. lock the socket in memory
+
+  11.9) The listen system call is used to
+    A. enable incoming connections to a socket
+    B. receive data from a client
+
+  11.10) A client program makes a connection to a server program by calling
+    A. socket
+    B. connect
+
+  11.11) The protocol for a client/server connection describes
+    A. the format of the messages
+    B. the format of the source code
+
+  11.12) To list files on a remote machine, a client
+    A. can pass the server name to the opendir system call 
+    B. must contact a server that lists files
+
+  11.13) The problem with using the popen function in servers is
+    A. popen can run arbitrary shell commands
+    B. the server has to call the pclose function to prevent zombies
+

@@ -1,0 +1,253 @@
+<BASE HREF="http://www.rt.com/man/">
+<head><title>Unix man pages: init (8)</title></head>
+<body bgcolor="#FFFFFF">
+
+<PRE>INIT(8)        Linux System Administrator's Manual        INIT(8)
+
+<B>NAME</B>
+       init, telinit - process control initialization
+
+<B>SYNOPSIS</B>
+       <B>/sbin/init</B> [ <B>0123456Ss</B> ]
+       <B>/sbin/telinit</B> [ <B>-t</B> <B>sec</B> ] [ <B>0123456sSQqabcUu</B> ]
+
+<B>DESCRIPTION</B>
+   <B>Init</B>
+       <B>Init</B>  is the father of all processes.  Its primary role is
+       to create processes from  a  script  stored  in  the  file
+       <B>/etc/inittab</B>  (see  <I>inittab</I>(5)).   This  file  usually has
+       entries which cause <B>init</B> to spawn <B>getty</B>s on each line that
+       users  can  log in.  It also controls autonomous processes
+       required by any particular system.
+
+<B>RUNLEVELS</B>
+       A <I>runlevel</I> is a software configuration of the system which
+       allows  only  a selected group of processes to exist.  The
+       processes spawned by <B>init</B> for each of these runlevels  are
+       defined  in  the <B>/etc/inittab</B> file.  <B>Init</B> can be in one of
+       eight runlevels: <B>0-6</B> and <B>S</B> or <B>s</B>.  The runlevel is  changed
+       by  having  a  privileged  user  run  <B>telinit</B>, which sends
+       appropriate signals to <B>init</B>, telling it which runlevel  to
+       change to.
+
+       Runlevels  <B>0</B>, <B>1</B>, and <B>6</B> are reserved. Runlevel 0 is used to
+       halt the system, runlevel 6 is used to reboot the  system,
+       and  runlevel 1 is used to get the system down into single
+       user mode. Runlevel <B>S</B> is  not  really  meant  to  be  used
+       directly,  but more for the scripts that are executed when
+       entering runlevel 1. For more information on this, see the
+       manpages for <B><A href="shutdown.8.html">shutdown</A></B>(8) and <B><A href="inittab.5.html">inittab</A></B>(5).
+
+       Runlevels  7-9  are  also  valid,  though not really docu-
+       mented. This is because "traditional" Unix variants  don't
+       use  them.   In case you're curious, runlevels <I>S</I> and <I>s</I> are
+       in fact the same.  Internally they  are  aliases  for  the
+       same  runlevel  - this is just a leftover from the systems
+       the author used to use when writing sysvinit.
+
+<B>BOOTING</B>
+       After <B>init</B> is invoked as the last step of the kernel  boot
+       sequence,  it  looks  for  the file <B>/etc/inittab</B> to see if
+       there is an entry  of  the  type  <B>initdefault</B>  (see  <I>init-</I>
+       <I>tab</I>(5)). The <B>initdefault</B> entry determines the initial run-
+       level of the system.  If there is no  such  entry  (or  no
+       <B>/etc/inittab</B>  at  all),  a runlevel must be entered at the
+       system console.
+
+       Runlevel <B>S</B> or <B>s</B> bring the system to single user  mode  and
+       do  not  require  an  <B>/etc/initttab</B>  file.  In single user
+       mode, <B>/sbin/sulogin</B> is invoked on <B>/dev/console</B>.
+
+       When entering single user mode, <B>init</B> reads  the  console's
+       <I>ioctl</I>(2)  states  from  <B>/etc/ioctl.save</B>. If this file does
+       not exist, <B>init</B> initializes the line at <B>9600</B> <B>baud</B> and with
+       <B>CLOCAL</B>  settings.   When  <B>init</B> leaves single user mode, it
+       stores the console's <I>ioctl</I> settings in this file so it can
+       re-use them for the next single-user session.
+
+       When  entering  a multi-user mode for the first time, <B>init</B>
+       performs the <B>boot</B> and <B>bootwait</B> entries to allow file  sys-
+       tems  to  be  mounted  before  users can log in.  Then all
+       entries matching the runlevel are processed.
+
+       When starting a new process, <B>init</B> first checks whether the
+       file  <I>/etc/initscript</I>  exists.  If  it  does, it uses this
+       script to start the process.
+
+       Each time a child terminates, <B>init</B> records  the  fact  and
+       the  reason  it  died  in <B>/var/run/utmp</B> and <B>/var/log/wtmp</B>,
+       provided that these files exist.
+
+<B>CHANGING</B> <B>RUNLEVELS</B>
+       After it has spawned all of the processes specified,  <B>init</B>
+       waits for one of its descendant processes to die, a power-
+       fail signal, or until it is signaled by <B>telinit</B> to  change
+       the system's runlevel.  When one of the above three condi-
+       tions occurs, it re-examines the <B>/etc/inittab</B>  file.   New
+       entries  can  be added to this file at any time.  However,
+       <B>init</B> still waits for one of the above three conditions  to
+       occur.   To  provide  for  an  instantaneous response, the
+       <B>telinit</B> <B>Q</B> or <B>q</B> command can wake up <B>init</B> to re-examine  the
+       <B>/etc/inittab</B> file.
+
+       If  <B>init</B>  is not in single user mode and receives a power-
+       fail signal, special powerfail entries are invoked.
+
+       When <B>init</B> is requested to change the  runlevel,  it  sends
+       the warning signal <B>SIGTERM</B> to all processes that are unde-
+       fined in the new runlevel.  It then waits 5 seconds before
+       forcibly  terminating these processes via the <B>SIGKILL</B> sig-
+       nal.  Note that <B>init</B> assumes that all these processes (and
+       their  descendants) remain in the same process group which
+       <B>init</B> originally created for them.  If any process  changes
+       its  process  group  affiliation it will not receive these
+       signals.  Such processes need to be terminated separately.
+
+<B>TELINIT</B>
+       <B>/sbin/telinit</B>  is  linked  to <B>/sbin/init</B>.  It takes a one-
+       character argument and signals <B>init</B> to perform the  appro-
+       priate  action.   The  following arguments serve as direc-
+       tives to <B>telinit</B>:
+
+       <B>0</B>,<B>1</B>,<B>2</B>,<B>3</B>,<B>4</B>,<B>5</B> or <B>6</B>
+              tell <B>init</B> to switch to the specified run level.
+
+       <B>a</B>,<B>b</B>,<B>c</B>  tell <B>init</B> to process only those  <B>/etc/inittab</B>  file
+              entries having runlevel <B>a</B>,<B>b</B> or <B>c</B>.
+
+       <B>Q</B> or <B>q</B> tell <B>init</B> to re-examine the <B>/etc/inittab</B> file.
+
+       <B>S</B> or <B>s</B> tell <B>init</B> to switch to single user mode.
+
+       <B>U</B> or <B>u</B> tell  <B>init</B>  to  re-execute  itself  (preserving the
+              state). No re-examining of <B>/etc/inittab</B>  file  hap-
+              pens. Run level should be one of <B>Ss12345</B>, otherwise
+              request would be silently ignored.
+
+       <B>telinit</B> can also tell <B>init</B> how long it should wait between
+       sending  processes  the  SIGTERM and SIGKILL signals.  The
+       default is 5 seconds, but this can be changed with the  <B>-t</B>
+       <B>sec</B> option.
+
+       <B>telinit</B>  can  be  invoked  only  by users with appropriate
+       privileges.
+
+       The <B>init</B> binary checks if it is <B>init</B> or <B>telinit</B> by looking
+       at its <I>process</I> <I>id</I>; the real <B>init</B>'s process id is always <B>1</B>.
+       From this it follows that instead of calling  <B>telinit</B>  one
+       can also just use <B>init</B> instead as a shortcut.
+
+<B>ENVIRONMENT</B>
+       <B>Init</B>  sets the following environment variables for all its
+       children:
+
+       <B>PATH</B>   <I>/usr/local/sbin:/sbin:/bin:/usr/sbin:/usr/bin</I>
+
+       <B>INIT</B><I>_</I><B>VERSION</B>
+              As the name says. Useful to determine if  a  script
+              runs directly from <B>init</B>.
+
+       <B>RUNLEVEL</B>
+              The current system runlevel.
+
+       <B>PREVLEVEL</B>
+              The  previous  runlevel  (useful  after  a runlevel
+              switch).
+
+       <B>CONSOLE</B>
+              The system console. This is really  inherited  from
+              the  kernel; however if it is not set <B>init</B> will set
+              it to <B>/dev/console</B> by default.
+
+<B>BOOTFLAGS</B>
+       It is possible to pass a number of flags to <B>init</B> from  the
+       boot monitor (eg. LILO). <B>Init</B> accepts the following flags:
+
+       <B>S,</B> <B>single</B>
+            Single user mode boot. In this mode  <I>/etc/inittab</I>  is
+            examined  and  the  bootup rc scripts are usually run
+            before the single user mode shell is started.
+
+       <B>1-5</B>  Runlevel to boot into.
+
+       <B>-b,</B> <B>emergency</B>
+            Boot directly into a single user shell  without  run-
+            ning any other startup scripts.
+
+<B>INTERFACE</B>
+       Init  listens  on  a  <I>fifo</I> in /dev, <I>/dev/initctl</I>, for mes-
+       sages.  <B>Telinit</B> uses this to communicate  with  init.  The
+       interface  is  not very well documented or finished. Those
+       interested should study the <I>initreq.h</I>  file  in  the  <I>src/</I>
+       subdirectory of the <B>init</B> source code tar archive.
+
+<B>SIGNALS</B>
+       Init reacts to several signals:
+
+       <B>SIGHUP</B>
+            Init  looks for <I>/etc/initrunlvl</I> and <I>/var/log/initrun-</I>
+            <I>lvl.</I>  If one of these  files  exist  and  contain  an
+            ASCII  runlevel,  init  switches to the new runlevel.
+            <I>This</I> <I>is</I> <I>for</I> <I>backwards</I> <I>compatibility</I> <I>only!</I> .   In  the
+            normal case (the files don't exist) init behaves like
+            <B>telinit</B> <B>q</B> was executed.
+
+       <B>SIGUSR1</B>
+            On receipt of this signals, init closes and  re-opens
+            it's   control   fifo,   <B>/dev/initctl</B>.   Useful   for
+            bootscripts when /dev is remounted.
+
+       <B>SIGINT</B>
+            Normally the kernel sends this signal  to  init  when
+            CTRL-ALT-DEL  is pressed. It activates the <I>ctrlaltdel</I>
+            action.
+
+       <B>SIGWINCH</B>
+            The kernel sends this signal when the  <I>KeyboardSignal</I>
+            key is hit.  It activates the <I>kbrequest</I> action.
+
+<B>CONFORMING</B> <B>TO</B>
+       <B>Init</B>  is  compatible  with  the  System  V  init. It works
+       closely together  with  the  scripts  in  the  directories
+       <I>/etc/init.d</I>  and <I>/etc/rc{runlevel}.d</I>.  If your system uses
+       this convention, there should be  a  <I>README</I>  file  in  the
+       directory <I>/etc/init.d</I> explaining how these scripts work.
+
+<B>FILES</B>
+       /etc/inittab
+       /etc/initscript
+       /dev/console
+       /etc/ioctl.save
+       /var/run/utmp
+       /var/log/wtmp
+       /dev/initctl
+
+<B>WARNINGS</B>
+       <B>Init</B>  assumes  that processes and descendants of processes
+       remain in the same process group which was originally cre-
+       ated  for them.  If the processes change their group, <B>init</B>
+       can't kill them and you may  end  up  with  two  processes
+       reading from one terminal line.
+
+<B>DIAGNOSTICS</B>
+       If  <B>init</B> finds that it is continuously respawning an entry
+       more than 10 times in 2 minutes, it will assume that there
+       is  an error in the command string, generate an error mes-
+       sage on the system console, and  refuse  to  respawn  this
+       entry  until either 5 minutes has elapsed or it receives a
+       signal.  This prevents it from eating up system  resources
+       when someone makes a typographical error in the <B>/etc/init-</B>
+       <B>tab</B> file or the program for the entry is removed.
+
+<B>AUTHOR</B>
+       Miquel van Smoorenburg (miquels@cistron.nl), initial  man-
+       ual  page by Michael Haardt (u31b3hs@pool.informatik.rwth-
+       aachen.de).
+
+<B>SEE</B> <B>ALSO</B>
+       <B><A href="getty.1.html">getty</A></B>(1), <B><A href="login.1.html">login</A></B>(1), <B><A href="sh.1.html">sh</A></B>(1), <B><A href="who.1.html">who</A></B>(1),  <B>shutdown(8),</B>  <B><A href="kill.1.html">kill</A></B>(1),
+       <B><A href="inittab.5.html">inittab</A></B>(5), <B><A href="initscript.5.html">initscript</A></B>(5), <B><A href="utmp.5.html">utmp</A></B>(5)
+
+                           9 March 1998                         1
+
+</PRE>

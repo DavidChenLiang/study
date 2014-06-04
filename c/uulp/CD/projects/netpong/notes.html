@@ -1,0 +1,71 @@
+<html>
+<head>
+	<title>netpong notes</title>
+</head>
+<body bgcolor=white>
+<table border=0 cellpadding=8 cellspacing=0 width='100%'>
+<tr>
+	<td bgcolor=black align=center>
+	<font color='#00FF00'><tt><b>netpong</b> Additional Material</font>
+	</td>
+</tr>
+</table>
+<p>
+<h4>
+Writing an X-Windows version of Pong
+</h4>
+	<blockquote>
+	If you would like a brief introduction to programming for X-windows (using the
+	low-level Xlib library) take a look in 
+	<a href=xpong/>~COURSE/hw/netpong/xpong</a> for a solution to pong written
+	by a student a few years back.  If you want to use this as a basis
+	for netpong, that's fine.
+	</blockquote>
+	<p>
+<h4>
+What is my hostname?
+</h4>
+	<blockquote>
+	When you stat up a server, you need to know the machine the
+	server is running on so you know what machine to connect to.
+	The way to do this is to type <tt>hostname</tt> . That command
+	will report your current machine.
+	<p>
+	</blockquote>
+<h4>
+Do I need to call connect and accept before each transaction?
+</h4>
+	<blockquote>
+	No.  You can read and write all you like.  The reason
+	a typical server loops making several connections,
+	one after another, is that it is going to provide
+	services for lots of clients, one per connections.
+	With netpong, though, you have one connection but
+	lots of read-write exchanges, sort of like a ping
+	pong game.
+	</blockquote>
+	<p>
+<h4>
+Is there any easy way to create and parse inter-game messages ?
+</h4>
+	<blockquote>
+	You bet!  <tt>sprintf</tt> and <tt>sscanf</tt> are
+	your friends here. You can examine the code to srv.c
+	and clnt.c for the license server to see how they
+	build and read tickets.  Here are the relevant lines
+	from those programs:
+	<xmp>
+	char replybuf[BIGENOUGH];
+
+	sprintf(replybuf, "TICK %d.%d", ticket_array[x], x);
+
+	...
+
+	/* msg looks like  GBYE 1234.0 parse out pid and slot */
+
+	if((sscanf((msg_p + 5), "%d.%d", &pid, &slot) != 2) ||
+	   (ticket_array[slot] != pid)) {
+	</xmp>
+	You can generalize from those to creating a <tt>BALL</tt>
+	message on one end and reading it on the other end.
+	</blockquote>

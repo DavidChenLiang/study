@@ -1,0 +1,121 @@
+<html>
+<head>	<title>Self-Assessment Homework</title>	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">	<link rel="Stylesheet" type="text/css" title="phStyle" href="../../../../html/css/style.css">	<link rel="icon" href="../../../../phicon.ico" type="image/bmp"></head><body bgcolor="#ffffff"><div align="center"><table width="80%" border="0" cellspacing="0" cellpadding="0">	<tr>	<td valign=top>	<span class="header"> Self-Assessment Homework </span><br>
+
+<p>
+<table width=100% border=0>
+<tr>
+  <td align=left ><font size=+1 color=green></font></td>
+  <td align=right><font size=+1 color=blue>Placement/Assessment Exercise</font></td>
+</tr>
+</table>
+<hr>
+<p>
+<p>
+<center>
+<table width="90%">
+<tr><td>
+<B>Introduction</B>
+<p>
+The purpose of this assignment is to review basic Unix and C skills
+and help you figure out if you are prepared for this course.  Work
+through the following exercises.  You should of course feel free to
+refer to any Unix/C books and/or on-line documentation you like.
+You should find the C exercises pretty easy.  If you don't, think
+carefully before enrolling.  You should find the Unix exercises
+easy or you should be able to locate the information in the manuals.
+If you don't, find a good Unix book and start exploring.
+<p>
+Solutions to these problems will be available at the second lecture.
+<p>
+<B>The Exercises</B>
+<p>
+<ol>
+<li>
+Explain the purpose of the following Unix commands: <tt>ls, cat, rm,
+cp, mv, mkdir, cc</tt>.
+<p>
+<li>
+Using your favorite editor, create a small text file.  Use <tt>cat</tt> to
+create another file consisting of five repetitions of this small text file.
+<p>
+Use <tt>wc</tt> to count the number of characters and words in the original
+file and in the one you made from it.  Explain the result.
+<p>
+Create a subdirectory and move the two files into it.
+<p>
+<li>
+Create a file containing a directory listing of both your home directory
+and the directory <tt> /bin</tt>.
+<p>
+<li>
+Devise a single command line that displays the number of users currently
+logged onto your system.
+<p>
+<li>
+Write, compile, and execute a C program that prints a welcoming message
+of your choice.
+<p>
+<li>
+Write, compile, and execute a C program that prints its arguments.
+<p>
+<li>
+Using <tt>getchar()</tt> and <tt>putchar()</tt>, write a program that counts
+the number of words, lines, and characters in its input.
+<p>
+<li>
+Create a file containing a C function that prints the message 
+<tt>"hello, world"</tt>.  Create a separate file containing the main
+program which calls this function.  Compile and link the resulting
+program, calling it <tt>hw</tt>.
+<p>
+<li>
+Look up the entries for the following topics in your system's manual;
+the <tt>cat</tt> command, the <tt>printf</tt> function, and the <tt>write</tt>
+system call.
+<p>
+<li>
+<i>You Must Try This One</i>  
+There are two parts to the problem.  If you are not able to do the
+first part of this problem, you are not prepared to take this class.
+If you find the second part extremely tricky, you will find the
+assignments for the course difficult and potentially more time consuming
+than you expect.
+<p>
+<table border=0 cellpadding=2 cellspacing=1>
+<tr><td valign=top><b>part 1</b></td><td>
+	Write a program that prints a range of lines from a text file.
+	The program should take command line arguments of the form:
+	<pre> lrange 10 20 filename </pre>
+	will print lines 10 through 20 of the named file.
+	If there are not enough lines in the file, the program should
+	print what it can.
+	</td>
+</tr>
+<tr><td valign=top><b>part 2</b></td><td>
+	Write a program called <tt>last10</tt> that prints the last
+	ten lines of a text file.  The program can be used from the
+	command line with:
+	<pre>last10 filename</pre>
+	</td>
+</tr>
+</table>
+<li><i>Structs and Pointers</i> You must try this one, too.
+Write a function that computes some basic statistics for a list of
+numbers and stores those results in parts of a struct.  In particular,
+given this definition:
+<pre>struct numlist {  float *list;   /* points to list of numbers */
+                  int   len;     /* number of items in list   */
+                  float min,     /* the minimal value in list */
+                        max,     /* the maximal value in list */
+                        avg;     /* the mean of the numbers   */
+                };</pre>
+write a function <tt>compute_stats(struct numlist *listptr)</tt> that
+takes as an argument a pointer to a struct numlist with <i>list</i> and <i>len</i>
+already initialized and computes and fills in the other three members.
+</td></tr>
+</table>
+
+
+<!-- END CONTENT MODIFIED AT PRENTICE HALL BY KEEGAN; 1/14/03 -->
+
+</td></tr></table></div><br clear="all"><table border=0 align=right>	<tr>	<td class="footer">	&copy; 2003 <a href="http://www.prenhall.com" target="new">Pearson Education, Inc.</a><br>	<a href="../../../../html/notice/legal.html" target="main">Legal Notice</a><br>			<a href="../../../../html/notice/privacy.html" target="main">Privacy Statement</a><br>			<a href="../../../../html/tech_support.html" target="main">Technical Support Info</a>	</td></tr></table><BR CLEAR="all"></body></html>

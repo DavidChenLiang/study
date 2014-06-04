@@ -1,0 +1,99 @@
+<html>
+<head>
+	<title>Sttylite Notes</title>
+</head>
+<body bgcolor=white>
+<h4>
+Notes about the stty assignment
+<hr>
+</h4>
+<dl>
+<dt><b> Command line editing and cbreak mode</b></dt>
+<dd>
+	<p>
+	When you are using the default version of the c-shell on this
+	system, you can press the ESC key to edit previous commands.
+	<p>
+	You don't need to press Return, just ESC.  That means the tty
+	is in cbreak mode.  If it were not in cbreak mode, the shell
+	would not see you input until you pressed the Return key.
+	<p>
+	The csh uses the new tty driver, which is different from the
+	standard one.
+	<p>
+	The Bourne shell, invoked by typing  sh  , does not do anything
+	weird with the tty driver, but it does interpret the ^ character
+	as if it were the | character.  ( Original Unix used ^ for
+	pipelines rather than the | symbol.)
+	<p>
+	moral: use the bourne shell to test your program but quote the
+	caret with  "^" or '^' or \^ to prevent the shell from 
+	misinterpreting your meaning.
+	<p>
+</dd>
+<dt><b>The Caret-X problem</b></dt>
+<dd>
+	<p>
+	I've tried to run the program as follows:
+	<p>
+	<blockquote><pre>
+		$ ./stty004 erase ^G
+		G: not found
+		$ ./stty004 erase ^G              
+		G: not found
+		$ exit
+		ws11% pwd
+		/home/lee
+		ws11% ls
+		News         hw1prt3.txt  pdfind       sttyl
+		blank        mail         pdfind2      watch
+		ws11% cd sttyl
+		ws11% pwd
+		/home/lee/sttyl
+		ws11% ./stty004 erase ^G
+		erase
+		erase, ^G
+		erase, 3
+		argu 3: ^
+		EXIT set_char
+		ws11% 
+	</pre></blockquote>
+	<p>
+	The caret is an ancient notation for the pipe sign.  You
+	need to quote it as in <b>stty erase "^H"</b>
+	<p>
+	</dd>
+<dt><b>Control Chars</b></dt>
+<dd>
+	<p>
+	In stty, special-character setting strings are not 
+	necessarily alphabetical at all (man page reprinted below).  
+	The issue that I have for sttyl is the
+	possibility of non-alphabetical control characters, 
+	i.e, undef or ^$   (Is
+	there even an ASCII code for ^$, for instance?)
+	<p>
+	How can these be handled in sttyl, if at all?  I don't 
+	imagine the "add 'A' trick" for printing ^alpha control 
+	characters will work.....
+	<p>
+	<pre>
+	 special-character string
+             Sets special-character to string.  The special character is 
+             set to the first character in string and subsequent characters 
+             are ignored, with the following exceptions:
+
+        o  The stringss undef and ^- set the special character to
+           {_POSIX_VDISABLE} if it is in effect for the device.
+
+        o  The string ^? sets the special character to <Delete>.
+
+        o  Any other string beginning with the character ^ sets the special
+           character to the control character corresponding to the second
+           character of string (subsequent characters are ignored).  For
+           example, the string ^c sets the special character to ^C; the
+           string ^zq sets the special character to ^Z.
+
+	</pre>
+</dd>
+</dl>

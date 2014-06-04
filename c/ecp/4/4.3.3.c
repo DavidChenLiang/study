@@ -1,0 +1,19 @@
+#include <stdio.h>
+
+void
+func(void)
+{
+    extern int *a;
+    int b = 100;
+    a = &b;
+    int c = a[0];
+    printf("c is %d\n",c);
+}
+
+
+int
+main(void)
+{
+    func();
+    return 0;
+}

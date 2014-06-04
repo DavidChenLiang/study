@@ -1,0 +1,381 @@
+.de UL \" underline argument, don't italicize
+.if t \&\\$1\l'|0\(ul'\\$2
+.if n .I \\$1 \\$2
+..
+.hy 14
+.sp 2i
+.ft PI
+.ps 12
+.ce
+COURSE Final Exam 11
+
+.ps 12
+
+.ce
+DATE
+.ft PR
+.sp 24p
+.ps 12p
+
+
+
+.ce
+Your Name Here: \l'2i'
+
+
+
+
+
+.in +1i
+.ll -1i
+.vs 15p
+\fIInstructions\fR:  You have TIME for this exam.  
+Please write your answers on the pages in this exam booklet.  
+No scrap paper or additional sheets will be accepted.  Watch 
+your time and be concise.  Write clearly (illegible answers will 
+be `silently ignored'), and \fIalways\fR check the return value 
+of a system call.  Good luck.
+.in -1i
+.ll +1i
+.bp
+\&.
+.sp 1i
+.TS
+linesize(8) center allbox;
+c c c l
+n n n n.
+prob	points	got	section
+1	4
+2	4
+3	4
+4	4
+5	4
+6	4
+7	4
+8	4
+
+9	6
+10	6
+11	6
+12	6
+13	6
+
+14	6
+15	6
+
+16	12
+
+17	
+a	3
+b	3
+c	3
+d	3
+e	2
+
+
+.TE
+.bp
+\&.
+.sp 0.6i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part One'Eight Problems, each worth 4 points'page 1'
+\l'6.5i'
+.sp 3p
+.ft R
+.ft I
+Problems 1-8:  Short answer questions.  Answer each question clearly,
+precisely, and refer to specific system calls when appropriate.  Write
+your answer in the space provided.
+.br
+
+.ft R
+1. What is kernel buffering?  Name an advantage of kernel buffering,
+and name a disadvantage of kernel buffering.
+.sp 1.2i
+2. What is a \fIbit mask\fR.  Give two examples in Unix programming
+of uses of bit masks.
+.sp 1.2i
+3. Almost all the information about a file is stored in an inode.
+Name one piece of information about a file that is not stored
+in the inode.  What are the advantages of not storing this property
+in the inode?
+.sp 1.2i
+4. Name three ways a Unix program can protect itself from being
+killed by a user pressing the Control-C key.
+.sp 1.2i
+5. What is the role of the \fIexecvp()\fR function and what does 
+its return value represent?
+.sp 1.2i
+6. What does the term \ \fIbuilt-in command\fR\  mean in the shell?
+.bp
+\&.
+.sp 0.4i
+.tl 'Part One'continued'page 2'
+\l'6.5i'
+7. How can a process determine if any of its child processes are
+still running?
+.sp 1.1i
+8. Why is the \fIbind()\fR system call useful for server programs?
+.sp 1.2i
+.tl 'Part Two''Five problems, each worth 6 points'
+\l'6.5i'
+.sp 4p
+Problems 9-13: \fICompare and contrast.  Each of these problems mentions
+two related concepts, system calls, or operations.  For each pair, explain
+briefly and clearly (a) what they have in common, (b) when you would use
+the first item, \fRand\fP (c) when you would use the second item.
+.ft R
+.sp 9p
+9. \fCclose()\fR vs \fCunlink()\fR
+.sp 1.05i
+10. \fCsendto()\fR vs \fCwrite()\fR
+.sp 1.05i
+11. \fCcreat()\fR vs \fCfork()\fR
+.sp 1.05i
+12. \fCraw mode\fR vs \fCcooked mode\fR
+.sp 1.005i
+13. \fCsocket()\fR vs \fCpipe()\fR
+.bp
+\&.
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'Two questions, each worth 6 points'page 3'
+\l'6.5i'
+.ft R
+`\fIEnhancing Programs\fR'\ \ 
+Many of the projects for the course have involved adding
+to some sample programs from class.  Here are two examples
+of code from class and a change or two to make.
+
+14. \fItimed2.c\fR\ \ 
+This code is used in the time server.  It redirects standard
+output then runs the date command.  Other servers might want
+to run commands other than date, and might want to send both
+standard output and standard error over the network to the client.
+
+Modify this function so it (a) accepts as an argument 
+the name of the command to execute, and (b) redirects standard
+error as well as standard output to the connection.  Make your
+changes on this code.
+
+.in +0.25i
+.nf
+.ft C
+.ps 9
+.vs 10p
+process_request(fd)
+/*
+ * send the date out to the client via fd
+ */
+{
+        int     pid = fork();
+
+        if ( pid == -1 ) return ;
+
+        if ( pid != 0 ){        
+                wait(NULL);    
+                return;       
+        }
+
+        dup2( fd, 1 );
+        close(fd);
+        execlp("date","date",NULL);
+        oops("execlp date");
+}
+.in -0.25i
+.fi
+.ft R
+.ps 10
+.vs 12p
+
+
+
+
+15. \fImv1.c\fR\ \ 
+This code is a version of the Unix \fBmv\fR command shown in class.
+mv renames a file, accepting as command line arguments the old name
+and the new name.  This version uses link() and unlink() to move
+the file to a new name.  This will not work, though, if the new name
+is on a different file system.  In that case, the `real' mv copies
+the file.  If the link() system call fails because the target is
+on a different file system it sets errno to \fB\s-1EXDEV\s0\fP.
+
+Modify this code so it handles correctly the case of renaming
+a file across file systems.  You may assume there is a function
+called \fIcopy_file(char *src, char *dest)\fR that works just
+like the file copy program we wrote in lecture 2.
+.in +0.25i
+.ft C
+.ps 9
+.vs 10p
+.nf
+
+main(int ac, char *av[])
+{
+        extern int errno ;
+
+        if ( link( av[1], av[2]) != -1 )
+                unlink( av[1] );
+
+        else if ( errno == EEXIST )
+        {
+                if (unlink( av[2] ) == -1 )
+                {
+                        perror(av[2]);          
+                        exit(1);
+                }
+                main(ac,av);
+        }
+}
+.in -0.25i
+.fi
+.ft R
+.ps 10
+.vs 12p
+.bp
+\&.
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Four'One problem, 12 points'page 4'
+\l'6.5i'
+.ft R
+.sp 6p
+16. An enhancement to your small shell - special variables
+
+The shell you wrote for homework does variable substitution.  That is,
+it scans each command line for strings of the form
+\fC$varname\fR and substitutes for the dollar sign and variable name
+the value of the variable.  The variables you worked with are the
+`named variables' - that is, variables with string names 
+like TERM or HOME.  These come from the environment and from
+assignment statements.  There are other sorts of variables in the
+shell, these variables represent properties internal to the program.
+
+\fISpecial Variables\fR: Three popular ones
+.in +0.25i
+.sp 5p
+The three variables \fC$$\fR, \fC$?\fR, and \fC$0\fR, are
+used frequently in shell scripts. They mean:
+.sp 5p
+.ta 0.25i +0.5i +2i
+	\fIvariable\fR	\fImeaning\fR
+.br
+	\ \ \fC$$\fR	process id of shell
+.br
+	\ \ \fC$?\fR	exit status of last command executed
+.br
+	\ \ \fC$0\fR	name of script being executed, or name of
+shell itself if not running from a script.
+
+.in -0.25i
+Explain how you would add these three special variables to your shell.
+Which parts of the program would you need to change?  What
+changes would you need to make?
+.bp
+\&.
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Five'One problem, 14 points'page 5'
+\l'6.5i'
+.ft R
+
+17. \fIDirectory Assistance for Servers\fR
+.sp 6p
+Some servers use well-known ports to make their services available.
+For example, web servers typically listen at port 80, and pop servers
+listen at port 110.  Some servers just set up business at any
+port they can get. For example, several netpong games may be listening
+on one host, each at its own port.  Napster users with files to
+share set up servers at any host and port they can get.
+
+How can you find which servers are running on which hosts and which
+ports?  In the world of telephone numbers, businesses list their
+services and telephone numbers in the yellow pages.  Potential
+clients for services search the yellow pages to locate businesses
+that provide services they want.
+
+On the Internet, servers come and go, change hosts and ports so
+quickly that a printed directory would be out of date at once.
+
+The solution is to have a server that acts as dynamically updated
+yellow pages.  When a service starts up, it registers itself with
+that central server with its type of service: netpong, netbridge,
+napster, netchat, etc and its hostname and port number.
+
+When a person wants to play a game of netpong or bridge or hear
+music or chat, his or her client program will connect to the
+yellow pages and ask for listings under `pong' or `bridge' etc.
+
+Ok so far?  For this problem, you will discuss the general design of this
+server listing service (SLS).
+
+.UL "Part I: Data Structures [3 points]"
+.sp 6p
+.in +0.2i 
+.ll -0.2i
+a) What sort of data should be stored for each server listed in the
+SLS?  How would you store that data?  Why?
+.ll +0.2i
+.in -0.2i
+
+.UL "Part II: A Protocol [3 points]"
+.sp 6p
+.in +0.2i 
+.ll -0.2i
+b) The SLS has to handle two sorts of transactions. It has to
+speak with servers who want to be listed, and it needs to speak
+with clients that want to look up servers providing services.
+List and briefly describe the major transactions the SLS provides.
+.ll +0.2i
+.in -0.2i
+
+.UL "Part III: SLS-Enabled Servers [3 points]"
+.sp 6p
+.in +0.2i
+.ll -0.2i
+c) Say you want to make your pong game or pop server able to list
+itself with a SLS server.  What changes do you need to make to it?
+.in -0.2i 
+.ll +0.2i
+
+.UL "Part IV: SLS-enabled Clients[3 points]"
+.sp 6p
+.in +0.2i
+.ll -0.2i
+d) sumac knows to connect to port 110, and netpong has to be
+told which port to connect to.  A smart client could contact
+an SLS server, ask for a server that can play pong, pop3, 
+or your favorite song, and then automatically connect to there.
+What changes would you need to make to your netpong or sumac
+client to make it do that?
+.in -0.2i 
+.ll +0.2i
+
+.UL "Part V: Other Ideas[2 points]"
+\ \ Add any other ideas or questions you have about this project.
+.bp
+\&.
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'continued'page 6'
+\l'6.5i'
+.ft R
+.bp
+\&.
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'continued'page 7'
+\l'6.5i'
+

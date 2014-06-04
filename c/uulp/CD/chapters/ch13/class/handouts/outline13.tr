@@ -1,0 +1,55 @@
+.sp 0.6i
+.ft B
+.tl ''Lecture \s8UDP\s0'Outline'
+\l'6.5i'
+
+.nf
+.in +1i
+.ta 1i +1.5i
+\fBTopics\fR:  Multiple clients, servers with sensitive data
+
+\fBApproach\fR:  Investigate license management in detail
+
+\fBToday's New Ideas\fR:  datagrams, the ticket model, transactions
+
+.ta 0.5i +0.5i +0.5i
+\fBOutline\fR
+
+	The Ideal World - Where systems never crash
+	
+		1.  What is a product license
+			A means for controlling where/who/how many users
+
+		2.  What is a license server
+			A program that enforces product licensing in
+			a multi-user setting.
+
+		3.  The ticket model
+			How the license server limits usage of an
+			application
+
+		4.  The Communication Model
+			Simple transactions - a request and a response
+			Datagrams - postcards from one socket to another
+	
+		5.  Flow of Control
+			In the client
+			In the Server
+
+		6.  The code itself.
+
+	The Real World - where bad things can happen to good programs
+
+	Possible problems:
+		1.  Clients can crash - natural disasters
+		2.  Servers can crash - unnatural disasters.
+
+	Solutions:
+		1.  Clients who crash leave tickets stuck - server
+			can "expire" these tickets.
+		    - The ball_move() model for ticket expiration.
+
+		2.  When the server crashes, the database is lost.
+		   - The clients can "check in" to be sure their tickets
+			are still good.
+		   - Ticket validation as a means of recovery.

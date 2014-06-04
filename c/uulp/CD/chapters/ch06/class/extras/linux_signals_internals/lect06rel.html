@@ -1,0 +1,46 @@
+<html><head><title>Lecture 6 Related</title></head>
+<body bgcolor='white'>
+<larger><b>Lecture 6  Signals</b></larger>
+<hr>
+	Signals are sent to processes.  Requests for signals come from
+	users, from the kernel, and from other processes.  The result
+	of delivering a signal to a process can be determined by the
+	receiving process.  Therefore, there are four things to look
+	at:
+	<ul>
+		<li>The structure of a process (called a task on Linux)
+		<li>The request for a signal
+		<li>The delivery of a signal
+		<li>The response to a signal
+	</ul>
+	<p>
+	The Linux source code has all the details of these components
+	<p>
+	<ul>
+	<li>
+	<a href='signal.h'>signal.h<a> The signal() and sigaction()
+	system calls use the values and structures in this file.
+	<p>
+	<li>
+	<a href='signal.c'>kernel/signal.c<a>
+	The code for the signal() and sigaction()
+	system calls are in this file.  The function called kill_something()
+	is the general interface that interprets the arguments to kill().
+	The function called do_sigaction() examines and acts on the
+	values in the struct sigaction.  You can see in this code what
+	happens to the values you pass to the kernel.
+	<p>
+	<li>
+	<a href='sched.h'>sched.h<a>
+	The receiver of a signal is a task, defined in this file.
+	Look for the definition of <tt>struct task_struct</tt> to
+	see all the attributes of a process.  Look for the signal-related
+	members.
+	<p>
+	<li>
+	<a href='exit.c'>exit.c</a>
+	The mechanism for terminating a process, notifying its
+	relatives, and waiting for children is coded in this file.
+	You can see here who is notified and how.
+	<p>
+</ul>

@@ -1,0 +1,73 @@
+[Chapter 15]
+  15.1) The select system call is used to
+    A. block on input from several file descriptors at once
+    B. connect two file descriptors
+
+  15.2) The select system call returns 0 if
+    A. the timeout value is reached
+    B. it detects end of file on a file descriptor
+
+  15.3) A program can create a named pipe by calling
+    A. pipe
+    B. mkfifo
+
+  15.4) A named pipe is removed with the system call
+    A. close
+    B. unlink
+
+  15.5) A process cannot open a named pipe for reading until
+    A. a process opens the pipe for writing
+    B. a process writes data into the pipe
+
+  15.6) If two different processes read from the same pipe,
+    A. one will get some data, the other will get the rest
+    B. both will read the same data
+
+  15.7) If two different processes read from the same file,
+    A. one will get some data, the other will get the rest
+    B. both will read the same data
+
+  15.8) If two different processes write to the same pipe,
+    A. data from one writer may overwrite data from the other one
+    B. both sets of messages will get to the reader
+
+  15.9) A shared memory segment is created by using
+    A. shmget
+    B. open
+
+  15.10) A program deletes a shared memory segment by using
+    A. shmdt
+    B. shmctl
+
+  15.11) Shared memory is faster for communication than pipes because
+    A. data does not have to be copied from one process to another
+    B. the kernel stores shared memory segments in the CPU cache
+
+  15.12) The number of simultaneous read locks processes may set on a file region
+    A. may never be more than one 
+    B. may exceed one
+
+  15.13) The number of simultaneous write locks processes may set on a file region
+    A. may exceed one
+    B. may never be more than one
+
+  15.14) A process may set a write lock on a file region
+    A. if there are read locks on the region
+    B. only when there are no read or write locks on the region
+
+  15.15) A semaphore is
+    A. a global variable that different processes may use
+    B. created by the signal function
+
+  15.16) The kernel ensures that the value of a semaphore will
+    A. never be negative
+    B. never exceed a certain value
+
+  15.17) Processes use semaphores
+    A. to send small integer values to each other
+    B. to coordinate access to shared resources
+
+  15.18) The Unix kernel
+    A. is an I/O multiplexor
+    B. prevents programmers from erasing files
+

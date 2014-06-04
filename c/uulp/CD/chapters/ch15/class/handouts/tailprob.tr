@@ -1,0 +1,130 @@
+.sp 0.4i
+.ft B
+.tl ''The \fCtail -f\fP Problem'A Case Study in Unix Programming'
+.ft R
+\l'6.5i'
+.sp 3p
+.in +0.25i
+.ti -0.25i
+\fBThis Really Happened\fR
+.sp 4p
+This case study is a real problem that arose during the spring
+of 1999 in a Perl programming course.  Understanding the cause of 
+the problem and figuring out a solution are good exercises in using 
+the ideas and skills we have discussed in this course.
+
+.ti -0.25i
+\fBWeb Servers and Standard Error\fR
+.sp 4p
+A web server, as you know by now, is a program that does three
+things for remote clients.  It displays the contents of files, it
+lists the contents of a directory, and it runs programs sending
+the standard output of the program to the client.
+
+What about the standard error of a program?  The typical web server
+sends standard error to a log file on the machine the server lives on.  
+It's not too complicated to do.  The server uses \fCopen\fR to open
+an \s-2O_APPEND\s+2 connection to a log file, then \fCdup2\fRs that
+file descriptor to fd 2 before \fCexec\fRing the cgi program.  All
+errors get appended to the logfile.
+
+.ti -0.25i
+\fBLots of Students, Lots of Errors, Lots of Disk Usage\fR
+.sp 4p
+In the Perl/CGI programming course, lots of students write lots
+of CGI programs on a machine used for the course.  Many
+of those programs have syntax errors and other bugs for a while.
+Each time the student tests the CGI program, all the syntax errors
+and run-time error messages are appended to the web server error log.
+
+That error log got really big really fast.  It quickly began to use
+a lot of disk space.  
+
+.ti -0.25i
+\fBAutomatic Disk Cleaning\fR
+.sp 4p
+The initial solution was to write a program that would run
+periodically to delete the logfile then create a new, empty one.
+I think the original cleaning program would only do this if the
+file exceeded someone's idea of a `large' file.
+.sp 6p
+\fIQuestion One:\fR How would you set up this automatic disk cleaning?
+
+.ti -0.25i
+\fBIt Sort of Didn't Work\fR
+.sp 4p
+The Unix \fCdf\fR command shows the amount of free space on each
+disk attached to the system.  The odd thing about the first solution
+was that even when the file was deleted and a new, empty one was
+created, the number reported by \fCdf\fR did not go down, even though
+the size of the logfile would go from many megabytes to zero.
+.sp 6p
+\fIQuestion Two:\fR How could it be that deleting a 4 meg, for example,
+file does not return 4 meg of space to the amount of free space?
+
+.ti -0.25i
+\fBtail -f Was the Problem\fR
+.sp 4p
+Students needed to see the error messages generated when they ran
+their CGI programs.  The errors would not appear on their browser
+screens.
+.sp 6p
+\fIQuestions Three:\fR Why did the syntax and runtime errors in
+their cgi programs not appear on the browser screen?
+.sp 6p
+To view the errors, the students were told to open a telnet session
+on their machine and run:
+.sp 3p
+              \fCtail -f error_log\fR
+.sp 3p
+in that window.  They would use the web browser to run their cgi
+script and see what happened.  If the cgi program generated errors,
+those errors would be appended to the error log.  The -f option
+causes tail to `follow' along as new text was added to the end of the file.
+.in -0.25i
+.bp
+.sp 0.4i
+.ft B
+.tl 'The \fCtail -f\fR Problem''page 2'
+\l'6.5i'
+
+.in +0.25i
+.sp 6p
+\fIQuestion Four:\fR How would you write the -f feature of tail?
+.sp 3p
+\fIQuestion Five:\fR Why did \fCtail -f\fR prevent the original
+cleaning method from reducing disk usage?  Was the effect permanent?
+
+.ti -0.25i
+\fBThis Time Fer Sure\fR
+.sp 4p
+Deleting the file did not work for reasons that you should have
+figured out in the previous section.  A `better' solution was
+devised.  The first solution was to delete the file and create a new
+one.  The next solution was to truncate the file to a size of zero
+bytes.
+.sp 6p
+\fIQuestion Six:\fR How can you truncate a file to zero bytes?  Write
+a program to do so when the file exceeds a certain size.
+
+.ti -0.25i
+\fBIt Worked, but Something else Broke\fR
+.sp 4p
+When the big logfile was truncated, the amount of free space on the
+disk as reported by \fCdf\fR did drop by the expected amount.  This
+looked perfect; the disk did not fill up with error messages, the
+program ran automatically, so it required no supervision, the solution
+was clean and elegant.
+
+The only problem was that when the file was truncated, the students
+running \fCtail -f error_log\fR in their telnet window stopped seeing
+any new messages.  They ran their buggy CGI Perl scripts, got no
+output in the browser, or they got `Internal Error, please see log'
+message, but their log file following program showed nothing.
+
+The odd thing was if they stopped \fCtail -f\fR with Ctrl-C and started it
+again, everything was ok.
+.sp 6p
+\fIQuestion Seven:\fR What's going on?
+
+\fIQuestion Eight:\fR What's a solution?

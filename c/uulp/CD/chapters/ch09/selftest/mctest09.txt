@@ -1,0 +1,65 @@
+[Chapter 09]
+  9.1) A shell script is
+    A. a record of shell output
+    B. a text file containing a list of commands
+
+  9.2) Comments in shell scripts begin with
+    A. the // string
+    B. the # character
+
+  9.3) You use the chmod command on a script to change
+    A. its executable permission bit to true
+    B. its file type to script
+
+  9.4) Shell scripts can get user input by using
+    A. the read command
+    B. the input command
+
+  9.5) Arguments to a shell command are separated by
+    A. any number of spaces or tabs
+    B. semicolons
+
+  9.6) In shell commands, the "if" control word must be followed by
+    A. any shell command
+    B. any arithmetic or logical expression
+
+  9.7) In the shell, the end of an if then control block is indicated by
+    A. fi
+    B. endif
+
+  9.8) Unix commands indicate successful completion by returning
+    A. 0
+    B. 1
+
+  9.9) Shell variables store data of type
+    A. string or integer
+    B. string
+
+  9.10) The shell syntax for assigning values to variables is
+    A. variablename=value
+    B. set variablename = value
+
+  9.11) The shell notation to obtain the value of a variable is
+    A. $variablename
+    B. <variablename
+
+  9.12) The export command
+    A. marks a variable to be part of the environment
+    B. copies a variable to the disk
+
+  9.13) A shell command is called "built-in" if
+    A. the shell does not call another program
+    B. the command is already compiled into the kernel
+
+  9.14) Values of environment variables are passed to child processes
+    A. by making copies of the strings
+    B. by passing pointers to the original strings
+
+  9.15) Programs use environment variables to
+    A. store data between login sessions
+    B. pass configuration settings to other programs
+
+  9.16) A program can change the environment by
+    A. running the env program
+    B. changing the value of the variable called environ
+

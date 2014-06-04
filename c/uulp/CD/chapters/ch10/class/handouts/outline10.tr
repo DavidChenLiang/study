@@ -1,0 +1,68 @@
+.sp 0.6i
+.ft B
+.tl ''Lecture 10'Outline'
+\l'6.5i'
+
+.nf
+.in +1i
+.ta 1i +1.5i
+\fBTopics\fR:	Pipes
+
+\fBApproach\fR:	Build up to "who | sort" and bc
+
+\fBToday's System Calls\fR: pipe(int pfd[2]), dup(int fd), fcntl( fd, F_DUPFD, choice )
+
+\fBOutline\fR
+
+    \fBI. A Real-World use for i/o redirection and pipes: watch.sh\fR
+.sp 6p
+	Shows ease of shell programming vs C programming
+	      flexibility of simple software tools
+	      use and value of i/o redirection and pipes
+		
+    \fBII. Facts about Standard I/O and Redirection\fR
+.sp 6p
+	Every process gets file descriptors 0,1, and 2 preopened
+	Most software tools write to stdandard output (fd=1)
+	The shell redirects the output, the program does \fInot\fR redirect it
+
+    \fBIII. How to Attach stdin to a File \fR
+.sp 6p
+	Fact: open uses the lowest number available slot in the fd array
+	Method 1: close(0), open(filename,0)
+	Method 2: fd = open(file); close(0); dup(fd); close(fd);
+	Method 3: fd = open(file); dup2(fd,0); close(fd);
+	Puzzler: how could you attach a file to fd#10?
+
+    \fBIV. Redirecting I/O for Another Program\fR writing who > userlist
+.sp 6p
+	redirect output (as shown in previous section)
+	then exec() the program.
+	Note: Open files are copied across an exec.
+	Recall: code and data are replaced, 
+	      but environment and files are copied to new program space
+
+
+    \fBV. Introduction to Pipes\fR
+
+	implementing: \fC\s8who | sort\s0\fP
+.sp 6p
+	   1. goal: attach fd 1 of \fC\s8who\s0\fP to fd 0 of \fC\s8sort\s0\fR
+	   2. method: create a pipe, fork, redirect, exec
+.sp 6p
+	examples
+.sp 6p
+	   1. pipedemo.c: shows creation and simple use of pipe
+	   2. pipedemo2.c: shows pipes across forks, multiple writers
+	   \h'0.6i'Question: what about multiple readers?
+	   3. pipe.c: shows how to connect processes
+	   \h'0.6i'Question: what about \fC\s8ls | head\s0\fP
+.sp 6p
+	technical details
+.sp 6p
+	   1. writes are atomic
+	   2. pipe has fixed capacity
+	   3. what if all copies of writing end are closed?
+	   4. what if all copies of reading end are closed?
+	   5. exercise: monitor pipe as in \fC\s8who | tee file1 | sort\s0\fP
+

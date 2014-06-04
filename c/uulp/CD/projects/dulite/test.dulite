@@ -1,0 +1,141 @@
+#!/bin/sh
+#
+#	test.dulite
+#
+#	purpose:	shell script to test the operation of
+#			the du program
+#
+#	usage:		test.dulite
+#
+#	operation:	1. makes sure that a program called dulite exists
+#			2. Computes disk usage for various test directories
+#
+
+	ROOT=/home/COURSE/hw/dulite
+	REAL=/usr/bin/du
+
+# -------------------------------------------------------------------------
+#	part I : locate program to test
+# -------------------------------------------------------------------------
+
+	PROG=dulite
+	OUTR=/tmp/$$o.du
+	OUTM=/tmp/$$o.dulite
+	ERRR=/tmp/$$e.du
+	ERRM=/tmp/$$e.dulite
+	DIFO=/tmp/$$o.diff
+	DIFE=/tmp/$$e.diff
+
+	trap "rm -f /tmp/$$?.du /tmp/$$?.dulite /tmp/$$?.diff ; exit " 0 2 3 15
+
+	if [ ! -f $PROG ]
+	then
+		echo    "There is no program here called $PROG."
+		printf  "What program should I test (press Return to quit)? "
+
+		read PROG
+		case "$PROG" in
+			/*)	CWD=""					;;
+			?*)	CWD=`pwd`				;;
+			*)	exit					;;
+		esac
+		if test ! -x $PROG 
+		then
+			echo "$PROG is not executable"
+			exit 1
+		fi
+	else
+		CWD=`pwd`
+	fi
+
+# -------------------------------------------------------------------------
+#	part II : prepare report
+# -------------------------------------------------------------------------
+
+	echo "	A report of this test will be saved in a file called
+	dulite.report "
+	if [ -f dulite.report ]
+	then
+		printf "	Overwrite existing dulite.report ?"
+		read foo
+		case $foo in
+			y*|Y*)	;;
+			*)	exit	;;
+		esac
+	fi
+	TEST=$CWD/$PROG
+	if test $TEST = $REAL
+	then
+		echo "I cannot test the system one to itself" ; exit 1
+	fi
+	if cmp $TEST $REAL 2>/dev/null
+	then
+		echo "I cannot test the system one to itself" ; exit 1
+	fi
+	REPORT=`pwd`/dulite.report
+
+
+# -------------------------------------------------------------------------
+# a function to show output including control chars
+#	args are real output, test output
+# -------------------------------------------------------------------------
+
+	showdiffs()
+	{
+		echo "      system du $3 says:"
+		sed 	-e 's/^/        |/' -e 's/	/<tab>/g'	\
+			-e 's/$/<nl>/' $1
+		echo "      your du $3 says:"
+		sed 	-e 's/^/        |/' -e 's/	/<tab>/g'	\
+			-e 's/$/<nl>/' $2
+	}
+
+# -------------------------------------------------------------------------
+#	part II : Change to test directory
+# -------------------------------------------------------------------------
+
+	cd $ROOT/testdir
+	echo "Test of $PROG 
+	at `date`
+	" > $REPORT
+
+	echo "
+	Testing your program and regular du on sample directories and files
+	"
+
+	for f in *.test
+	do
+		TESTNAME=`basename $f .test`
+		echo "Test $TESTNAME: "
+		echo "Test $TESTNAME: " >> $REPORT
+		grep -v '^#' $f 	\
+		|
+		while read part
+		do
+			read descr; read dir; read args
+			printf "  $part. %-20s .." "$descr"
+			printf "  $part. %-20s .." "$descr" >> $REPORT
+			if test "$dir" != ""
+			then
+				cd `echo $dir|sed "s@TESTDIR@$ROOT/testdir@"`
+			fi
+			$REAL $args > $OUTR 2> $ERRR
+			$TEST $args > $OUTM 2> $ERRM
+			OUT=OK ; ERR=OK
+			diff $OUTR $OUTM > /dev/null || OUT=NO
+			diff $ERRR $ERRM > /dev/null || ERR=NO
+			if test $OUT:$ERR  = OK:OK ; then
+				echo OK
+				echo OK >> $REPORT
+			else
+				echo NOT OK
+				echo NOT OK >> $REPORT
+				if test $OUT = NO ; then
+					showdiffs $OUTR $OUTM stdout>> $REPORT
+				fi
+				if test $ERR = NO ; then
+					showdiffs $ERRR $ERRM stderr>> $REPORT
+				fi
+			fi
+		done
+	done

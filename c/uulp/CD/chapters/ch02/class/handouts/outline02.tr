@@ -1,0 +1,59 @@
+.sp 0.8i
+.ft B
+.tl ''Lecture 2'Outline'
+\l'6.5i'
+
+.nf
+.in +1i
+.ta 1i +1.5i
+\fBTopics\fR:	Files, System Files, the Manual, Buffering
+
+\fBApproach\fR:	Write our own versions of Unix programs
+
+\fBFeatured Commands\fR:
+	who
+	cp
+	tail
+
+\fBMain Ideas\fR:
+	I/O redirection, pipes
+	standard directories/files
+	the manual tells all
+	open, read, write, close
+	Unix time
+	`expensive' operations
+	buffered input/output
+	
+
+\fBApplications\fR:
+	who0 : writing a system utility
+	   the manual, the header files
+
+	who1 : reading and displaying data
+	   the utmp file
+	   open(), read()
+
+	who2 : displaying dates and times
+	   ctime()
+	   
+	cp : writing data, creating files
+	  creat(), open()
+	  write()
+	  effect of buffer size:
+	    efficiency, system calls, buffering
+
+	who3 : making who more efficient
+	  more buffering
+
+	kernel buffering
+	  speedier disk access
+	
+	tail
+	  lseek()
+	  what it does
+	  how it does it
+
+	
+\fBIf Time Permits:\fR
+	exclusive access
+	using files as locks

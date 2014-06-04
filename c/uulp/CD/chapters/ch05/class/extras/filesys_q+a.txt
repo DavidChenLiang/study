@@ -1,0 +1,61 @@
+
+1)  I read in a book about file holes, which can happen if a
+file is appended to when the position is set to past the actual end of the
+file, in which case the "hole" is filled with a 0 value, do I have that
+right?  If so, is lseek then written to ignore any 0 values when determining
+a next/new position?  Or, if not, could you explain to me how it works in
+this case?  I'm assuming 0 means a hole & -1 means EOF?
+
+  Holes are pretty easy to explain.  Consider the simple set of
+  direct blocks in an inode.  Say you create a file and write 10
+  bytes to the start.  Then you use lseek() to skip to offset 2048
+  and write ten more bytes.  Say the blocksize is 1024 bytes.
+
+  The first block uses 1024 bytes the second block uses 1024 bytes, etc.
+  But nothing has been written into the second block.  There is only
+  data in block 1 and block 3.  Thus the allocation array in the inode
+  looks like
+
+        +----+----+----+----+----+----+...
+        | 456|   0| 935|   0|   0|    |...
+        +----+----+----+----+----+----+...
+
+  and the file size (st_size) is 2058, but only two disk blocks are
+  used.  
+
+  When you seek to locaation 1050, for example, the kernel sees
+  that the allocation table says no block has been allocated for
+  that range of positions.  Therefore the kernel returns data 
+  as though the block exists and is full of zeros.  Since
+  the position is less than the file size, it does not return
+  an EOF indication (i.e. read returns 0).
+
+2)  When a file is created, it can't have a name greater then NAME_MAX, and
+NAME_MAX is a subset (in a sense) of PATH_MAX.  But PATH_MAX isn't
+calculated or worried about when directories are created (as in your
+examples), rather it is calculated dynamically when it is asked for, am I
+understanding this correctly?  So, it's possible to set up/create an area,
+say for instance someone installs some stuff at the bottom of their home
+directory that creates a lot of sub directories, it will all "work" except
+for any utilities or actions that require the path to be figured out.  Am I
+right in these assumptions?
+
+  The MAX_PATH thing is the largest string that the kernel is willing
+  to store as it converts a path to an inode number.  It may well
+  be shorter than an existing path.  If a program descends a tree
+  using malloc() and strcat() to build up a path, it can build a path
+  longer than MAX_PATH.  If it passes that string to the kernel for
+  an operation like opendir() or stat() then the kernel has to step
+  through that string looking up each directory and then opening each
+  and then getting the inode of the next component...  If that string
+  is longer than MAX_PATH the kenrnel will refuse to parse it.
+
+3) Will you be covering at some point what it means to be "in a directory"
+in class?  Is the current directory a value associated with every process
+(or am I jumping too far ahead)?
+
+  Each process has as one of its variables the inode of the current
+  directory.  It also has an identifier for the current file system.
+  That's what it means to be in a directory.   I think I mentioned
+  it on Monday, but it was just a short remark/
+

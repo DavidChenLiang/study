@@ -1,0 +1,495 @@
+.de Xs
+.ft C
+.ps -1
+.vs -1p
+.nf
+.sp 6p
+..
+.de Xe
+.sp 6p
+.ft R
+.vs +1p
+.ps +1
+.fi
+..
+.rm CH
+.ds RH \s8wsng\s0
+.ds RF \s8page %\s0
+.DS C
+.ft B
+Programming Project: Web Server Next Generation
+.ft R
+.DE
+.SH
+Introduction
+.sp 6p
+.LP
+The World Wide Web is a set of files and
+directories scattered across the Internet.  These files and directories
+are linked to each other with `hyperlinks.'  Hyperlinks are references
+to other, related documents.  A hyperlink is a string of the form:
+\fChttp://machine-name:portnumber/path-to-item\fR .
+
+Users `visit' sites. That is, they look at lists of documents, and they
+click on the name of a document to view it.  Some documents contain text, 
+some contain pictures, some contain sound clips, etc.  Despite all the
+glitz and animation, the web is a set of directories and files on
+millions of machines.
+
+The software that makes the web possible consists of web servers
+and web clients (also known as web browsers.)  For this project,
+you will add several features to the web server discussed in class.  
+In the process, you will learn how the web works, and you will be able
+use and review many of the ideas and skills you have learned in this
+course.
+.sp 6p
+.SH
+How the Web Works: ls, cat, exec
+.sp 6p
+.LP
+You have files, directories, and programs on your machine, and you
+want to make some of them available to people on other machines.
+You could give them accounts on your machine, and they could use
+those accounts to login, read files, list directories, and run
+programs.
+
+What if you do not want to give them accounts, or what if you cannot
+give them accounts?  Managing accounts takes work and can open your machine
+to potential dangers.  If you do not run the machine, your system
+administrator may not want to give out accounts to your pals.
+
+The web solves the problem of making files, directories, and
+programs available to people on other machines without giving
+them accounts.  Here's how it works.  You run
+a server program that knows how to list directories, cat files,
+and run programs.  That program is called a web server.  Users
+run programs called web clients, also known as web browsers,
+that know how to ask the server program to list directories,
+display file contents, and run programs.  The server only
+shows the clients the directories and files within specified
+directories.
+
+This method has lots of advantages.  Nobody needs an
+account, nobody needs a password.  Readers only have access to
+directories and files you want them to see.  Nobody logs in,
+so you have fewer security problems.
+
+To summarize, a web server is a program that runs on your machine
+and provides access to a specific set of files and directories on
+your machine.  Remote users can connect to the server and ask the
+server to list a directory, get the contents of a file, or run a program.
+The server is a program that performs the functions of
+\fCls\fR, \fCcat\fR, can \fCexec\fR for remote users.  
+.sp 6p
+.SH
+How the Client and Server Communicate: HTTP
+.sp 6p
+.LP
+In class we looked at some client/server programs, and we examined
+the hypertext transfer protocol.
+In all those cases, a server program sets up a socket and waits for
+a call to come in.  When a call comes it, it accepts the call and
+talks with the client program through a socket.  The `conversation'
+is done with reads and writes to the socket.  It is a lot like
+two people talking through a telephone connection.
+
+Here is a simple dialog between a web client and a web server.
+It consists of two parts: the client asks for a file or directory,
+the server sends back a response.
+.sp 6p
+.DS L
+.ps 9
+.vs 10p
+.ft C
+client says              server says                         explanation
+-------------------------------------------------------------------------------
+GET mars.txt HTTP/1.0 ->                                      \fIclient asks for a file\fC
+                      ->                                      \fIblank line ends request\fC
+                      <- HTTP/1.1 200 OK                      \fIserver says OK\fC
+                      <- Date: Sun, 19 Apr 1998 06:27:44 GMT  \fIserver sends some info\fC
+                      <- Server: Apache/1.2.4                 \fIabout itself\fC
+                      <- Connection: close                    \fIabout the connection\fC
+                      <- Content-Type: text/plain             \fIabout the file\fC
+                      <-                                      \fIblank line ends header\fC
+                      <- Martians Land in New Jersey!         \fIfile contents start here\fC
+                      <- ----------------------------         \fIand continue\fC
+                      <- This evening, Martian pods landed    \fIuntil\fC
+                      <-  ...                                 \fIdone\fC
+.ft R
+.vs 12p
+.ps 10
+.DE
+.sp 6p
+The server sets up its service at a port on a machine.  It waits until
+a call comes in.  The client connects to that service.  The server
+accepts the call and reads input.  The client sends its request.  In
+the example shown above, the request consists of one line:
+.Xs
+   \fCGET mars.txt HTTP/1.0\fR
+.Xe
+This is a request from the client to GET a particular file.  The
+client sends a single blank line to indicate the end of its request.
+
+After the client sends that blank line, it is the server's turn to
+talk and the client's turn to listen.  The server first sends a
+status report.  In the example above, the status report is
+.Xs
+   \fCHTTP/1.0 200 OK\fR
+.Xe
+which means `ok, we have that file and shall send it to you.'
+Each type of report has a numerical code.  The code for `OK' is
+200.  The code for `we don't have that file' is 404.  There
+are several codes defined.  The documentation explains them all.
+
+After the single status report line, the server sends zero or more
+lines of additional information.  The example above shows
+that the server sends back the date, the server's name and version,
+the type of connection, and the type of file.  The status line and
+additional information comprise the response header.  A single blank
+line indicates the end of the header.
+
+After that single blank line, the server sends the contents of the
+file or the listing of the directory the client requested.  After
+sending the file contents or the directory listing, the server
+closes the socket.  The client sees EOF and shows the stuff to the
+user.
+
+That is a typical transaction between web client and web server.
+The client sends a request using a special command format.  The
+server then responds to the request using a special response format.
+The format of these requests and responses is called HTTP - hypertext
+transfer protocol.
+
+The details of HTTP are described in the file called RFC1945.txt .
+A copy of this file is in the assignment directory.  Now that you
+know the basic idea, you should be able to make decent sense of the
+RFC.
+.sp 6p
+.SH
+What the Server Does: Read a Request, Send back a Reply
+.sp 6p
+.LP
+The logic in a server is pretty simple.
+It accepts a connection
+from a remote client.  It reads from the socket to see what file
+or directory the client wants to see.  When the client is done
+with its request, the server gets the file or directory listing
+and sends it back with an appropriate header.  The server then
+hangs up the connection and waits for the next call to come in.
+
+This web server is sort of like the shell you wrote.  The shell
+read a line of input, looked at the line to figure out what the
+user wants, performed the requested operation, then went back
+and waited for the next command.
+.sp 6p
+.SH
+What Requests Can a Client Make? : GET, HEAD, POST
+.sp 6p
+.LP
+Most of all http transactions involve the \s-2GET\s+2, \s-2HEAD\s+2,
+and \s-2POST\s+2 requests.
+.sp 6p
+.IP \ \ \s-2GET\s+2 0.8i
+The \s-2GET\s+2 method tells the server to send back the contents
+of the named file or a listing of the named directory.  The syntax
+is extremely simple.  The request consists of three strings on one line.
+The first string is the word \s-2GET\s+2, the second string is the
+name of the file or directory, and the third string is the
+version of \s-2HTTP\s+2 the client speaks.  Note: if the client is
+requesting a directory, the directory name \fImust\fR end with a
+slash: \fC/\fR .
+.sp 6p
+.IP \ \ \s-2HEAD\s+2 0.8i
+The \s-2HEAD\s+2 method tells the server to send back just the header,
+not the contents, for the named file or directory.  
+This request consists of three strings on one line:
+.sp 8p
+   \fCHEAD  name-of-file-or-directory http-version\fR
+.sp 8p
+Why is this useful? There are lots of reasons.  The client can use this method
+to determine the modification date of the file.  If the client already
+has a current copy of the file, it does not need to \s-2GET\s+2 another
+copy.
+.sp 6p
+.IP \ \ \s-2POST\s+2 0.8i
+The \s-2POST\s+2 method is the opposite of \s-2GET\s+2.  It allows the
+client to send data to the server.  It was originally created to
+allow users to send news articles or pieces of text to the server.
+.LP
+Your web server only has to support the \s-2GET\s+2 and \s-2HEAD\s+2
+requests. 
+.sp 6p
+.SH
+Limiting Access: A Virtual Root
+.sp 6p
+.LP
+You have many files and programs, but you only want to make some of
+them available to people on other machines.  Web servers make this
+easy.  You create a subdirectory in your account and make sure the
+web server only shows people files in that directory and directories
+below it.  
+
+The filenames passed to the server with the \s-2GET\s+2, \s-2HEAD\s+2,
+and \s-2POST\s+2 requests are all taken relative to the top of this
+subdirectory tree. If a user requests
+the listing of the directory called \fC/hw/\fR, the
+server removes the leading slash and opens the directory called
+\fChw/\fR .  If the user requests the file called
+\fC/hw/wsng/RFC1945.txt\fR the server sends back the contents
+of the file called \fChw/wsng/RFC1945.txt\fR.  
+
+If a user asks for the listing of a directory called \fC../../\fR
+the server, as Unix does at the top of its directory tree, takes
+\fC/..\fR to be the same as \fC/\fR.
+.sp 6p
+.SH
+What Your Server Has to Do: A General Description
+.sp 6p
+.LP
+The web server you are given actually does all three things: lists 
+directories, displays files, and runs programs, but it does a minimal
+job of each task.  Your job is to understand the structure of the
+code and enhance each of these operations.
+
+.SH
+Getting Started
+.sp 6p
+.IP [1]
+Login to your account on ice and make a subdirectory for the project.
+.sp 6p
+.IP [2]
+Change into your project directory 
+and type \s-2\fC~COURSE/hw/wsng/setup.wsng\fR\s+2
+.sp 6p
+The setup script will copy the files you need, and it will create a
+sample web site in your account.  If you already have a web site, it
+will not damage what you have.
+.sp 6p
+.IP [3]
+Your website is just a directory in your account.  The directory is
+under your home directory.  It is called 
+\s-2\fCpublic_html/wsng\fR\s0 .
+.sp 6p
+Use cd, ls, and cat to look at your web site.
+.sp 6p
+.IP [4]
+Test your website by browsing it with any web browser.  Use as the
+address: 
+\s-2\fChttp://www.YOURSCHOOL.edu/~\fIyour-logname\fP/wsng/\fR\s0
+.sp 6p
+You should see the same files and directories you saw with cd and ls.
+Click on some of the things to see what is on the site.  It should 
+contain the same stuff you saw with ls and cat.
+.sp 6p
+The web server that is responding to the requests from your browser is
+the web server run by the school's computer service.
+.sp 6p
+.IP [5]
+Now compile and run your web server.
+.sp 6p
+In the directory for this project, type  \fCmake\fR
+It will compile a custom version of \fBws\fR.  
+.sp 6p
+Then run your web server by typing \fC./ws\fR .
+.sp 6p
+The server will tell you the port number it is using and the machine it
+is running on.  Use those two things to browse your site at:
+.sp 6p
+    \s-2\fChttp://\fImachine\fP:\fIportnum\fP/\fR\s0
+.sp 6p
+You will see a directory listing of your website.  This time, though, the
+directory listings are being sent back by the web server you just compiled
+and are now running.
+.sp 6p
+Notice how the web server sends to standard output copies of the
+requests it receives.  You can see the headers the web browser is sending
+after its one-line request.
+.sp 6p
+Try the following URLs:
+.Xs
+    http://\fImachine\fP:\fIportnum\fP/file1.html
+    http://\fImachine\fP:\fIportnum\fP/dir1
+    http://\fImachine\fP:\fIportnum\fP/file2.txt
+    http://\fImachine\fP:\fIportnum\fP/file3.jpg
+.Xe
+Notice how tedious it is to type these URL's into the browser.  When you
+use a regular server, the directory listing has links.  Why can't your
+server put links on the listing?
+.sp 6p
+.IP [6]
+Look through the http description in rfc1945.  It is a long document, but
+you already know many of the basic ideas.  Look at the return codes and
+the sorts of header information servers and clients exchange.
+.sp 6p
+.IP [7]
+Look at the code for ws.c .  The text presents a similar program.
+The code has comments and is pretty
+modular.  The program handles files, directories, and programs.
+A program is designated by an extension of \s-2\fC.cgi\fR\s0 .
+.sp 6p
+.SH
+Your Assignment
+.sp 6p
+.LP
+Make a copy of ws.c (or start from scratch if you are
+ambitious), call the copy wsng.c, and modify the program so it meets
+the following specifications:
+.sp 6p
+.IP "  1. Better Reply Headers"
+.sp 3p
+The current version sends back only the status line and the file
+type.  It does not send back a date, a server name and version, nor
+any of the other goodies.  Your program must send back a date and a server
+name and version.  You may add any other items you like.  See the RFC for
+options.
+.IP "  2. Support the HEAD method"
+.sp 3p
+Modify the program so it handles requests from the client for the
+\s-2HEAD\s+2 for a document.
+
+.IP "  3. Table-Driven File Types"
+.sp 3p
+The server is coded to handle files with extensions of .html, .jpg, .jpeg,
+and .gif .  All other file types are sent back with a default file type
+of \fItext/plain\fR .  This approach is not flexible.
+Your program must use a table-driven system to
+associate \fIContent-type\fR with file extensions.  Your server will
+read a plain text configuration file at startup.
+Each line in the file has two items, the file extension and the content
+type.  For example, a typical line looks like
+.Xs
+   \fCjpg   image/jpeg\fR
+.Xe
+Your table must include an entry that looks like
+.Xs
+   \fCDEFAULT text/plain\fR
+.Xe
+.IP "  4. Directory Listings with Links"
+.sp 3p
+Browse your site with the regular web server.  The directory listings
+have clickable links.  The directory listings produced by
+ws.c do not.  Browse
+your site with the regular server and view the source of a directory
+listing.  Notice how the directory listing contains links to the
+files in the directory.  Your program must produce directory 
+listings with links.  
+
+This is not too difficult, but it requires you change the way wsng.c
+lists directories.  Simply using exec to run \fCls\fR does not include
+the links.  You need to devise a different method.  There are several.
+Be sure you still display the file size and modification time.
+.IP "  5. index.html"
+.sp 3p
+Your sample site contains a directory called dir1.  When you ask to \s-2GET\s+2
+this directory with a regular server, you get the contents of the file called
+index.html which is in that directory.  When you ask the wsng to view
+the contents of dir1, you just get a list of files.
+.sp 6p
+The rule for \s-2GET\s+2ing a directory is as follows:
+
+   a. If the directory does not exist or is not readable report an error
+   b. If the directory contains a file called \fCindex.html\fR send back
+      its contents with Content-type: text/html
+   c. If the directory does not contain a file called \fCindex.html\fR
+      send back the actual directory listing.
+
+Your server has to implement this rule.
+.IP "  5. Handles Errors"
+.sp 3p
+The server handles several types of errors.  Read the RFC to see which
+ones the server does not handle.  Add one more error case.
+.IP "  6. Zombies"
+.sp 3p
+The server takes the call, creates a new process to handle the request, 
+then loops back to take the next call.   Notice the parent does not
+call wait() the way the shell does.  Why not?
+
+The problem with not calling wait() is that the child processes become
+zombies.  If your shell receives hundreds of hits, it will create
+hundreds of child processes, and they all will turn into zombies.
+Read the manual, the texts, or the web to find a solution to the 
+zombie problem.  There are several ways to solve it.
+.IP "  7. QUERY_STRING"
+.sp 3p
+Web servers list directories, display files, and run programs.  There
+are several systems servers use to designate which files are program.
+Our server uses the filename extension system.  If a filename ends with
+the extension \fC.cgi\fR, the server runs the program.  The original
+server \fCws.c\fR should be able to run the cgi programs in the
+sample site.  For example:
+.Xs
+    http://\fImachine\fP:\fIportnum\fP/dir2/hello.cgi
+.Xe
+should work fine.  Make some other cgi programs and try them.
+
+This feature is not complete, though.  A real web server accepts requests
+like
+.Xs
+    http://\fImachine\fP:\fIportnum\fP/dir2/showcal.cgi?3
+.Xe
+which is presented to the server as:
+.Xs
+    GET /dir2/showcal.cgi?3 HTTP/1.0
+.Xe
+Notice how the argument to the GET command includes a question mark.
+The string after the question mark is called the \fIquery string\fR.
+The server handles arguments of this form by doing the following:
+.sp 6p
+   a) split the argument at the question mark
+   b) the string before the question mark is the regular argument
+   c) the string after the question mark is stored in the environment
+      as the value of the variable \fCQUERY_STRING\fR .
+   d) the environment variable \fCREQUEST_METHOD\fR is set to "GET"
+   e) The cgi program is run, inheriting the \fCQUERY_STRING\fR and
+      \fCREQUEST_METHOD\fR variables from the server.
+.sp 6p
+Add this behavior to your server.  You should now be able to visit
+the address
+.Xs
+    http://\fImachine\fP:\fIportnum\fP/dir2/showcal.cgi?3
+.Xe
+
+.LP
+As you add these new features to your server, you can run the server and
+test it by browsing your site with any browser.  By the time you have all
+the sections done, you should be able to visit all parts of your website.
+All the directories, files, and cgi programs should work.
+.sp 6p
+.SH
+Testing and Submitting Your Project
+.sp 6p
+.LP
+Submit the usual Makefile, Plan, README, and source code.
+.sp 6p
+.SH
+Extra Credit
+.sp 6p
+.LP
+There are lots of additional features you could add to this server.
+A well-done, non-trivial feature is worth up to ten points.  You
+can submit one or two extra credit features.  We cannot grade more
+than that.  Any extra credit work must be extremely clearly 
+written and implemented. 
+.sp 6p
+Useful features you might consider are:
+.sp 6p
+.IP "Logfile" 0.8i
+Many servers keep a log of the requests they receive.  The log contains a
+line for each request.  Each line contains the ip address of the caller,
+the time of the call, and the request.
+.IP "Virtual directories" 0.8i
+Read about virtual directories.  These allow you to make it look
+as though certain directories appear in your website by attaching
+a name to a real path.  It works like a symbolic link.
+.IP "Builtins" 0.8i
+The Apache web server has a special url "/status" that causes the
+web server to return some statistics about how long the server
+has been running, the number of hits, the total volume of data
+is has transferred and much more.  You could add a modified version
+of this builtin command.
+.IP "interpreter" 0.8i
+You could compile much of your shell into the server and create
+a new extension ".ssp"  for shell server pages.  These pages would
+contain special tags that introduce shell code interpreted by the 
+server.  If you have used asp, jsp, php, or similar programs, you
+can model your code on the syntax for those interpreters.

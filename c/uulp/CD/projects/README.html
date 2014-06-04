@@ -1,0 +1,194 @@
+<html>
+<head>
+	<title>Programming Projects</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<link rel="Stylesheet" type="text/css" title="phStyle" href="../html/css/style.css">
+	<link rel="icon" href="phicon.ico" type="image/bmp">
+</head>
+
+<body bgcolor="#ffffff">
+
+<div align="center">
+<table width="600" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+	<td valign=top>
+	<span class="header">Programming Projects: Homework Assignments</span>
+
+<dl>
+<dt><b>Programming Projects</b></dt>
+<dd><p>
+	This section contains programming projects.  These are the
+	assignments I use in my course.  I give students about two
+	weeks to do a project, and I assign six of them during the
+	term.  They all involve writing a complete program, usually
+	a version of a common Unix tool.  There are 12 of them,
+	some duplicate coverage of material, so I use some one year
+	and some other years, and make up new ones now and then.
+	<p>
+	</dd>
+<dt><b>Question, Code, Test Script</b></dt>
+<dd><p>
+	Each project has its own directory.  In that directory
+	you will find:
+	<ul>
+		<li>Description of project (in pdf, text, and troff)
+		<li>Supporting source code
+		<li>Supporting documents (where appropriate)
+		<li>Test data and script (usually)
+	</ul>
+	<p>
+	The description explains the ideas, the techniques, and
+	questions of the project.  It then specifies what the
+	student's program has to do.  
+	<p>
+	Some projects are based on examples in the book, and some
+	are based on code provided with the project.  Students can
+	copy these files to their directories and build from there.
+	<p>
+	Many of the projects come with test data and a shell script
+	that runs their code and sees if the output or effects of
+	their programs match the requirements.  I have mixed feelings
+	about this.  Some students simply hack at their code until
+	it passes the script, reducing the planning and thinking part
+	of their work.  On the other hand, the scripts identify 
+	problems that can force students to go back and work on understanding
+	exactly how things work.  All told, they help most people.
+	<p>
+	If you want to use the test script, you need to adjust a few
+	directory names and put the test data and directories someplace
+	to which students have access.
+	<p>
+	Each directory has been stored also as a tar file in the
+	directory called tarfiles.  Some of the test data may have
+	file types or paths that do not translate well to a CDROM.
+	The tarfiles preserve all the Unix file system attributes
+	</p>
+	</dt>
+<dt><b>Three Purposes</b></dt>
+<dd><p>
+	I use the projects to teach three things at once.  For that
+	reason, the projects offer something to almost every student.
+	<p>
+	<i>1. Learning about Unix facts and tools</i>
+	<p>
+	The projects introduce students to various Unix tools.  The
+	find, du, last, stty, ac, etc, projects are regular Unix tools that
+	are useful and interesting.  As Unix moves more toward purely
+	GUI installations, fewer users encounter the underlying role
+	of users, files, directories, processes, file types, and other
+	basic Unix items.  Each project teaches about a practical tool.
+	<p>
+	<i>2. Learning about the Unix API</i>
+	<p>
+	The Unix API is the official topic of the course.  The
+	system calls and basic structure can be easier to understand
+	when used in this context of practical, common tools.
+	Each project gives students a chance to use the ideas and
+	system calls from a few chapters in the book.
+	<p>
+	<i>3. Computer science/Software engineering</i>
+	<p>
+	Consider recursive functions.  In introductory CS courses,
+	students often study the towers of Hanoi or write 
+	recursive functions to calculate Fibonacci numbers.  These
+	sorts of projects are remote from the daily experience of
+	students.  Most people do not move disks back and forth
+	all day.  On the other hand, people search their hard drives
+	for documents, music files, and programs often.  Seeing the
+	recursive nature of that operation links a CS concept to
+	the real world. Each project
+	emphasizes a computer science idea, technique, or data structure.
+	<p>
+	The first assignment is a good application of linked lists and
+	introduces the idea of virtual memory.  Students are usually
+	pleased to be able to write a linked list package to handle
+	an arbitrary number of users or terminals.
+	<p>
+	The second assignment is a good example of recursive programming.
+	Those assignments can have short solutions once students realize
+	that all tree operations boil down to one recursive function.
+	<p>
+	The stty assignment is a perfect place to show how to use table
+	driven functions to reduce a large number of special values and
+	cases to a few simple functions driven by data tables.  Cutting
+	and pasting is so easy for some students that they never think of
+	making their code simpler.
+	<p>
+	The video game is really about concurrent programming.  By using
+	timer signals, the program creates a second thread of execution.
+	Creating a thread with timer based signals exposes them to
+	the basics of time sharing.  Replace the interval timer of the
+	process with the hardware timer for the kernel and you can start
+	to explain how the kernel does multitasking.   The video game
+	also raises the questions of race conditions and shared data.
+	<p>
+	The shell assignment is about processes and fork and exec, but
+	the computer science part is about interpreters and parsers.
+	Handling variable substitution presents several challenging
+	design decisions.
+	<p>
+	Finally, the network programming exercises introduces the
+	topic of distributed computing.
+	<p></dt>
+<dt><b>Something for Everyone</b><dt>
+<dd><p>
+	Different students have different strengths and different
+	interests.  When I talk with students about the projects,
+	I find each is interested by at least one of these three
+	aspects of the project.  
+	</p></dt>
+<dt><b>Grading</b><dt>
+<dd><p>
+	I grade on a 100 point scale.  I reserve 30 points for
+	software engineering.  That includes design, modularity,
+	commenting, and choice of data structures.  The other 70
+	points are divided among the functional requirements of the
+	project.  
+	</p></dt>
+<dt><b>Solutions</b><dt>
+<dd><p>
+	I post solutions to the projects after we return the
+	graded work.  From the student submissions, I select
+	three or four good ones that differ significantly in
+	algorithm, coding style, design.  I remove the student's
+	name from the code.  Sometimes I include my own solutions. 
+	I find this works well for everyone.
+	Students whose work is selected are pleased their
+	work is good enough to be posted as a good solution.  All
+	the students in the class get to see a wide variety of
+	styles.  By the end of the term, they see about twenty
+	different types of Unix/C programming.
+	<p></dd>
+<dt><b>File Format</b><dt>
+<dd><p>
+	The project descriptions are all written using troff
+	formating tags.  You can convert the file into Postscript
+	or pdf with standard Unix tools.  I use the "ms" macros.
+	To convert a file into Postscript, do this:
+	<pre>
+	groff -Tps -ms XXX.tr > XXX.ps
+	</pre>
+	If you want to to convert that to pdf, you can use the
+	ghostscript program, freely available for Unix and some
+	other platforms.  Use this command
+	<pre>
+	gs -sDEVICE=pdfwrite -sOutputFile=XXX.pdf -q -dNOPAUSE - < XXX.ps
+	</pre>
+	The manual explains what it all means.  gs can also convert
+	Postscript files into many other formats.
+	</p></dt>
+</dl>
+
+
+	</td>
+	</tr>
+</table>
+</div>
+
+<br clear="all">
+
+
+
+</body>
+</html>
+

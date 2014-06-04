@@ -1,0 +1,66 @@
+
+
+			    Lecture 4			  Outline
+_________________________________________________________________
+
+	  Topics:   Internal Structure of Files, Directories, File Systems
+
+	  Approach: Work from user view to system view, write pwd
+
+	  Featured Commands:
+		    mkdir, rmdir, rm, ln, mv, pwd
+
+	  Main Ideas:
+		    Users see a file system as a tree of directories, files, and info
+		    A file system is a sequence of disk blocks
+		    A file is a struct of info (an inode) and a list of data blocks
+		    A directory is a list of inode numbers and names
+
+	  Agenda
+
+		    Intro
+			What does it mean to be in a directory?	 Write pwd.
+
+		    errno and perror()
+			system calls return -1 on error; what's the problem?
+
+		    User View of File System
+			directory tree, files, info, moving around, moving files
+			mkdir abuse (don't try this at home)
+
+		    Face Reality
+			A disk is a stack of platters, tracks, sectors, just blocks
+
+		    The Unix File System
+			Three (well, four) parts
+
+		    Looking at Operations in terms of a Unix File System
+			Creating a file
+			Building a Tree
+			File operations: rm, ln, mv, mkdir, rmdir
+
+		    Writing pwd
+			inodes and names
+
+		    Symbolic Links
+			Definition, Examples, Directories, cross-system
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

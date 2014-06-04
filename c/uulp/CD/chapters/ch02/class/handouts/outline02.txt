@@ -1,0 +1,66 @@
+
+
+
+
+
+			    Lecture 2			  Outline
+_________________________________________________________________
+
+	  Topics:   Files, System Files, the Manual, Buffering
+
+	  Approach: Write our own versions of Unix programs
+
+	  Featured Commands:
+		    who
+		    cp
+		    tail
+
+	  Main Ideas:
+		    I/O redirection, pipes
+		    standard directories/files
+		    the manual tells all
+		    open, read, write, close
+		    Unix time
+		    `expensive' operations
+		    buffered input/output
+
+
+	  Applications:
+		    who0 : writing a system utility
+		       the manual, the header files
+
+		    who1 : reading and displaying data
+		       the utmp file
+		       open(), read()
+
+		    who2 : displaying dates and times
+		       ctime()
+
+		    cp : writing data, creating files
+		      creat(), open()
+		      write()
+		      effect of buffer size:
+			efficiency, system calls, buffering
+
+		    who3 : making who more efficient
+		      more buffering
+
+		    kernel buffering
+		      speedier disk access
+
+		    tail
+		      lseek()
+		      what it does
+		      how it does it
+
+
+	  If Time Permits:
+		    exclusive access
+		    using files as locks
+
+
+
+
+
+
+

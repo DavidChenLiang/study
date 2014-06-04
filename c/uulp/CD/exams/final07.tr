@@ -1,0 +1,324 @@
+.de UL \" underline argument, don't italicize
+.if t \&\\$1\l'|0\(ul'\\$2
+.if n .I \\$1 \\$2
+..
+.hy 14
+.sp 2i
+.ft I
+.ps 12
+.ce
+COURSE Final Exam 07
+
+.ft R
+.ft I
+.ps 12
+
+.ce
+DATE
+.ft R
+.sp 24p
+.ps 12p
+
+
+
+.ce
+Your Name Here: \l'2i'
+
+
+
+
+
+.in +1i
+.ll -1i
+.vs 15p
+\fIInstructions\fR:  You have TIME for this exam.  
+Please write your answers on the pages in this exam booklet.  
+No scrap paper or additional sheets will be accepted.  Watch 
+your time and be concise.  Write clearly (illegible answers will 
+be `silently ignored'), and \fIalways\fR check the return value 
+of a system call.  Good luck.
+.in -1i
+.ll +1i
+.bp
+.sp 1i
+.TS
+linesize(8) center allbox;
+c c c l
+n n n n.
+prob	points	got	section
+1	4
+2	4
+3	4
+4	4
+5	4
+6	4
+7	4
+8	4
+
+9	5
+10	5
+11	5
+12	5
+
+13	4
+14	4
+15	4
+16	4
+17	4
+18	4
+
+19	7
+
+a	4
+b	4
+c	4
+d	5
+
+
+.TE
+.bp
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part One'Eight Problems, each worth 4 points'page 1'
+\l'6.5i'
+.sp 3p
+.ft R
+.ft B
+Problems 1-8:  Short answer questions.  Answer each question clearly,
+precisely, and refer to specific system calls when appropriate.  Write
+your answer in the space provided.
+.br
+
+.ft R
+1. What is the difference between a \fIsystem call\fR and a \fIlibrary
+function\fR?  Give an example of each.
+.sp 1.1i
+2. If you know the inode number of a file, how can you find 
+the name of the file?
+.sp 1.1i
+3. Some filenames refer to disk files (e.g. /etc/passwd) and some names
+refer to input/output devices (e.g. /dev/modem).
+Name one way in which a disk file is like a device.  Name
+one way in which a disk file is unlike a device.
+.sp 1.1i
+
+4. What is the relationship between the systems calls \fIkill()\fR and
+\fIsignal()\fR?  
+.sp 1.1i
+
+5. What is the purpose of the \fCexecvp()\fR system call?  What value
+does it return, and what does that value indicate?
+.sp 1.1i
+
+6. What is the purpose of environment variables?  Give one example.
+.sp 1.1i
+.bp
+.sp 0.4i
+.tl 'Part One'continued'page 2'
+\l'6.5i'
+7. What is the meaning of \fCicrnl\fR mode, and why is it useful?
+.sp 1.1i
+8. What is a \fIdatagram socket\fR, and in what situations it is useful?
+.sp 1.2i
+.tl 'Part Two''Four problems, each worth 5 points'
+\l'6.5i'
+
+Problems 9-12: Compare and contrast.  Each of these problems mentions
+two related concepts, system calls, or operations.  For each pair, explain
+briefly and clearly (a) what they have in common, (b) when you would use
+the first item, and (c) when you would use the second item.
+
+.ft R
+
+9. \fCsleep()\fR vs \fCpause()\fR
+.sp 1.2i
+10. \fCln\fR vs \fCcp\fR
+.sp 1.2i
+11. \fCpipe()\fR vs \fCsocket()\fR
+.sp 1.2i
+12. \fCdup()\fR vs \fCopen()\fR
+.bp
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'Six questions, each worth 4 points'page 3'
+\l'6.5i'
+.ft R
+`\fISending a Message\fR'\ \ That phrase is common in the popular
+press.  It usually describes an act, or word intended to warn another
+person, country, or group about some matter of critical importance to the
+sender.  Computer systems consist of lots of objects that send messages to
+one another.  The Unix system contains many situations in which something
+sends a message to another thing.  For each of the following situations, explain
+(a) who sends the message, (b) who receives the message, (c) how the message
+is sent.
+
+13. When a process tries to read data past the end of a file.
+.sp 1.2i
+14. When the user wants to stop a program.
+.sp 1.2i
+15. When a process tries to open a file to which is has no access rights.
+.sp 1.2i
+16. When a child process terminates successfully.
+.sp 1.2i
+17. A remote server has no more data to transmit to a client.
+.sp 1.2i
+18. A program wants the curses library to update the user's screen
+.bp
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'One problem, 7 points'page 4'
+\l'6.5i'
+.ft R
+19. An enhancement to your small shell - the \fCwhile\fR loop
+
+The only control structure required for your small shell assignment was
+\fCif .. then .. else .. fi\fR.  The real shell
+includes the \fCwhile\fR loop.  An example of its use is:
+.nf
+.in +0.2i
+.ft C
+.ps 8
+.vs 9p
+
+while grep float program.c
+do
+    echo "There are still references to floats in your program."
+    echo "Please edit the file and make them doubles."
+    vi program.c
+done
+
+.vs 12p
+.ps 10
+.ft R
+.in -0.2i
+.fi
+The shell executes the command after the word \fCwhile\fR and if
+the command is successful, the shell executes all the commands between
+the \fCdo\fR and \fCdone\fR lines.  The shell then returns to the
+\fCwhile\fR line, executes the command again, and if the command succeeds, 
+etc..
+
+In this question, you will explore two methods for implementing loops in
+shell scripts or interactive shells.
+
+a) One method for implementing loops in a shell script is to remember the
+location of the start of the loop and use lseek()
+( or its buffered version: fseek() ) to
+jump back to that location when the shell sees the `done' line.    This
+method works, but it has two problems.  
+
+   i) Why does it not work for shells that read commands from a user at a tty?
+
+
+
+
+
+   ii) Why is it inefficient?
+
+
+
+
+
+
+b) Describe a way to implement \fCwhile\fR that overcomes these two
+deficiencies.  Your description does not need to be detailed; describe
+the general algorithm and the associated data structures.
+.bp
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Four'One problem, 17 points'page 5'
+\l'6.5i'
+.ft R
+20. \fIExtending I/O Redirection over a Network\fR
+.br
+.UL "The Elegance of I/O Redirection"
+\ \  Unix shells provide simple mechanisms for redirecting input and
+output of commands.  The command:
+
+    \fCwho | sort > output\fR
+
+runs two programs and connects the output of the first command to the
+input to the second command, and it also sends the output of the second
+command to a file called `output'. What if you wanted to enhance this
+feature so users could connect commands running on different machines?
+
+.UL "History of Distributed Computing"
+\ \  Back in the earliest days of Unix, the \fCuux\fR
+command allowed users to combine commands and files on different machines.
+A command such as 
+
+    \fCscws23!who | fas!sort > mymachine!/usr/spool/uucppublic/output\fR
+
+could be passed to \fCuux\fR, and it would run `who' on scws23, send the
+output of that command to the input of `sort' on fas, and would put the
+result of that command into a file on a third machine.  Any commands or
+filenames without a machine prefix were assumed to be on the local
+machine.  
+
+The \fCuux\fR command transferred the data from one machine to another using
+the same modem connections used for email.
+The \fCuux\fR command used the notation \fCmachine!command\fR and
+\fCmachine!file\fR to refer to commands and files on other machines.
+
+A command called \fCrsh\fR (BSD) or \fCremsh\fR (ATT) is the current tool
+for running commands on remote machines, but the syntax is less elegant
+than that of \fCuux\fR.
+
+\fIProblem\fR
+For this part of the exam, answer the following questions that explore
+the details of adding \fCuux\fR-style syntax to a Unix shell.
+
+First, consider how the shell would handle \fCwho > fas!userlist\fR .
+.br
+Sketching some diagrams may help with your explanations.
+.in +0.2i 
+.ll -0.2i
+
+a)  Why must the remote machine have a server process running?  If you
+were implementing this system, what would the server process do?
+How would your server process know where to put the output? [4]
+
+b) On the client end, the
+shell has to redirect output before it \fCexecvp()\fRs the \fCwho\fR
+command.  What steps must the shell take to perform this cross-machine
+redirection?  Be specific and explain your ideas. [4]
+
+c) What errors may arise in the course of performing this operation, where
+do they occur, how are they identified, and how is the user notified? [4]
+
+.ll +0.2i
+.in -0.2i
+Second, consider what is involved if the command is remote.  For example,
+\fCscws23!who > userlist\fR
+.in +0.2i 
+.ll -0.2i
+
+d) What server is needed on the remote machine, and what sequence
+of system calls are required to attach the output of the remote
+command to a local file? [5]
+
+.ll +0.2i
+.in -0.2i
+.bp
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'continued'page 6'
+\l'6.5i'
+.ft R
+.bp
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'continued'page 7'
+\l'6.5i'

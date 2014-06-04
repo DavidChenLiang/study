@@ -1,0 +1,15 @@
+#
+# this file contains stuff to be tested
+# each line has a testid, a decription, 
+# a directory (ROOT is /home/COURSE/hw/lsr1ff, CWD is original dir),
+# and a list of args
+#
+1:Default action, no args:/tmp:
+2:List of filenames:/dev:tty zero null kmem
+3:One directory name:CWD:/etc
+4:Multiple directory names:CWD:/etc /tmp /usr/lib
+5:Just two files:CWD:/etc/passwd /dev/tty 
+6:Really BIG directory tree:/usr:local
+9:Non-existent items:/:no-such-file etc/no-such-file
+7:Testdir1:ROOT:tdir1
+8:Testdir2:ROOT:tdir2

@@ -1,0 +1,67 @@
+
+  Quoting Mechanisms
+
+
+  The following	characters have	a special meaning to the shell and cause ter-
+  mination of a	word unless quoted:
+
+       ; & ( ) | ^ < > <newline> <space> <tab>
+
+  Using	' ' (single) and " " (double) quotes to	surround a string or a \
+  (backslash) before a single character	enables	the character to stand for
+  itself, instead of conveying special meaning to the shell.
+
+  Within single	quotes,	all characters (except the single quote	character
+  itself), are taken literally,	with any special meaning removed.  Thus,
+  entering:
+
+       stuff='echo $? $*; ls * | wc'
+
+  results only in the literal string echo $? $*; ls * |	wc being assigned to
+  the stuff variable; the echo,	ls, and	wc commands are	not executed, nor are
+  the variables	$? and $* and the special character * expanded by the shell.
+
+  To verify this you could export the variable stuff with the command export
+  stuff, and then use the command printenv stuff to view it.  This is differ-
+  ent from the simple command echo $stuff.
+
+  Within double	quotes,	the special meaning of certain characters ($, `, and
+  ") does persist, while all other characters are taken	literally. Thus,
+  within double	quotes,	command	and variable substitution takes	place.	In
+  addition, the	quotes do not affect the commands within a command substitu-
+  tion that is part of the quoted string, so characters	there retain their
+  special meanings.
+
+  Consider the following sequence:
+
+  You enter:
+
+       ls *
+
+  System displays:
+
+       file1
+       file2
+       file3
+
+  You enter:
+
+       message="This directory contains	`ls * `	"
+       echo $message
+
+  System displays:
+
+       This directory contains file1 file2 file3
+
+  This shows that the *	special	character inside the command substitution was
+  expanded.
+
+  To hide the special meaning of $, `, and " within double quotes, precede
+  these	characters with	a \ (backslash). Outside of double quotes, preceding
+  a character with \ (backslash) is equivalent to placing it within single
+  quotes.  Hence, a \ (backslash) immediately preceding	the newline character
+  (that	is, a \	(backslash) at the end of the line) hides the newline charac-
+  ter and allows you to	continue the command line on the next physical line.
+
+
+

@@ -1,0 +1,169 @@
+#!/bin/sh
+#
+#	test.r1ff
+#
+#	purpose:	shell script to test the operation of
+#			the ls-R1fF program
+#
+#	usage:		test.r1ff
+#
+#	operation:	1. makes sure that a program called lsr1ff exists
+#			2. makes a results directory
+#			3. uses a file of sample data to run tests
+#
+
+	ROOT=/home/COURSE/hw/lsr1ff
+	SYS="/usr/local/bin/ls -R1fF"
+	STATUS=normal		# set to "testing" for testing
+
+	DATAFILE=$ROOT/test.data
+	SCRATCH=$HOME/tr1f.t.$$
+
+	trap "rm -f $SCRATCH" 0 2 3 15
+
+# -------------------------------------------------------------------------
+#	part 0 : under construction
+# -------------------------------------------------------------------------
+
+	if test $STATUS = testing ; then
+		if test $# -eq 0 ; then
+			echo "This test script is under construction"
+			echo "please try again  later"
+			exit 0
+		fi
+	fi
+
+# -------------------------------------------------------------------------
+#	part I : locate program to test
+# -------------------------------------------------------------------------
+
+	PROG=lsr1ff
+
+	trap "rm -f $HOME/riff.??.$$ ; exit " 0 2 3 15
+
+	if [ ! -f $PROG ]
+	then
+		echo    "There is no program here called $PROG."
+		printf  "What program should I test (press Return to quit)? "
+
+		read PROG
+		case "$PROG" in 
+			/*)	CWD=""					;;
+			?*)	CWD=`pwd`				;;
+			*)	exit					;;
+		esac
+	else
+		CWD=`pwd`
+	fi
+
+	if [ ! -x $CWD/$PROG ] ; then
+		echo "$PROG is not executable."
+		exit 1
+	fi
+	MY=$CWD/$PROG
+	echo "Testing $MY at " `date`
+	/bin/ls -l $MY
+
+# -------------------------------------------------------------------------
+#	part III : make a test directory
+# -------------------------------------------------------------------------
+
+	TDIR="$CWD/_testdir"
+	if test -d $TDIR ; then
+		echo "
+		Will use this directory for test results:
+		$TDIR"
+	else
+		if mkdir $TDIR ; then
+			echo "
+			Will put test results in 
+			$TDIR"
+		else
+			echo "
+			Cannot create $TDIR for test results ."
+			exit 1
+		fi
+	fi
+
+# -------------------------------------------------------------------------
+#	part IV: figure out number of tests to do
+#		 Each test line is #:description:direcotry:args
+# -------------------------------------------------------------------------
+
+	NUM_TESTS=`grep -v '^#' $DATAFILE | wc -l`
+	TN=1
+	while test $TN -le $NUM_TESTS
+	do
+		grep -v '^#' $DATAFILE | sed -n "$TN"p > $SCRATCH
+		TN=`expr $TN + 1`
+		ID=`cut -d: -f1 $SCRATCH`
+		DESC=`cut -d: -f2 $SCRATCH`
+		DIR=`cut -d: -f3 $SCRATCH`
+		ARGS=`cut -d: -f4 $SCRATCH`
+		echo "
+		Test $ID: $DESC : "
+
+		test "$DIR" = "ROOT" && DIR=$ROOT
+		test "$DIR" = CWD    && DIR=$CWD 
+		cd $DIR
+		echo "		  Directory: $DIR"
+		echo "		       Args: $ARGS"
+		printf "		     Result: "
+
+		# do the tests
+		$SYS $ARGS > $TDIR/$ID.sys.stdout 2> $TDIR/$ID.sys.stderr
+		$MY $ARGS > $TDIR/$ID.my.stdout 2> $TDIR/$ID.my.stderr
+
+		# check for trailing blank line from /usr/local/bin/ls
+		for t in sys my ; do
+		    if tail -1 $TDIR/$ID.$t.stdout | grep '^$' > /dev/null
+		    then
+			    sed '$d' $TDIR/$ID.$t.stdout > $SCRATCH
+			    cat $SCRATCH > $TDIR/$ID.$t.stdout
+		    fi
+		done
+
+		MSG=""
+		#
+		# compare the results
+		#  for stdout
+		if diff $TDIR/$ID.sys.stdout $TDIR/$ID.my.stdout 	\
+			> $TDIR/$ID.diffs.stdout
+		then
+			rm $TDIR/$ID.diffs.stdout
+		else
+			MSG="standard output differs"
+		fi
+		#
+		# stderr messages are usually prefixed by ls: foo: not found
+		#  so filter error output to match it
+		#
+		sed 's/^[^:]*:/lsr1ff:/' $TDIR/$ID.sys.stderr > $SCRATCH
+		cat $SCRATCH > $TDIR/$ID.sys.stderr
+		sed 's/^[^:]*:/lsr1ff:/' $TDIR/$ID.my.stderr > $SCRATCH
+		cat $SCRATCH > $TDIR/$ID.my.stderr
+
+		if diff $TDIR/$ID.sys.stderr $TDIR/$ID.my.stderr 	\
+			> $TDIR/$ID.diffs.stderr
+		then
+			rm $TDIR/$ID.diffs.stderr
+		else
+			MSG="$MSG standard error differs"
+		fi
+		if test "$MSG" = "" ; then
+			echo OK
+		else
+			echo "NOT OK"
+			echo "		$MSG"
+			echo "		Details are in _testdir"
+			echo "		Files are: "
+			cd $TDIR
+			echo "		" $ID.diffs.* 
+			printf "\n\tContinue with tests (y/n)? "
+			read ANS
+			case "$ANS" in
+				y*|Y*)	;;
+				*)	exit ;;
+			esac
+		fi
+	done

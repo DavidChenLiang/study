@@ -1,0 +1,311 @@
+.de UL \" underline argument, don't italicize
+.if t \&\\$1\l'|0\(ul'\\$2
+.if n .I \\$1 \\$2
+..
+.hy 14
+.sp 2i
+.ft I
+.ps 12
+.ce
+COURSE Final Exam 09
+
+.ft R
+.ft I
+.ps 12
+
+.ce
+DATE
+.ft R
+.sp 24p
+.ps 12p
+
+
+
+.ce
+Your Name Here: \l'2i'
+
+
+
+
+
+.in +1i
+.ll -1i
+.vs 15p
+\fIInstructions\fR:  You have TIME for this exam.  
+Please write your answers on the pages in this exam booklet.  
+No scrap paper or additional sheets will be accepted.  Watch 
+your time and be concise.  Write clearly (illegible answers will 
+be `silently ignored'), and \fIalways\fR check the return value 
+of a system call.  Good luck.
+.in -1i
+.ll +1i
+.bp
+.sp 1i
+.TS
+linesize(8) center allbox;
+c c c l
+n n n n.
+prob	points	got	section
+1	4
+2	4
+3	4
+4	4
+5	4
+6	4
+7	4
+8	4
+
+9	5
+10	5
+11	5
+12	5
+13	5
+
+14	4
+15	4
+16	4
+17	4
+
+18	10
+
+19	
+a	3
+b	3
+c	3
+d	3
+e	3
+f	2
+
+
+.TE
+.bp
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part One'Eight Problems, each worth 4 points'page 1'
+\l'6.5i'
+.sp 3p
+.ft R
+.ft B
+Problems 1-8:  Short answer questions.  Answer each question clearly,
+precisely, and refer to specific system calls when appropriate.  Write
+your answer in the space provided.
+.br
+
+.ft R
+1. What is the difference between making a copy of a file and making
+a link to a file?
+.sp 1.1i
+2. When you create a new file, it has size of zero bytes.  When you
+create a new directory, it has non-zero size.  Why do directories \fInever\fR
+have size zero?
+.sp 1.1i
+3. Describe one way in which terminals are like disk files and 
+one way in which they are unlike disk files.
+.sp 1.1i
+
+4. What is meant by the term \fIatomic operation\fR?  Name two.
+.sp 1.1i
+
+5. You can use \fCstat()\fR to see if a file with a specific name exists.  
+How can you determine if a process with a specific \s-1PID\s+1 exists?
+.sp 1.1i
+
+6. If one process is writing through a pipe to another process, and
+the receiving process exits, how is the writing process notified that
+its data will never be read?
+.sp 1.1i
+.bp
+.sp 0.4i
+.tl 'Part One'continued'page 2'
+\l'6.5i'
+7. What is \fCerrno\fR and what is its purpose?
+.sp 1.1i
+8. Why does a server need to use \fCbind()\fR but a client does not
+need to use \fCbind()\fR?
+.sp 1.2i
+.tl 'Part Two''Five problems, each worth 5 points'
+\l'6.5i'
+
+Problems 9-13: Compare and contrast.  Each of these problems mentions
+two related concepts, system calls, or operations.  For each pair, explain
+briefly and clearly (a) what they have in common, (b) when you would use
+the first item, and (c) when you would use the second item.
+
+.ft R
+
+9. \fCpause()\fR vs \fCwait()\fR
+.sp 1.05i
+10. \fCstat()\fR vs \fCtcgetattr()\fR
+.sp 1.05i
+11. \fCopen()\fR vs \fCfopen()\fR
+.sp 1.05i
+12. \fCinterrupt-driven\fR vs \fCpolling\fR
+.sp 1.005i
+13. \fCpipe\fR vs \fCsocket\fR
+.bp
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'Four questions, each worth 4 points'page 3'
+\l'6.5i'
+.ft R
+`\fIConstructors and Destructors\fR'\ \ 
+The object-oriented view of the world sees all things as instances
+of general classes.  Things come into existence by calling a
+constructor for the class, and things vanish by calling the
+destructor for that class.  One can view Unix things as objects
+that belong to general classes.  Each type of object has operations
+(methods) that its class supports.
+
+For each of the following classes of Unix objects, state the
+method for creating one of these objects, one or more of the
+methods for destroying objects of that type, and state two
+operations you can perform on that type of thing.
+
+14. files
+.sp 1.4i
+15. directories
+.sp 1.4i
+16. processes
+.sp 1.4i
+17. file descriptor
+.bp
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Four'One problem, 10 points'page 4'
+\l'6.5i'
+.ft R
+
+18. An enhancement to your small shell - shell wildcards
+
+The shell you wrote for homework does variable substitution.  That is,
+it scans each line it reads from the user for strings of the form
+\fC$varname\fR and substitutes the dollar sign and variable name
+with the actual value of the variable.  
+
+The real shell does other sorts of substitution.  One of the most
+useful of these is filename wildcard substitution.  If the user
+types the line:
+.sp 3p
+    \fCrm *.o core /tmp/oldstuff/*\fR
+.sp 3p
+the shell replaces the pattern \fC*.o\fR with the names of all
+files in the current directory that match the pattern, and the
+shell replaces the pattern \fC/tmp/oldstuff/*\fR with names
+of files and directories that match the pattern.
+.sp 6p
+The only exception is that filenames that start with a period are
+not matched by *.
+
+Describe how you would modify your shell to provide the wildcard
+substitution feature.  You do not need to include code or low-level
+details.  You must cover at least three topics:  (a) When in the
+sequence of parsing this step occurs (e.g. before or after splitline),
+(b) What system calls you would use, (c) How your logic will make
+correct sense of patterns like  \fC*/*.old\fR or \fChw*/bak/*.h\fR
+(which are supported by the shell.)
+.bp
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Five'One problem, 17 points'page 5'
+\l'6.5i'
+.ft R
+
+19. \fIWeather Grid\fR
+.sp 6p
+.UL "Computerized Weather Stations"
+Satellite photos provide spectacular views of storm systems and help
+people prepare for hurricanes, tornadoes, etc.  These outer space
+monitors, though, cannot register temperature, rainfall, windspeed,
+barometric pressure.  One solution would be to put low-cost computers
+attached to a thermometer, weather vane, wind-speed meter, and other
+simple machines.  Position these machines spaced one mile
+apart on a graph-paper-like grid pattern.  Use fiber optics or 
+microwave or cell-phone links to put all these computers on the Internet.
+
+Ok so far?  Good.  Each machine records a set of numbers (temp,
+wind direction, rainfall...) from its
+attached devices and sends that information to a central machine.  The
+central machine collects the information and uses nice graphics 
+programs to draw maps of temperatures, wind speeds, and other data.
+For this example assume the sensor machines and the central machine
+are all running Unix.
+
+.UL "Part I: Transferring Results[6 points]"
+.sp 6p
+.in +0.2i 
+.ll -0.2i
+a) What method would you use for the sensors to deliver their
+data to the central collector?  Why would you use that method?
+Do the sensors send data automatically? Does the collector call
+them and request data? Or what?
+
+b) What information has to be delivered to the central machine?
+How would you format that information?
+.in -0.2i 
+.ll +0.2i
+
+.UL "Part II: Collecting Data [3 points]"
+\ \ A standard Unix approach to external devices is to arrange for
+them to appear in the \fC/dev\fR directory with names like 
+\fC/dev/thermometer\fR, \fC/dev/barometer\fR.  Simply \fCcat\fR-ing
+the file produces a text string with the current temperature, pressure.
+.sp 6p
+.in +0.2i 
+.ll -0.2i
+c) Write an outline for the program that gathers the current measurements
+and gets that information to the central collector.
+.in -0.2i 
+.ll +0.2i
+
+.UL "Part III: Receiving the Data [3 points]"
+\ \ The central machine receives these reports from the grid of
+sensors.  It has to store all those measurements so they can
+be made available to the programs that analyze the information
+and generate the nice pictures.
+.sp 6p
+.in +0.2i 
+.ll -0.2i
+d) Write an outline for the central collector program.  Explain
+its flow of control and any important design considerations
+for something that has to process input from so many sources.
+.in -0.2i 
+.ll +0.2i
+
+.UL "Part IV: Sampling Rate[3 points]"
+\ \ How often do results get sent in from the field?  
+.sp 6p
+.in +0.2i 
+.ll -0.2i
+e) If the sensors send the data themselves, how can the collector ask
+for more frequent or less frequent reports?  If the collector
+polls the sensors, how does it arrange for more or less frequent
+queries?
+.in -0.2i 
+.ll +0.2i
+
+.UL "Part V: Other Ideas[2 points]"
+\ \ Add any other ideas or questions you have about this project.
+.bp
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'continued'page 6'
+\l'6.5i'
+.ft R
+.bp
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'continued'page 7'
+\l'6.5i'
+

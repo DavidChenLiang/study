@@ -1,0 +1,136 @@
+.sp 0.4i
+.ft B
+.ps 12
+.tl ''Assignment 0'Not to be turned in'
+.ps 10
+.ft R
+\l'6.5i'
+.in +0.25i
+.ll -0.25i
+.hy 14
+.na
+\fBIntroduction\fR
+.sp 6p
+The purpose of this assignment is to review basic Unix and C skills
+and help you figure out if you are prepared for this course.  Work
+through the following exercises.  You should of course feel free to
+refer to any Unix/C books and/or on-line documentation you like.
+You should find the C exercises pretty easy.  If you don't, think
+carefully before enrolling.  You should find the Unix exercises
+easy or you should be able to locate the information in the manuals.
+If you don't, find a good Unix book and start exploring.
+.sp 6p
+Solutions to these problems will be available at the second lecture.
+
+\fBThe Exercises\fR
+.sp 6p
+.in +0.25i
+.ti -\w'1. 'u
+1. Explain the purpose of the following Unix commands: \fCls, cat, rm,
+cp, mv, mkdir, cc\fR.
+
+.ti -\w'2. 'u
+2. Using your favorite editor, create a small text file.  Use \fCcat\fR to
+create another file consisting of five repetitions of this small text file.
+.sp 6p
+Use \fCwc\fR to count the number of characters and words in the original
+file and in the one you made from it.  Explain the result.
+.sp 6p
+Create a subdirectory and move the two files into it.
+.sp 6p
+.ti -\w'3. 'u
+3. Create a file containing a directory listing of both your home directory
+and the directory \fC /bin\fR.
+.sp 6p
+.ti -\w'4. 'u
+4. Devise a single command line that displays the number of users currently
+logged onto your system.
+.sp 6p
+.ti -\w'4. 'u
+5. Write, compile, and execute a C program that prints a welcoming message
+of your choice.
+.sp 6p
+.ti -\w'6. 'u
+6. Write, compile, and execute a C program that prints its arguments.
+.sp 6p
+.ti -\w'7. 'u
+7. Using \fCgetchar()\fR and \fCputchar()\fR, write a program that counts
+the number of words, lines, and characters in its input.
+.sp 6p
+.ti -\w'8. 'u
+8. Create a file containing a C function that prints the message 
+\fC"hello, world"\fR.  Create a separate file containing the main
+program which calls this function.  Compile and link the resulting
+program, calling it \fChw\fR.
+.sp 6p
+.ti -\w'9. 'u
+9. Look up the entries for the following topics in your system's manual;
+the \fCcat\fR command, the \fCprintf\fR function, and the \fCwrite\fR
+system call.
+.sp 6p
+.ti -\w'10. 'u
+10. \fIYou Must Try This One\fR\ \ 
+There are two parts to the problem.  If you are not able to do the
+first part of this problem, you are not prepared to take this class.
+If you find the second part extremely tricky, you will find the
+assignments for the course difficult and potentially more time consuming
+than you expect.
+.sp 8p
+.in +1i
+.ti -\w'part 1 'u
+part 1 Write a program that prints a range of lines from a text file.
+The program should take command line arguments of the form:
+.sp 3p
+.ft C
+.ps 8p
+    lrange 10 20 filename 
+.ps 10p
+.ft R
+.sp 3p
+will print lines 10 through 20 of the named file.
+If there are not enough lines in the file, the program should
+print what it can.
+.sp 6p
+.ti -\w'part 2 'u
+part 2 Write a program called \fClast10\fR that prints the last
+ten lines of a text file.  The program can be used from the
+command line with:
+.sp 3p
+.ft C
+.ps 8p
+    last10 filename
+.ps 10p
+.ft R
+.sp 3p
+.in -1i
+
+.ti -\w'11. 'u
+11. \fIStructs and Pointers\fR\ \ You must try this one, too.
+Write a function that computes some basic statistics for a list of
+numbers and stores those results in parts of a struct.  In particular,
+given this definition:
+.sp 6p
+.in +0.5i
+.nf
+.ft C
+.ps 8p
+.vs 10p
+struct numlist {  float *list;   /* points to list of numbers */
+                  int   len;     /* number of items in list   */
+                  float min,     /* the minimal value in list */
+                        max,     /* the maximal value in list */
+                        avg;     /* the mean of the numbers   */
+		};
+.vs 12p
+.ps 10p
+.ft R
+.fi
+.in -0.5i
+.sp 6p
+write a function \fCcompute_stats(struct numlist *listptr)\fR that
+takes as an argument a pointer to a struct numlist with \fIlist\fR and \fIlen\fR
+already initialized and computes and fills in the other three members.
+.sp 4p
+.in -1i
+.in -0.25i
+.ll +0.25i

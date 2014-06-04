@@ -1,0 +1,34 @@
+
+Q3) How should our aac program handle no arguments? The real ac program would 
+then process the entire wtmp. Should our aac program do the same, or 
+should it rejet the the command and issue an error message? It's not clear to
+me from reading the specs. 
+
+  A3)	Since your version is only supposed to tabulate times for one logname,
+	it can print an error message that describes something like
+
+		usage: aac [-w file] logname
+
+	You are also free to add extra features and make it more like the real
+	one.
+
+Q2) There is a utmp.h file but no wtmp.h file that I can find. Does this
+mean I should write my own wtmp structure or can I use the utmp.h to
+access the logout times, too?
+
+   A2)	The utmp struct in the file /usr/include/utmp.h is the same 
+	struct used in wtmp.  Look at the dumputmp.c utility and try
+	the command
+
+		dumputmp /etc/wtmp    or   dumputmp /etc/adm/wtmp
+
+	to see how the file is organized.
+
+Q1) Where is the wtmp file? I didn't find the file in the /etc dir
+as stated but in the /etc/adm directory. Is this the file I should use?
+
+   A1)	On some Unix machines wtmp is in /etc, on some it is in /etc/adm.
+	On others, it might be elsewhere.  Usuually, you can look in 
+	the file /usr/include/utmp.h where a #define WTMP_FILE should tell
+	you where it is.
+

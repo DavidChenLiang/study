@@ -1,0 +1,269 @@
+.de UL \" underline argument, don't italicize
+.if t \&\\$1\l'|0\(ul'\\$2
+.if n .I \\$1 \\$2
+..
+.hy 14
+.sp 2i
+.ft I
+.ps 12
+.ce
+COURSE Final Exam 04
+
+.ft R
+.ft I
+.ps 12
+
+.ce
+DATE
+.ft R
+.sp 24p
+.ps 12p
+
+
+
+.ce
+Your Name Here: \l'2i'
+
+
+
+
+
+.in +1i
+.ll -1i
+.vs 15p
+\fIInstructions\fR:  You have TIME for this exam.  
+Please write your answers on the pages in this exam booklet.  
+No scrap paper or additional sheets will be accepted.  Watch 
+your time and be concise.  Write clearly (illegible answers will 
+be `silently ignored'), and \fIalways\fR check the return value 
+of a system call.  Good luck.
+.in -1i
+.ll +1i
+.bp
+.sp 1i
+.TS
+linesize(8) center allbox;
+c c c l
+n n n n.
+prob	points	got	section
+1	5
+2	5
+3	5
+4	5
+5	5
+6	5
+7	5
+
+8	6
+9	6
+10	6
+11	6
+12	6
+13	6
+14	6
+
+a	5
+b	5
+c	5
+d	5
+e	3
+
+
+.TE
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part One'Seven Problems, each worth 5 points'page 1'
+\l'6.5i'
+
+.ft R
+.ft B
+Problems 1-7:  Each problem describes a particular task.  For each one,
+state which system call(s) you would use to perform that task.  In the
+third column, state clearly and briefly the logic of your solution.
+.ft R
+
+.TS
+center box;
+lIw(1.2i) | lw(1.5i) | lw(3i).
+.ft I
+task	system calls	method
+.ft R
+=
+T{
+.hy 14
+.na
+Remove all contents of a file.  That is, make it into a file of size
+zero bytes.
+T}
+.sp 0.5i
+_
+T{
+.hy 14
+.na
+Move a file to another directory.
+T}
+.sp 0.5i
+_
+T{
+.hy 14
+.na
+Associate an internet address to a socket.
+T}
+.sp 0.5i
+_
+T{
+.hy 14
+.na
+Reset echo mode and terminate program if user presses
+the interrupt key.
+T}
+.sp 0.34i
+_
+T{
+.hy 14
+.na
+Send a signal to the parent process of a program.
+T}
+.sp 0.66i
+_
+T{
+.hy 14
+.na
+Redirect standard output to a file.
+
+T}
+.sp 0.5i
+_
+T{
+.hy 14
+.na
+Pass an exit status to a parent process.
+
+T}
+.sp 0.5i
+.TE
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Two'Seven problems, each worth 6 points'page 2'
+\l'6.5i'
+
+Problems 8-14: Compare and contrast.  Each of these problems mentions
+two related concepts, system calls, or operations.  For each pair, explain
+briefly and clearly (a) what they have in common, (b) when you would use
+the first item, and (c) when you would use the second item.
+
+.ft R
+
+8. \fCpipe()\fR , \fCsocket()\fR
+.sp 2.7i
+9. \fCopen()\fR, \fCfopen()\fR
+.sp 2.7i
+10. \fCstat()\fR, \fCioctl()\fR
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Two'continued'page 3'
+\l'6.5i'
+.ft R
+
+11. rawmode, cbreak mode
+.sp 2i
+12. sleep(), wait()
+.sp 2i
+13. datagram socket, stream socket
+.sp 2i
+14. errno, perror()
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'One problem, 23 points'page 4'
+\l'6.5i'
+.ft R
+15. Another Unix utility: \fBdu\fR
+
+The Unix utility called \fBdu\fR is described in the manual as:
+
+.nf
+.ft C
+.ps 7
+.vs 8p
+
+   Name
+     du - print amount of disk usage
+
+   Syntax
+     du [-as] [name...]
+
+   Description
+     The du command gives the number of kilobytes contained in all files and,
+     recursively, directories within each specified directory or file name.
+     If name is missing, `.' is used.
+
+     Absence of either -a or -s causes an entry to be generated for each
+     directory only.
+
+     A file that has two links to it is only counted once.
+
+   Options
+
+     -a   Displays the disk usage for each file.
+
+     -s   Displays a summary total only.
+
+   Bugs
+     Non-directories given as arguments (not under -a option) are not listed.
+
+     If there are too many distinct linked files, du counts the excess files
+     multiply.
+.ft R
+.ps 10
+.vs 12p
+.fi
+.hy 14
+
+    For this part of the exam, answer the following questions about the
+design and components of du.   Use the space on the remaining pages.
+
+.in +0.3i 
+.ll -0.3i
+a) What system calls will you need to use in writing \fBdu\fR?  What
+role will each play in the program? [5]
+
+b) Write a pseudo-code (or top-level function in C) that outlines the
+major operation of your program. [5]
+
+c) Do directories consume disk space?  Why or why not?  How does your
+program address this topic? [5]
+
+d) How will you handle the requirement that multiple links are counted
+once?  Be quite specific, and discuss how to handle errors. [5]
+
+e) Fill in the details of the code to any degree of completeness you
+like.  [3]
+.ll +0.3i
+.in -0.3i
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'continued'page 5'
+\l'6.5i'
+.ft R
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'continued'page 6'
+\l'6.5i'

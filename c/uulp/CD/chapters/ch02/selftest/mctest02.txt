@@ -1,0 +1,53 @@
+[Chapter 02]
+  2.1) The standard Unix program that provides on-line documentation is called
+    A. help
+    B. man
+
+  2.2) The Unix who command shows for each logged-in user the
+    A. terminal name
+    B. office address
+
+  2.3) The -k option of the Unix man command is used to
+    A. kill frozen connections
+    B. search by keyword
+
+  2.4) The data type Unix uses to record login records is called a
+    A. struct utmp
+    B. struct pwd
+
+  2.5) A file descriptor is a value of type
+    A. int
+    B. char *
+
+  2.6) The read system call indicates end of file by returning the value
+    A. -1
+    B. 0
+
+  2.7) Records in the utmp file for active login sessions have a type of
+    A. USER_PROCESS
+    B. LOGIN_PROCESS
+
+  2.8) Opening a file for writing
+    A. erases the contents of the file
+    B. sets the current location to the start of the file
+
+  2.9) System calls are said to be expensive because
+    A. they use CPU time
+    B. computer centers charge a fee for each system call
+
+  2.10) Kernel buffers are stored
+    A. in computer memory
+    B. on hard disks
+
+  2.11) The lseek system call allows you to
+    A. search for a string in a file
+    B. change the current read/write position
+
+  2.12) Unix systems record time as the number of seconds since
+    A. January 1, 1900
+    B. January 1, 1970
+
+  2.13) It is illegal to lseek
+    A. after the last byte in a file
+    B. before the first byte in a file
+

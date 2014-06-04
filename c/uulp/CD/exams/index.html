@@ -1,0 +1,173 @@
+<html>
+<head>
+	<title>Exams</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<link rel="Stylesheet" type="text/css" title="phStyle" href="../html/css/style.css">
+	<link rel="icon" href="phicon.ico" type="image/bmp">
+</head>
+
+<body bgcolor="#ffffff">
+
+<div align="center">
+<table width="600" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+	<td valign=top>
+	<span class="header">Exams</span>
+
+<table border=0 cellpadding=2 cellspacing=0 align=right bgcolor="#ffffff" class="smallTable">
+    <tr><TD><br><br><br><br>
+<table border=1 cellpadding=2 cellspacing=0 align=right bgcolor="#ffffff" class="smallTable">
+    <tr><TD>
+<table border=0 cellpadding=2 cellspacing=0 align=right bgcolor="#ffffff" class="smallTable">
+    <tr><TD>
+        
+    <table border=0 cellpadding=3 cellspacing=0 align=right bgcolor="#ffffff" class="smallTable">
+    <tr>
+	<th colspan=3 BGCOLOR="#CCCCCC" class="smallTable">DIRECTORY CONTENTS</th>
+    </tr>
+    <tr>
+	<td class="smallTable">Exam 01</td>
+	<td class="smallTable"><a href="final01.pdf">final01.pdf</a></td>
+	<td class="smallTable"><a href="final01.tr">final01.tr</a></td>
+    </tr>
+
+    <tr>
+	<td class="smallTable">Exam 02</td>
+	<td class="smallTable"><a href="final02.pdf">final02.pdf</a></td>
+	<td class="smallTable"><a href="final02.tr">final02.tr</a></td>
+    </tr>
+
+    <tr>
+	<td class="smallTable">Exam 03</td>
+	<td class="smallTable"><a href="final03.pdf">final03.pdf</a></td>
+	<td class="smallTable"><a href="final03.tr">final03.tr</a></td>
+    </tr>
+
+    <tr>
+	<td class="smallTable">Exam 04</td>
+	<td class="smallTable"><a href="final04.pdf">final04.pdf</a></td>
+	<td class="smallTable"><a href="final04.tr">final04.tr</a></td>
+    </tr>
+
+    <tr>
+	<td class="smallTable">Exam 05</td>
+	<td class="smallTable"><a href="final05.pdf">final05.pdf</a></td>
+	<td class="smallTable"><a href="final05.tr">final05.tr</a></td>
+    </tr>
+
+    <tr>
+	<td class="smallTable">Exam 06</td>
+	<td class="smallTable"><a href="final06.pdf">final06.pdf</a></td>
+	<td class="smallTable"><a href="final06.tr">final06.tr</a></td>
+    </tr>
+
+    <tr>
+	<td class="smallTable">Exam 07</td>
+	<td class="smallTable"><a href="final07.pdf">final07.pdf</a></td>
+	<td class="smallTable"><a href="final07.tr">final07.tr</a></td>
+    </tr>
+
+    <tr>
+	<td class="smallTable">Exam 08</td>
+	<td class="smallTable"><a href="final08.pdf">final08.pdf</a></td>
+	<td class="smallTable"><a href="final08.tr">final08.tr</a></td>
+    </tr>
+
+    <tr>
+	<td class="smallTable">Exam 09</td>
+	<td class="smallTable"><a href="final09.pdf">final09.pdf</a></td>
+	<td class="smallTable"><a href="final09.tr">final09.tr</a></td>
+    </tr>
+
+    <tr>
+	<td class="smallTable">Exam 10</td>
+	<td class="smallTable"><a href="final10.pdf">final10.pdf</a></td>
+	<td class="smallTable"><a href="final10.tr">final10.tr</a></td>
+    </tr>
+
+    <tr>
+	<td class="smallTable">Exam 11</td>
+	<td class="smallTable"><a href="final11.pdf">final11.pdf</a></td>
+	<td class="smallTable"><a href="final11.tr">final11.tr</a></td>
+    </tr>
+    <tr>
+	<td class="smallTable">Exam 12</td>
+	<td class="smallTable"><a href="final12.pdf">final12.pdf</a></td>
+	<td class="smallTable"><a href="final12.tr">final12.tr</a></td>
+    </tr>
+    <tr>
+	<td class="smallTable"><a href="MakeExam">MakeExam</a></td>
+	<td colspan=2 class="smallTable">Converts one exam from troff to pdf</td>
+    </tr>
+    <tr>
+	<td class="smallTable"><a href="MakeExams">MakeExams</a></td>
+	<td colspan=2 class="smallTable">Converts many exams from troff to pdf</td>
+    </tr>
+</table>
+</td></tr></table>
+</td></tr></table>
+</td></tr></table>
+
+
+<dl>
+<dt>What
+<dd>
+	This section contains 12 complete final exams.  These
+	are exams I used in my course.  Students had two
+	hours for the exam, and most of these exams were about
+	the right length for that time.  These are numbered in
+	chronological order being given in May 1991 through
+	May 2002.
+	<p>
+	These are not secret; copies are in on file in the 
+	Harvard Extension School library.  On the other hand,
+	any student who goes to the trouble to get copies of
+	all these exams and figure out answers to all the questions
+	will probably learn a lot.
+	<p>
+	</dd>
+<dt>Design
+<dd>
+	All the exams test factual knowledge, basic skills used in
+	one or two of the programming projects, and understanding
+	of Unix programming design. 
+	<p>
+	There are many good answers to most of these questions,
+	particularly the programming and design questions.
+	The number of points per question is pretty low, so it
+	is not hard to make up fair grading even for a variety
+	of answers.
+	<p>
+	You are of course free to cut, paste, edit, delete these 
+	questions in any way you like.
+	<p></dt>
+<dt>File Format
+<dd>
+	Since this is a Unix course, the exams are coded with troff
+	markup tags with some sections designed as tables using the
+	<b>tbl</b> table preprocessor language.  The script called 
+	MakeExam takes the name of a troff file and writes pdf output
+	to standard output.  Therefore,	<pre>
+	MakeExam finalXX.tr > final.pdf
+	</pre>	will work.  If you want, instead, to create Postscript, do this:	<pre>
+	tbl finalXX.tr | groff -Tps > finalXX.ps
+	</pre>	The script called MakeExams takes the names of one or more
+	exam files on the command line and creates pdf files with
+	corresponding names.  For example:	<pre>
+	MakeExams *.tr
+	</pre>	will generate pdf versions of all the exams.
+</dl>
+
+
+	</td>
+	</tr>
+</table>
+</div>
+
+<br clear="all">
+
+
+
+</body>
+</html>
+

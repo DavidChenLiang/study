@@ -1,0 +1,66 @@
+
+
+
+
+
+			    Lecture 1			  Outline
+_________________________________________________________________
+
+	  Topic:    Welcome, Intro, Review
+
+	  Approach: Outline, Dissect
+
+	  Main Ideas:
+		    Course goals
+		    Course structure
+		    Required preparation
+		    C ideas
+		    What is systems programming?
+		    User level Unix
+		    System Services
+
+	  Outline:
+		    How the Course Works
+
+		    The Role of an Operating System
+		       Manage use and access to resources
+		       Creates an illusion of a dedicated machine
+
+		    Unix from the User Perspective
+
+		    Underlying Principles in Applications
+		       Internet Bridge
+			 Distributed, coordinated, communicating processes.
+			 What are the basic elements of this architecture?
+
+		       bc
+			 what it does
+			 how it does it
+
+		       web browser
+			 what it does
+			 how it does it
+
+		    Studying and Writing Our Own Versions of System Programs
+		       more
+			 file I/O
+			 terminal I/O
+			 process management
+			 video control
+
+	  Conclusions:
+		    Naive picture of C programs
+		    More complete picture of C programs
+		    What is system programming
+		    What is kernel programming
+
+
+
+
+
+
+
+
+
+
+

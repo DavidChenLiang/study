@@ -1,0 +1,265 @@
+#!/bin/sh
+# ---------------------------------------------------------------
+#	test script for sttyl
+#
+#	Note: you need to compile flags.c before running
+#	      this test script.  This script uses the flags
+#             program for testing.
+# ---------------------------------------------------------------
+
+# ---------------------------------------------------------------
+#	0: set vars and get name of program to test
+# ---------------------------------------------------------------
+
+	PROG=./sttyl
+	STTY=/usr/local/bin/stty	# does not do tabs
+	# STTY=/bin/stty		# does tabs (weird)
+	DIR=/home/COURSE/hw/stty
+
+
+	FLAGS=$DIR/flags
+	STTYB=/bin/stty
+	BASEPAT1=526:1805:a50:3b:0:3:1c:8:15:4:0:ff:ff:526:1805
+	BASEPAT2=a50:8000003b:3:1c:8:15:4:0:ff:ff:ff:ff:ff:4:0
+	BASEPAT3=1a:11:13:0:0:1a:19:0:0:0
+
+	#BASEPAT=$BASEPAT1:$BASEPAT2:$BASEPAT3
+	#/usr/local/bin/stty couldn't deal with the BASEPAT outlined
+	BASEPAT=2116:3:800:5cf:4:ff:ff:8:17:15:12:8:3:1c:1a:19:11:13:16:f:1:0:ff:8
+	if [ ! -f $PROG ]
+	then
+		echo There is no program here called $PROG , what program
+		printf "do you want to test? "
+		read PROG
+		[ "$PROG" = "" ] && exit 
+	fi
+
+# ---------------------------------------------------------------
+#	1: prepare to exit in a graceful mode
+#	   then set tty into base patter
+# ---------------------------------------------------------------
+
+	TMP=`mktemp /tmp/XXXXXX.stty`
+	$STTY -g > $TMP
+	OLDFLAGS=`cat $TMP
+	rm -f $TMP
+	trap "echo resetting tty;$STTY $OLDFLAGS;rm -f $$.*;exit" 0 2 3 15
+	$STTY $BASEPAT
+
+# ---------------------------------------------------------------
+#	test erase and kill chars
+# ---------------------------------------------------------------
+
+	echo "   0. Looking at output : grader should examine this "
+	echo " "
+	$PROG
+	echo " "
+	sleep 5
+
+	echo "   I. testing erase and kill chars  "
+
+	STATUS=OK
+
+	# -------------------------------------------------------
+	# 	simple chars
+	# -------------------------------------------------------
+	echo "	a. Simple chars .. \c"
+	$PROG erase A kill B		# set em
+	RESULT=`$FLAGS E K`		# test em
+	$STTY $OLDFLAGS			# put 'em back
+	if [  "$RESULT" = E=41K=42 ] 
+	then
+		echo OK
+	else
+		echo Failed to set erase to A and kill to B
+		STATUS=NOTOK
+	fi
+	echo " "
+
+
+	# -------------------------------------------------------
+	# 	tricky case
+	# -------------------------------------------------------
+	echo "	b. Control Chars typed as Caret-Letter\c"
+	$PROG erase \^H kill \^U	# beware of old pipe sign
+	RESULT=`$FLAGS E K`
+	$STTY $OLDFLAGS			# put 'em back
+	if [  $RESULT = E=08K=15 ] 
+	then
+		echo OK
+	else
+		echo "Not OK
+		Failed to set erase to caret-H or kill to caret-U"
+		STATUS=NOTOK
+	fi
+	echo " "
+
+	# -------------------------------------------------------
+	# 	medium case
+	# -------------------------------------------------------
+
+	printf "	c. Typical one-char control chars.. "
+	$PROG erase  kill 
+	RESULT=`$FLAGS E K`
+	$STTY $OLDFLAGS			# put 'em back
+	if [  $RESULT = E=08K=15 ] 
+	then
+		echo OK
+	else
+		echo "Not OK
+		Failed to set erase to ctrl-H and kill to ctrl-U "
+		STATUS=NOTOK
+	fi
+	echo " "
+
+	# -------------------------------------------------------
+	# 	special, error, case
+	# -------------------------------------------------------
+
+	echo "	d. No argument given to erase..\c"
+	$STTY erase '^H' kill '^U'
+	$PROG erase 
+	EXITSTAT=$?
+	RESULT=`$FLAGS E K`
+	$STTY $OLDFLAGS			# put 'em back
+	NOARGS=OK
+	[ $RESULT = E=08K=15 ] || NOARGS=NOTOK 
+	if [ $NOARGS = OK ]
+	then
+		echo OK
+		echo "	Note: your version exited with $EXITSTAT"
+	else
+		echo "Not OK
+		Did not work correctly when no arg is given to erase"
+		STATUS=NOTOK
+	fi
+	echo " "
+	
+	
+	if [ $STATUS = NOTOK ]
+	then
+		echo "$PROG did not pass erase/kill test.  Continue (y/n)? \c"
+		read ans
+		case "$ans" in
+			y*|Y*)		;;
+			*) 	exit	;;
+		esac
+	fi
+
+# ---------------------------------------------------------------
+#  This part of the script tests how well the program 
+#  sets and clears flags.  Results are written to files
+#  in a directory called __Tests
+# ---------------------------------------------------------------
+
+	if [ -d __Tests ]			# --- prepare for next 
+	then					# --- tests
+		rm -f -r __Tests		# --- clear out old
+	fi
+	mkdir __Tests				# --- make new one
+
+
+# ---------------------------------------------------------------
+#	test all single functions
+# ---------------------------------------------------------------
+
+	$STTY erase  kill 	# to ensure compat. with script
+
+	echo "  II. Checking each flag separately .. "
+	for i in icrnl onlcr echo tabs echoe olcuc icanon isig
+	do
+		echo "		$i .. \c"
+		$STTY $BASEPAT		# start with sensible settings
+			$PROG $i	# turn on option
+			$FLAGS > $$.my	# record driver state
+			$PROG -$i	# turn off option
+			$FLAGS >> $$.my	# record driver state
+
+		$STTY $BASEPAT		# force it to same settings
+			$STTY $i	# turn on option
+			$FLAGS > $$.sys	# record driver state
+			$STTY -$i	# turn off option
+			$FLAGS >> $$.sys	# record driver state
+
+		if diff $$.my $$.sys > /dev/null
+		then
+			echo " OK \c"
+		else
+			echo " NOT OK \c"
+			echo "Yours = ( setting $i, then setting -$i)"
+				 $FLAGS X < $$.my
+			echo  " Ours = ( setting $i, then setting -$i)"
+				$FLAGS X < $$.sys
+			echo " Make sure $i works for $PROG and try again."
+			rm -f $$.*
+			echo "Continue (y/n)? \c"
+			read X
+			case "_$X" in 
+				_n*|_N*) exit ;;
+			esac
+		fi
+		rm -f $$.*
+		echo ""
+	done
+
+# ---------------------------------------------------------------
+#	test all combo pairs
+# ---------------------------------------------------------------
+
+	echo " "
+	echo " III. Checking all flag pairs"
+
+
+	for i in icrnl onlcr echo tabs echoe olcuc icanon isig
+	do
+		echo  " $i:\c"
+		rm -f __Tests/$i.my
+		for  j in icrnl onlcr echo tabs echoe olcuc icanon isig
+		do
+			$STTY $BASEPAT
+			# run the first one with test program
+			echo " $j : \c" >> __Tests/$i.my
+				$PROG $i $j
+				$FLAGS >> __Tests/$i.my
+				echo  " -$j : \c" >> __Tests/$i.my
+				$PROG $i -$j 
+				$FLAGS >> __Tests/$i.my
+
+			# run the second test with `real' one
+			$STTY $BASEPAT
+			echo " $j : \c" >> __Tests/$i.sys
+				$STTY $i $j
+				$FLAGS >> __Tests/$i.sys
+				echo  " -$j : \c" >> __Tests/$i.sys
+				$STTY $i -$j 
+				$FLAGS >> __Tests/$i.sys
+			# if there are no differences, remove the files
+		done
+		if diff __Tests/$i.my __Tests/$i.sys > /dev/null
+		then
+			echo "OK\c"
+			rm -f __Tests/$i.my __Tests/$i.sys
+		else
+			echo "NOTOK\c"
+		fi
+	done
+
+	$STTY $OLDFLAGS
+	echo " "
+	cd __Tests
+	echo "	Checking results .. "
+	if test `ls | wc -w` = 0
+	then
+		echo all tests worked correctly
+		exit 0
+	fi
+
+	echo "The Following combinations did not work:"
+	for f in *.my
+	do
+		T=`basename $f .my`
+		sort $T.my $T.sys 	| uniq -d 	|
+		sed "s/\(.*\):.*/$T \1/"| sort -u	|
+		pr -t -l1 -5
+	done
+	cd ..

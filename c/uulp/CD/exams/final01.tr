@@ -1,0 +1,240 @@
+.hy 14
+.sp 2i
+.TS
+center doublebox;
+cw(4i).
+.sp 16p
+
+.ps 24
+COURSE
+.sp 48p
+.ps 36
+.ft I
+final exam 01
+.ft R
+.sp 48p
+.ps 24
+DATE
+.sp 16p
+
+.TE
+.sp 24p
+.ps 12p
+
+
+
+.ce
+Your Name Here: \l'2i'
+
+
+
+
+
+.in +1i
+.ll -1i
+.vs 15p
+\fIInstructions\fR:  You have TIME for this exam.  
+Please write your answers on the pages in this exam booklet.  
+No scrap paper or additional sheets will be accepted.  Watch 
+your time and be concise.  Write clearly (illegible answers will 
+be `silently ignored'), and \fIalways\fR check the return value 
+of a system call.  Good luck.
+.in -1i
+.ll +1i
+.bp
+.sp 1i
+.TS
+linesize(8) center allbox;
+c c c l
+n n n n.
+prob	points	got	section
+1	6
+2	6
+3	6
+4	6
+5	6
+6	6
+7	6
+
+8	5
+9	5
+10	5
+11	5
+12	5
+13	5
+14	5
+
+a	5
+i	3
+ii	3
+iii	4
+iv	4
+v	4
+
+
+.TE
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part One'Seven Problems, each worth 6 points'page 1'
+\l'6.5i'
+
+.ft R
+.ft B
+Problems 1-7:  For each system call given, briefly describe its
+purpose, the arguments it takes, and the value(s) it returns.
+
+.TS
+center box;
+lI | lw(1.7i)e | le | le.
+.ft I
+name	purpose	arguments	return value(s)
+.ft R
+=
+write()
+.sp 0.9i
+_
+lseek()
+.sp 0.9i
+_
+stat()
+.sp 0.9i
+_
+signal()
+.sp 0.9i
+_
+fork()
+.sp 0.9i
+_
+pipe()
+.sp 0.9i
+_
+wait()
+.sp 0.9i
+.TE
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Two'Seven problems, each worth 5 points'page 2'
+\l'6.5i'
+
+Problems 8-14: For each question, write a short, accurate answer in the
+space provided.
+
+.ft R
+
+8. The inode of a file contains fields for both the
+\fItype\fR of the file and the \fImode\fR of the file.  What is the
+difference between these two attributes?   How are these set, 
+changed, and what do they affect?
+.sp 2.7i
+9. What is the difference between \fIexecl()\fR and \fIexecv()\fR?
+When do you use which?  How do you use each?
+.sp 2.7i
+10. What is the difference between \fIopen()\fR and \fIfopen()\fR?
+Name one advantage of each and one disadvantage of each.
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Two'continued'page 3'
+\l'6.5i'
+.ft R
+
+11. What system call do you use to determine how many
+characters are in a file without having to read the
+entire file?   How do you use this system call to get
+the information?
+.sp 2i
+12. What system call do you use to find out what key the user
+of a program has set to be the `erase' key?  How do you use this
+system call to get the information?
+.sp 2i
+13. What system calls do you use to redirect the standard input of
+a program to come from a file?  How do you use them?
+.sp 2i
+14. Why does the shell need to perform the \fIchdir()\fR system call
+internally rather than call a separate program?
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'One problem, 23 points'page 4'
+\l'6.5i'
+.ft R
+
+15. This problem explores the question of designing a simple
+communications program for Unix. 
+
+First, some background.  You attach a modem to a Unix
+system.  It appears as the file /dev/modem in the device directory.
+You can open it as you open any input/output device.  When you write
+a character into the file, it goes out the wire into the modem.  When
+you read from this file, you get the next character that comes in over
+the wire from the modem. 
+
+Now, for the purpose of the program.  A simple communications program
+allows you to connect from your terminal to the modem.  The operation of
+such a program sounds simple:  \fB(1)\fR any characters you type 
+on your keyboard get sent out over the modem line, (this includes
+things like Ctrl-C and backspace); \fB(2)\fR any 
+characters that come in from the modem go to your screen; \fB(3)\fR
+when you type some special key combination (like \s8NEWLINE ~ .\s0)
+the program closes the connection and exits.
+
+\fBPart a: A Non-Unix Solution\fR  First, consider a method that
+works on the simplest PC's: polling.  A simple implementation of
+such a program is one that continuously polls the two input sources.
+If there is a character available at the keyboard, it gets it and
+writes it to the modem; it then goes to the modem: if there is a character
+available at the modem, it gets it and writes it to the screen; it then
+goes to the keyboard...
+
+Explain how you would implement such a solution under Unix.  What
+system calls would you have to make to initialize the
+program?  What system calls would you make in the polling loop?
+Then explain the drawback of this method.
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'continued'page 5'
+\l'6.5i'
+.ft R
+
+\fBPart b) A Unix Solution\fR The Unix solution to this problem is
+to use two processes, one to carry characters from the modem to the
+screen, the other to carry characters from the keyboard to the modem.
+Sounds simple?   Discuss this solution by answering the following
+questions:
+.in +0.2i
+.ll -0.2i
+
+i) Why does this solution eliminate the drawback of the polled method?
+
+ii) What initialization does this program have to do to get started?
+What files does it need to open?  How does it get the other process?
+Does it matter if the files are opened before the other process is
+created?
+
+iii) How should this program manage signals?  Why?
+
+iv) How should this program handle tty driver settings?  Why?
+
+v) How should this program handle the `get me out' key sequence?  In
+particular, what wrapup operations does it need to perform and how
+will it do them?
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'continued'page 6'
+\l'6.5i'

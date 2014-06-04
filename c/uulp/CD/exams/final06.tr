@@ -1,0 +1,243 @@
+.de UL \" underline argument, don't italicize
+.if t \&\\$1\l'|0\(ul'\\$2
+.if n .I \\$1 \\$2
+..
+.hy 14
+.sp 2i
+.ft I
+.ps 12
+.ce
+COURSE Final Exam 06
+
+.ft R
+.ft I
+.ps 12
+
+.ce
+DATE
+.ft R
+.sp 24p
+.ps 12p
+
+
+
+.ce
+Your Name Here: \l'2i'
+
+
+
+
+
+.in +1i
+.ll -1i
+.vs 15p
+\fIInstructions\fR:  You have TIME for this exam.  
+Please write your answers on the pages in this exam booklet.  
+No scrap paper or additional sheets will be accepted.  Watch 
+your time and be concise.  Write clearly (illegible answers will 
+be `silently ignored'), and \fIalways\fR check the return value 
+of a system call.  Good luck.
+.in -1i
+.ll +1i
+.bp
+.sp 1i
+.TS
+linesize(8) center allbox;
+c c c l
+n n n n.
+prob	points	got	section
+1	4
+2	4
+3	4
+4	4
+5	4
+6	4
+7	4
+8	4
+
+9	5
+10	5
+11	5
+12	5
+
+13	4
+14	4
+15	4
+16	4
+17	4
+18	4
+
+a	7
+b	4
+c	5
+d	4
+e	4
+
+
+.TE
+.bp
+.sp 0.6i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part One'Eight Problems, each worth 4 points'page 1'
+\l'6.5i'
+
+.ft R
+.ft B
+Problems 1-8:  Short answer questions.  Answer each question clearly,
+precisely, and refer to specific system calls when appropriate.  Write
+your answer in the space provided.
+.br
+
+.ft R
+1. Describe one method of determining the number of bytes in a file.
+.sp 1.1i
+2. Name and explain three things that would cause the \fCopen()\fR system
+call to return an error.
+.sp 1.1i
+3. Name and explain two reasons why a process would receive a signal.
+.sp 1.1i
+4. What is the difference between a \fCpipe\fR and a \fCfifo\fR?
+.sp 1.1i
+5. What is the role of the \fCfork()\fR system call?  Explain the meaning of
+its return value and how the return value is used.
+.sp 1.1i
+6. What is the meaning and value of `buffered' input and output?
+.sp 1.1i
+7. What is the meaning of \fCecho\fR mode, and why is it useful?
+.bp
+.sp 0.8i
+.tl 'Part One'continued'page 2'
+\l'6.5i'
+8. What is \fCperror()\fR and what is its purpose?
+.sp 1.2i
+.tl 'Part Two''Four problems, each worth 5 points'
+\l'6.5i'
+
+Problems 9-12: Compare and contrast.  Each of these problems mentions
+two related concepts, system calls, or operations.  For each pair, explain
+briefly and clearly (a) what they have in common, (b) when you would use
+the first item, and (c) when you would use the second item.
+
+.ft R
+
+9. \fCprogram\fR vs \fCprocess\fR
+.sp 1.2i
+10. \fCsignal\fR vs \fCpipe\fR
+.sp 1.2i
+11. \fCfopen()\fR vs \fCfdopen()\fR
+.sp 1.2i
+12. \fCwait()\fR vs \fCsleep()\fR
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'Six questions, each worth 4 points'page 3'
+\l'6.5i'
+.ft R
+The Internet is a world-wide system of computers that exchange data
+in a fairly consistent manner.  Many of the data-exchange systems
+were devised and/or based on Unix machines.  In this section, you
+will examine some important aspects of data communication.
+
+13. Sets of information are often stored in files.  How does a process 
+gain access to a file of data?
+.sp 1.2i
+14. A process that has access to information is often called a \fIserver\fR.
+Explain, in brief terms, how a server is implemented on a Unix system.
+.sp 1.2i
+15. What is the purpose of the \fIcurses\fR library.
+What role does it play in providing information to Internet users?
+.sp 1.2i
+16. What is a directory and how can it be used to organize information?
+.sp 1.2i
+17. What is the role of a \fIsocket\fR in making information available
+to interested users?
+.sp 1.2i
+18. What is the purpose of the \fItty driver\fR on a Unix machine?
+What role does it play in creating an interface between users and
+information?
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'One problem, 24 points'page 4'
+\l'6.5i'
+.ft R
+17. A new Unix utility: timeout
+
+\fBIntroduction\fR Computer security in a world of interconnected
+machines is an issue of ever-increasing importance.  If you
+leave your terminal to refill your coffee cup or talk to someone,
+your connection to the world is left unattended.  A simple, and useful,
+solution is to have your login session terminated if you do not
+press any keys for a specified amount of time.  For example, if you
+do not press any keys or see any output for three minutes, the login
+session could be terminated.  When you returned from the coffee break,
+you could login again.
+
+\fIDiscussion\fR
+There are two ways to implement an `auto-logout' system.  In one model,
+you could write each program (the text-editor, the compiler, the
+mail reader, the web browser..) to check for idle periods and exit.
+
+In another model, a separate process watches your tty and sees
+if the tty device was untouched for a specified period.
+If the terminal was idle for that period, this monitor process would
+kill all the processes connected to that tty and, thereby, log you out.
+This method, a single program, clearly is easier.
+
+\fIProblem\fR
+For this part of the exam, answer the following questions that explore
+the details of writing a timeout program.
+
+\fIUseful Information\fR  The special file called \fC/dev/tty\fR is
+the name of the file that corresponds to the terminal line through
+which you are connected to the system.  Each time you press a key,
+the file \fC/dev/tty\fR is modified, and the last-modified-time is
+updated to reflect that change.  Each time a character is sent to
+the screen, the file \fC/dev/tty\fR is modified and the last-modified-time
+is updated to reflect the change.
+
+Use the space on the remaining pages.
+
+.in +0.2i 
+.ll -0.2i
+a) What general algorithm will you use to implement the \fCtimeout\fR
+program?  [7]
+
+b) When \fCtimeout\fR determines you have been idle for the specified
+interval, it will kill all processes attached to your terminal.  How
+can a program determine which processes are attached to your terminal? [4]
+
+c) What system calls will you need to use in writing \fCtimeout\fR?  What
+role will each play in the program? [5]
+
+d) What arguments will the timeout program take, and how will the program
+use these arguments? [4]
+
+e) On some machines, there can
+be as many as 400 users logged in at once.  If each of those 400 users ran
+a private copy of \fCtimeout\fR, the system would need to support a lot
+of redundant processes.  Suggest a solution that eliminates
+the need for so many copies of the same program. [4]
+.ll +0.2i
+.in -0.2i
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'continued'page 5'
+\l'6.5i'
+.ft R
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'continued'page 6'
+\l'6.5i'

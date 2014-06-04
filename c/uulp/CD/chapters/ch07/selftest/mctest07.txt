@@ -1,0 +1,45 @@
+[Chapter 07]
+  7.1) The curses library is
+    A. a wrapper to kernel graphics services
+    B. a collection of functions that control a text screen
+
+  7.2) The curses addstr function
+    A. sends text to the terminal screen
+    B. adds text to the virtual workspace screen
+
+  7.3) The curses refresh function
+    A. makes the real screen look like the virtual workspace screen
+    B. repaints the terminal screen in case it was covered
+
+  7.4) The pause system call suspends a process until
+    A. the user presses a key
+    B. the process handles a signal
+
+  7.5) The alarm signal call
+    A. sends SIGALRM to a process
+    B. sets a timer
+
+  7.6) The it_interval member of an interval timer stores
+    A. the delay until the next alarm
+    B. the delay between sending alarms
+
+  7.7) Blocking a signal means to
+    A. delay receipt of the signal until later
+    B. wait until that signal arrives
+
+  7.8) A "critical section" in a program is a block of code
+    A. that affects program efficiency
+    B. that affects data integrity
+
+  7.9) A "reentrant function" is one that it is safe to call
+    A. more than once
+    B. even if it is already active
+
+  7.10) A signal mask is a set of signals a process
+    A. is ignoring
+    B. is blocking
+
+  7.11) A process can arrange to receive a signal when input arrives by using
+    A. non-blocking input
+    B. asynchronous input
+

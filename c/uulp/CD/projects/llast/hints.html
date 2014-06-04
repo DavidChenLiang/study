@@ -1,0 +1,46 @@
+<html>
+<head>llast hints</head>
+</head>
+<body bgcolor=white>
+<h4>
+Helpful Hints for llast
+<hr>
+</h4>
+<dl>
+<dt><b>Buffering</b></dt>
+	<dd>
+	<p>
+	It is inefficient to read the file backwards record by
+	record if you call read() to get each record.  It is
+	much better programming to read the file in bunches
+	of records and then traverse the bunch within your own
+	program.
+	<p>
+	<img src=buffering.jpg border=0 align=right>
+	This picture shows the idea of reading the file
+	in bunches.
+	<p>
+	You pick a bunch size.  You then read that many structs
+	from the end of the file and remember how far from the
+	end you started.
+	<p>
+	Then, your program traverses the bunch in reverse order.
+	The bunch is just an array.  When your position indicator
+	runs off the start of the array, you need to go back to
+	the file and read in the next bunch.
+	<p>
+	</dd>
+<dt><b>Testing Buffering</b></dt>
+	<dd>
+	<p>
+	One way to test your buffering logic independtly of
+	the llast logic is to write a buffered version of
+	the dumputmp.c program.  Instead of reading the
+	wtmp file in forward order, change dumputmp.c so it
+	reads the file backwards using buffering. 
+	<p>
+	Once that is working, you can apply that buffered
+	reverse-reading library to the llast logic.
+	<p>
+	</dd>
+<dl>

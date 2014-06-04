@@ -1,0 +1,323 @@
+.de UL \" underline argument, don't italicize
+.if t \&\\$1\l'|0\(ul'\\$2
+.if n .I \\$1 \\$2
+..
+.hy 14
+.sp 2i
+.TS
+center doublebox;
+cw(1.5i)e | ce | ce.
+.ft I
+.ps 14
+
+COURSE
+.sp 8p
+
+
+_
+
+	final
+.sp 8p
+	exam 02
+
+_
+
+		DATE
+.sp 8p
+		YEAR
+.sp 8p
+		COUNTRY
+
+.TE
+.sp 24p
+.ps 12p
+
+
+
+.ce
+Your Name Here: \l'2i'
+
+
+
+
+
+.in +1i
+.ll -1i
+.vs 15p
+\fIInstructions\fR:  You have TIME for this exam.  
+Please write your answers on the pages in this exam booklet.  
+No scrap paper or additional sheets will be accepted.  Watch 
+your time and be concise.  Write clearly (illegible answers will 
+be `silently ignored'), and \fIalways\fR check the return value 
+of a system call.  Good luck.
+.in -1i
+.ll +1i
+.bp
+.sp 1i
+.TS
+linesize(8) center allbox;
+c c c l
+n n n n.
+prob	points	got	section
+1	6
+2	6
+3	6
+4	6
+5	6
+6	6
+7	6
+
+8	6
+9	6
+10	6
+11	6
+12	6
+13	6
+
+1	4
+2	4
+3	4
+4	4
+
+b	6
+
+
+.TE
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part One'Seven Problems, each worth 6 points'page 1'
+\l'6.5i'
+
+.ft R
+.ft B
+Problems 1-7:  For each system call given, briefly describe its
+purpose, the arguments it takes, and the value(s) it returns.
+
+.TS
+center box;
+lI | lw(1.7i)e | le | le.
+.ft I
+name	purpose	arguments	return value(s)
+.ft R
+=
+open()
+.sp 0.9i
+_
+chdir()
+.sp 0.9i
+_
+dup()
+.sp 0.9i
+_
+ioctl()
+.sp 0.9i
+_
+socket()
+.sp 0.9i
+_
+exit()
+.sp 0.9i
+_
+alarm()
+.sp 0.9i
+.TE
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Two'Six problems, each worth 6 points'page 2'
+\l'6.5i'
+
+Problems 8-14: For each question, write a short, accurate answer in the
+space provided.
+
+.ft R
+
+8. Briefly describe \fIbuffered output\fR?  What is it, how does one
+do it, and why is it done?
+.sp 2.7i
+9. What is \fIerrno\fR?  What is it for?  How is it used?
+.sp 2.7i
+10. What is the difference between \fIcooked\fR input and \fIraw\fR
+input?  Why would you use one rather than the other?  Does this difference
+apply to non-terminal files?
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Two'continued'page 3'
+\l'6.5i'
+.ft R
+
+11. When a Unix program wants to run another program as a sub-process,
+it calls fork() then exec().  Why not have one system call to
+\fIrun_sub_program()\fR?  Name two useful activities a process can perform
+between the fork() and the exec().
+.sp 2i
+12. The remote execution server demonstrated in class redirects standard
+output to a socket before executing the shell.  Explain what happens to
+messages the shell sends to standard error.  How can these error
+messages be sent to the socket along with the standard output?
+
+.nf
+.ft C
+.ps 8
+.vs 9p
+case 0  :
+    len = read(fd,cmdbuf,512);  /* get the command */
+    cmdbuf[len] = '\e0';         /* terminate it    */
+    close(1);                   /* close stdout    */
+    dup(fd);                    /* attach fd to 1  */
+    close(fd);                  /* tidy up         */
+    execlp("sh", "sh", "-c", cmdbuf);
+    oops( "execlp" );
+.vs 12p
+.ps 10
+.ft R
+.fi
+.sp 2i
+13. File names can represent regular files, directories, devices,
+sockets, symbolic links, and fifos.  What system call, include file,
+and C operators do you use to determine what sort of thing a file name
+represents?
+.sp 2i
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'One problem, 22 points'page 4'
+\l'6.5i'
+.ft R
+
+14. This problem explores the question of how the shell handles signals.
+
+First, the overview.  A shell can run interactively or from a script.
+Operating interactively, it reads a command, executes it, and returns to the
+user for the next command.  Reading from a script, it repeatedly takes
+commands from a file, executing them in sequence.
+
+When the user of the shell presses the Interrupt key, often Ctrl-C,
+the shell is sent a signal, \s-2SIGINT\s+2.  The user may press other
+keys to generate other signals, or may use the \fIkill\fR command to
+send a signal to the shell. 
+
+The shell runs programs and waits until they finish.  A program run
+by the shell may receive an signal.
+For example, the user may run \fIa.out\fR, and press the interrupt key.
+For another example, the user may run \fIa.out\fR, and that program may
+attempt to access memory outside its region and be sent a \s-2SIGSEGV\s+2.
+
+We shall limit our attention to \s-2SIGINT\s+2 and consider four combinations:
+
+.TS
+center box;
+li ci ci
+n | l | l.
+case	shell mode	state
+=
+1	interactive	shell running
+2	script	shell running
+3	interactive	program running, shell waiting
+4	script	program running, shell waiting
+.TE
+
+\fBPart a\fR: For each of these four cases, write short, clear answers to each
+question.
+
+\fICase 1:\fR\ \ An interactive shell is waiting for input.
+It catches \s-2SIGINT\s+2s, flushes input, and issues
+a new prompt (this is what the Bourne Shell does).  Why is this
+preferable to exiting upon receipt of an interrupt?
+
+\fICase 2:\fR\ \ A shell is running from a script.  It is processing
+a \fIread\fR command, digesting comments, parsing an if command, or
+some other shell level command.  The shell receives \s-2SIGINT\s+2.
+In this case, the Bourne Shell exits.  Why is this preferable to
+catching the interrupt and simply moving on to the next command?
+
+\fICase 3:\fR\ \ An interactive shell is running a program and waiting for it
+to finish.  How should this interactive shell handle \s-2SIGINT\s+2 ?  Why?
+
+\fICase 4:\fR\ \ A shell is running from a script.  It
+fork()s and exec()s the program \fIa.out\fR.  
+While a.out is running, the user presses
+Ctrl-C to stop a.out.  A.out stops.  What should the shell do when it
+detects that a.out has been interrupted?  Why?  How does it know that a.out
+was stopped by signal and did not just exit() normally?
+
+Write your answers to the questions in cases 1-4 below and on the
+next page.  There is \fIone more part\fR to this question.  It is on page 6.
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'continued'page 5'
+\l'6.5i'
+.ft R
+
+.sp |10i
+.ce
+\fB(More on the Back)\fR
+.bp
+.sp 0.8i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'continued'page 6'
+\l'6.5i'
+
+\fBpart b\fR:  The shell operates with certain defaults.  You have
+discussed these defaults in part a.  A user may specify other
+actions by using the \fItrap\fR built-in command.  Here is what the
+manual says about trap:
+
+.in +0.5i
+.ll -0.5i
+.na
+.ft C
+.ti -0.2i
+trap [arg] [n] ..
+.br
+.UL "Arg"
+is a command to be read and executed when the shell receives
+signal(s)
+.UL n
+\&. 
+If
+.UL arg
+is absent then all trap(s)
+.UL n
+are reset to their original values.  If 
+.UL arg
+is the null string then this signal is ignored by the shell
+and by invoked commands.  If 
+.UL n
+is 0 then the command
+.UL arg
+is executed on exit from the shell, otherwise upon receipt of
+signal 
+.UL n
+as numbered in 
+.UL signal
+(2).
+.UL Trap
+with no arguments prints a list of commands associated with
+each signal number.
+.ft R
+.ad
+.in -0.5i
+.ll +0.5i
+
+Describe how you would modify your shell to handle the
+\fItrap\fR built-in command.  You do not need to include code or
+low-level details.  You must cover at least three topics: 1) any
+data structures you will add to implement this built-in, (2) how the
+code for the trap built-in will operate, (3) how setting traps
+affects execution of commands.

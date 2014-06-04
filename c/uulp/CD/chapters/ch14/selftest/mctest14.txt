@@ -1,0 +1,65 @@
+[Chapter 14]
+  14.1) A program with a single thread of execution
+    A. cannot include recursive functions
+    B. does one thing at a time
+
+  14.2) A program with two threads of execution can
+    A. do two things at the same time
+    B. open twice as many files as a program with one thread
+
+  14.3) The function pthread_create returns
+    A. 0 if a new thread is created
+    B. 0 if the new thread is the child
+
+  14.4) If a thread uses pthread_join to wait for itself
+    A. pthread_join returns an error code
+    B. the process will freeze
+
+  14.5) All the threads in a process have access to
+    A. only static global variables
+    B. all global variables in the process
+
+  14.6) Race conditions arise when threads share variables because
+    A. the threads may run on different processors
+    B. of unpredictable scheduling of thread execution
+
+  14.7) If a thread tries to lock a mutex that is already locked
+    A. the thread is suspended
+    B. the pthread_mutex_lock returns an error code
+
+  14.8) A mutex can be shared by
+    A. any number of threads
+    B. exactly two threads
+
+  14.9) To prevent race conditions, threads should use
+    A. mutex objects
+    B. signals
+
+  14.10) The best way to pass multiple arguments to a thread is
+    A. to use global variables
+    B. to pass a struct containing all the arguments as members
+
+  14.11) When one thread calls exit
+    A. only that thread stops running
+    B. all threads in the process stop
+
+  14.12) A thread signals a condition variable in order to
+    A. kill the condition variable
+    B. notify another thread 
+
+  14.12) pthread_cond_wait unlocks a mutex and starts waiting
+    A. in an atomic operation
+    B. in an automatic operation
+
+  14.13) When a thread signals a condition variable,
+    A. if other threads are waiting for that variable, one is woken up
+    B. that thread is suspended until another thread waits for the variable
+
+  14.14) The thread that accepts calls in a web server does not close the socket
+    A. because it is closed automatically when the worker thread finishes
+    B. because that would close it for the worker thread, too
+
+  14.15) The threads in a curses-based animation program use a mutex because
+    A. all the threads use a shared timer
+    B. curses functions are not reentrant
+

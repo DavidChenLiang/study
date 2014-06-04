@@ -1,0 +1,14 @@
+
+This file is plain, unadorned text.  It does not
+contain any special formatting tags.  It does not
+contain a picture, a musical selection, or a
+multi-media presentation.
+
+Its name is file2.txt  .
+The .txt extension tells the server to put into
+the HTTP header the string
+
+   Content-type: text/plain
+
+and the browser uses that header information to
+know to display the content in a text-based format.

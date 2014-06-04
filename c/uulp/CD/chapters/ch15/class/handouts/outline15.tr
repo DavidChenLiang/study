@@ -1,0 +1,50 @@
+.sp 0.6i
+.ft B
+.tl ''Lecture 15'Outline'
+\l'6.5i'
+
+.nf
+.in +1i
+.ta 1i +0.5i
+\fBTopics\fR:	Communication Choices
+
+\fBApproach\fR:	Problems, Tools, Solutions
+
+\fBToday's New Ideas\fR: select, named pipes, shared memory, semaphores
+
+\fBOutline\fR
+
+    \fBIPC So Far\fR
+.sp 6p
+	We have seen several methods for one process to communicate
+	with another process.  We have seen files, pipes, sockets, and
+	signals.  How do you choose which method to use?
+
+    \fBTheme for Today: Multiplicity in Communication\fR
+.sp 6p
+	Reading from multiple inputs
+	Multiple methods to transfer data
+	Multiple methods to lock data
+	Printing multiple files on multiple printers
+
+    \fBI. Reading from Multiple Inputs: the talk command\fR
+.sp 6p
+	What talk does
+	How talk works: the select system call
+	Design choices for writing talk
+
+    \fBII. Comparing IPC Methods\fR
+.sp 6p
+	Disk Files
+	Shared Memory
+	Named Pipes
+
+    \fBIII. Techniques for Locking Data \fR
+.sp 6p
+	Read locks and write locks
+	File locks with fcntl
+	Locks with semaphores
+
+    \fBIV. Making Choices\fR
+.sp 6p
+	Handling multiplicity in printing

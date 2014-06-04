@@ -1,0 +1,253 @@
+#!/bin/sh
+#
+#	test.pfind
+#
+#	purpose:	shell script to test the operation of
+#			the pseudo-find program
+#
+#	usage:		test.pfind
+#
+#	operation:	1. makes sure that a program called pfind exists
+#			2. looks for standard stuff in /etc 
+#			3. puts some stuff in /tmp and then looks for it
+#			4. looks for pfind in the user's home directory
+#			   compares results to that of real find
+#
+
+# change these settings as appropriate for your system
+
+	SLTEST=NO
+	FIND=/usr/local/bin/find
+	ROOT=/home/COURSE/hw/pfind
+#
+#
+
+intr_handler()
+{
+	if test $SLTEST = Y
+	then
+		echo "Examine the directory tree at $ROOT/pft3.d"
+		echo "too see what is going on."
+		exit
+	fi
+}
+
+
+# -------------------------------------------------------------------------
+#	part I : locate program to test
+# -------------------------------------------------------------------------
+
+	PROG=pfind
+
+	rm -f /tmp/*.find /tmp/*.pfind 2> /dev/null
+
+	trap "rm -f /tmp/$$*find /tmp/$$*pfind; exit" 0 2 3 15
+
+	if [ ! -f pfind ]
+	then
+		echo    "There is no program here called pfind."
+		printf  "What program should I test (press Return to quit)? "
+
+		read PROG
+		case "$PROG" in
+			/*)	CWD=""					;;
+			?*)	CWD=`pwd`				;;
+			*)	exit					;;
+		esac
+	else
+		CWD=`pwd`
+	fi
+
+# -------------------------------------------------------------------------
+#	part II : look for passwd in /etc
+# -------------------------------------------------------------------------
+
+	echo "
+		Test 1: checking for passwd in /etc "
+
+	T1=`$CWD/$PROG /etc passwd`
+	T2=`cd /etc ; $CWD/$PROG . passwd`
+	T3=`cd / ; $CWD/$PROG etc passwd`
+
+	#
+	# ... find /etc -name passwd
+	#
+
+	printf  "		Test 1a.. pfind /etc passwd : "
+	if [ "$T1" = /etc/passwd ]
+	then
+		echo "OK"
+	else
+		echo "NOT OK, $T1 is not /etc/passwd "
+	fi
+
+	#
+	# ... find . -name passwd
+	#
+
+	printf  "		Test 1b..cd /etc ; pfind . passwd : "
+	if [ "$T2" = ./passwd ]
+	then
+		echo "OK"
+	else
+		echo "NOT OK, $T2 is not ./passwd "
+	fi
+
+	#
+	# ... find etc -name passwd
+	#
+
+	printf  "		Test 1c..cd / ; pfind etc passwd : "
+	if [ "$T3" = etc/passwd ]
+	then
+		echo "OK"
+	else
+		echo "NOT OK, $T3 is not etc/passwd "
+
+	fi
+
+# -------------------------------------------------------------------------
+#	part II : multi-level searches
+# -------------------------------------------------------------------------
+
+	echo "
+		Test 2 : multi-level search "
+
+
+	$FIND $ROOT/pft.d -name cookie -print > /tmp/$$.find
+	$CWD/$PROG $ROOT/pft.d cookie > /tmp/$$.pfind
+	if diff /tmp/$$.pfind /tmp/$$.find
+	then
+		echo "		Test 2a..OK"
+		rm -f $CWD/2a.pfind $CWD/2a.find
+	else
+		echo "		Test 2a..NOT OK"
+		echo "		> means from real find, < means from yours"
+		cp /tmp/$$.pfind $CWD/2a.pfind
+		cp /tmp/$$.find  $CWD/2a.find
+		echo "output from pfind in 2a.pfind, "
+		echo "output from find in 2a.find"
+	fi
+
+	cd $ROOT
+	$FIND pft.d -name cookie -print > /tmp/$$.find
+	$CWD/$PROG pft.d cookie > /tmp/$$.pfind
+	if diff /tmp/$$.pfind /tmp/$$.find
+	then
+		echo "		Test 2b..OK"
+		rm -f $CWD/2b.pfind $CWD/2b.find
+	else
+		echo "		Test 2b..NOT OK"
+		echo "		> means from real find, < means from yours"
+		cp /tmp/$$.pfind $CWD/2b.pfind
+		cp /tmp/$$.find  $CWD/2b.find
+		echo "output from pfind in 2b.pfind,"
+		echo "output from find in 2b.find"
+	fi
+
+	rm -f /tmp/$$.find /tmp/$$.pfind
+
+# -------------------------------------------------------------------------
+#	part III : searches that hit unreadable paths
+# -------------------------------------------------------------------------
+
+	echo "
+		Test 3 : searches down unreadable paths..
+			 Note: find writes errors to stderr,
+			 Your program should do the same.
+
+			The command is
+			pfind $ROOT/pft2.d d8 "
+
+	echo "== standard output from find ==" > /tmp/$$.find
+	echo "== standard output from pfind ==" > /tmp/$$.pfind
+	echo "== standard error from find ==" > /tmp/$$.e.find
+	echo "== standard error from pfind ==" > /tmp/$$.e.pfind
+
+	$FIND $ROOT/pft2.d -name d8 -print 2>>/tmp/$$.e.find >>/tmp/$$.find
+	$CWD/$PROG $ROOT/pft2.d d8 2>>/tmp/$$.e.pfind >>/tmp/$$.pfind
+	sed 's/^[_a-zA-Z0-9/]*:/program-name:/' /tmp/$$.e.find >> /tmp/$$.find
+	sed 's/^[_a-zA-Z0-9/]*:/program-name:/' /tmp/$$.e.pfind >> /tmp/$$.pfind
+
+	grep -v '== standard .*==$' /tmp/$$.find > /tmp/$$.c.find
+	grep -v '== standard .*==$' /tmp/$$.pfind > /tmp/$$.c.pfind
+
+	if diff /tmp/$$.c.pfind /tmp/$$.c.find
+	then
+		echo "		Test 3..OK"
+		rm -f $CWD/3.pfind $CWD/3.find
+	else
+		echo "		Test 3..NOT OK"
+		echo "		> means from real find, < means from yours"
+		cp /tmp/$$.e.find  $CWD/3.find
+		cp /tmp/$$.e.pfind $CWD/3.pfind
+		echo "output from pfind in 3.pfind, "
+		echo "output from find in 3.find"
+	fi
+
+# -------------------------------------------------------------------------
+#	part IV : The symlink test
+# -------------------------------------------------------------------------
+
+	SLTEST=Y
+	trap "intr_handler" 2
+
+	echo "
+		Test 4 : The symlink test 
+		If the test seems stuck here, your program
+		is lost in symlink loop.  Press Ctrl-C to stop it."
+
+
+	$FIND       $ROOT/pft3.d -name cookie -print > /tmp/$$.find
+	$CWD/$PROG $ROOT/pft3.d       cookie 	    > /tmp/$$.pfind
+	if diff /tmp/$$.pfind /tmp/$$.find
+	then
+		echo "		Test 4..OK"
+		rm -f $CWD/4.pfind $CWD/4.find
+	else
+		echo "		Test 4..NOT OK"
+		echo "		> means from real find, < means from yours"
+		cp /tmp/$$.pfind $CWD/4.pfind
+		cp /tmp/$$.find  $CWD/4.find
+		echo "output from pfind in 4.pfind, "
+		echo "output from find in 4.find"
+	fi
+
+# -------------------------------------------------------------------------
+#	part V : . and .. test
+#	not done since this is a special case of little value
+# -------------------------------------------------------------------------
+
+	exit 0
+
+	echo "
+		Test 5 : dot and dotdot test (new! for 2002)"
+
+
+	$FIND . -name . -print > /tmp/$$.find
+	$CWD/$PROG . .        > /tmp/$$.pfind
+	if diff /tmp/$$.pfind /tmp/$$.find
+	then
+		echo "		Test 5a..OK"
+	else
+		echo "		Test 5a..NOT OK"
+		echo "		> means from real find, < means from yours"
+		cp /tmp/$$.pfind $CWD/5a.pfind
+		cp /tmp/$$.find  $CWD/5a.find
+		echo "output from pfind in 5a.pfind, "
+		echo "output from find in 5a.find"
+	fi
+
+	$FIND .. -name .. -print > /tmp/$$.find  2>/dev/null
+	$CWD/$PROG .. ..        > /tmp/$$.pfind 2>/dev/null
+	if diff /tmp/$$.pfind /tmp/$$.find
+	then
+		echo "		Test 5b..OK"
+	else
+		echo "		Test 5b..NOT OK"
+		echo "		> means from real find, < means from yours"
+		cp /tmp/$$.pfind $CWD/5b.pfind
+		cp /tmp/$$.find  $CWD/5b.find
+		echo "output from pfind in 5b.pfind, "
+		echo "output from find in 5b.find"
+	fi

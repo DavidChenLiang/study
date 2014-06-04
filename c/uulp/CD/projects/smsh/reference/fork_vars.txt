@@ -1,0 +1,94 @@
+> I am curious about how fork() handles pointer variables.  Could someone
+> point me to the appropriate place in the text (or give me a quick answer
+> if it's not in the text) . . .
+
+> When fork creates a new process with a duplicate state, how does it handle
+> the pointers?  Does it simply crate new copies of the variables, each of
+> which points to the same memory location?  Or does it create new copies of
+> the variables in the memory locations pointed to as well?
+
+> If I fork off from my shell program without using exec to transform the
+> process, and then make changes to my tree-based local environment, will
+> those changes effect the local environment in the parent process?
+
+Here's the general theory and then I'll give a specific example of
+what's going on.
+
+First, (and this is *really important*) processes all live in a
+virtual address space.  Even though one process might `in reality'
+be located at memory location 4000 and another process might
+`in reality' be located at location 50000, each one runs as though
+it had access to all of memory.  The trick is the memory management
+feature of the computer.  The kernel parks the first process at
+location 4000 and tells the memory management system to add
+4000 from all memory references that process makes.  When the process
+asks for data at location 600, the memory management system adds
+4000 to that address and goes to location 4600.  For the process
+parked at location 50000, it goes to location 600 and (unbeknownst
+to it) accesses data at 50,600.
+
+Does that make sense?
+
+If so, then you can see that the pointers do not need to be adjusted
+at all.  The pointers are pointers within the virtual address space
+of the process.  The memory management system adjusts the actual
+values to point into the correct spot within that process's data
+space.
+
+Part II: does the child process have pointers to the parent's data?
+No.  In the crudest model, the fork() system call allocates a chunk 
+large enough for the code of the program and for the data of the
+program and the stack of the program.   The kernel then copies all
+the code from the parent to the child, copies all the data from
+the parent to the child, and copies the stack from the parent to
+the child.  The pointers to data are ok, even the return addresses
+on the stack are fine, since the code also lives in its own
+virtual address space.  When a child refers to the variable x in
+its data space, it refers to its copy of that variable.  The
+child's address space is its own.  It cannot point to data
+in other processes.  The memory management system (a hardware
+layer provided by the cpu and programmed by the kernel) knows
+how to map virtual addresses to physical addresses.  It also
+knows how much space the process has been allocated and will
+cause a trap when the process tries to reference a location 
+that under memory translation is outside the process's segment.
+
+The only way two processes can share data is through a special
+arrangement called shared memory.  In that case, the twho
+processes map a special chunk of memory into their address
+spaces and can read and write to that chunk.  It requires
+special system calls to arrange and is not possible `by
+accident.'
+
+Follow up note on fork()
+
+A program in action has two important chunks of memory.  One
+chunk holds the executable code (called the text segment)
+and one chunk holds the data.  If two people are running vi,
+both are using the same code but each has a private set of
+data (ie the file being displayed and edited.)  Unix is
+smart enough so that all people running the same program
+share a single copy of the executable code.  If ten people
+are running vi, there is one copy of the vi code in memory,
+and all ten processes have a pointer to that code.  Of course,
+each of those ten processes has its own data space.
+
+Therefore, the fork system call does not really copy the
+code.  It simply sets its code-segment-pointer to the
+same address as the parents.  On the other hand, it needs
+to set the data-segment-pointer to one private to the
+child.  Well, not exactly.  Look on the web for `copy on
+write' 
+
+The environment
+---------------
+The environment is an array of pointers to strings.  That
+array and the strings to which they point are part of the
+data space of a process.  The fork() call will duplicate
+that data into the new process.  The child can modify the
+set of variables all it likes.  You can scribble on
+a photocopy of the Declaration of Independence, but the
+original document will be unaffected.
+
+Exec copies the environment into the new program, but uses
+a different mechanism from that used by fork().

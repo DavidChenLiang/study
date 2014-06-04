@@ -1,0 +1,251 @@
+<html>
+<head>
+	<title>Programming Projects</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<link rel="Stylesheet" type="text/css" title="phStyle" href="../html/css/style.css">
+	<link rel="icon" href="phicon.ico" type="image/bmp">
+</head>
+
+<body bgcolor="#ffffff">
+
+<div align="center">
+<table width="600" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+	<td valign=top>
+	<span class="header">Programming Projects: Homework Assignments</span>
+
+<blockquote>
+	This section contains programming projects.  These assignments include
+	the description you give to the students and supporting documents and
+	code they use to do the work.
+</blockquote>
+
+<table border=0 cellpadding=5 cellspacing=2 width="85%">
+    <tr>
+	<td bgcolor="#EEEEEE"><a href="README.html">README</a></td>
+	<td>Ideas on using programming projects</td>
+    </tr>
+    <tr>
+	<td valign=top bgcolor="#EEEEEE"><b>aac</b><br>
+			<a href="aac/aac.pdf">pdf</a>,&nbsp;
+			<a href="aac/aac.txt">txt</a>
+			<br><a href="aac/">dir</a></td>
+	<td valign=top>User login accounting
+			(chapter 2)<br>
+			This project is to write a version 
+			of the Unix ac utility.  It involves reading 
+			the wtmp file, working with the ideas of users, 
+			tty lines, login times.  A complete version requires 
+			using linked lists.
+			</td>
+    </tr>
+
+<!-- llast -->
+    <tr>
+	<td valign=top bgcolor="#EEEEEE"><b>llast</b><br>
+			<a href="llast/llast.pdf">pdf</a>,&nbsp;
+			<a href="llast/llast.txt">txt</a>
+			<br><a href="llast/">dir</a></td>
+	<td valign=top>A version of <b>last</b>
+			(chapter 2)<br>
+			This project is to
+			write a version of the Unix last utility.
+			It involves reading the wtmp file, working
+			with the ideas of users, tty lines, login times.
+			A complete version requires using linked lists.
+			This project requires reading a file backwards,
+			thereby introducing some subtle, useful problems.
+			This one is trickier than aac.
+			</td>
+    </tr>
+
+<!-- watch -->
+    <tr>
+	<td valign=top bgcolor="#EEEEEE"><b>watch</b><br>
+			<a href="watch/watch.pdf">pdf</a>,&nbsp;
+			<a href="watch/watch.txt">txt</a>
+			<br><a href="watch/">dir</a></td>
+	<td valign=top>Monitor user logins/logouts
+			(chapter 2)<br>
+			This project is to
+			write a program that implements the
+			<i>watch</i> feature of the tcsh.  The program is to
+			report when specified users login or logout
+			of the system.  It involves reading the utmp file, 
+			working with the ideas of users, tty lines, 
+			login times.  It introduces the use of stat()
+			and the idea of background processes.
+			</td>
+    </tr>
+<!-- pfind -->
+    <tr>
+	<td valign=top bgcolor="#EEEEEE"><b>pfind</b><br>
+			<a href="pfind/pfind.pdf">pdf</a>,&nbsp;
+			<a href="pfind/pfind.txt">txt</a>
+			<br><a href="pfind/">dir</a></td>
+	<td valign=top>A simplfied version of <b>find</b>
+			(chapters 3 and 4)<br>
+			This project is to write
+			a version of the Unix find utility.
+			It involves reading directories, learning about
+			file types, using stat and lstat.  A good
+			application of recursion.  
+			</td>
+    </tr>
+<!-- dulite -->
+    <tr>
+	<td valign=top bgcolor="#EEEEEE"><b>dulite</b><br>
+			<a href="dulite/dulite.pdf">pdf</a>,&nbsp;
+			<a href="dulite/dulite.txt">txt</a>
+			<br><a href="dulite/">dir</a></td>
+	<td valign=top>A version of the <b>du</b>
+			(chapters 3 and 4)<br>
+			This project is to write
+			a version of the Unix du utility.
+			It involves reading directories, learning about
+			file types, using stat and lstat, understanding
+			disk block allocation for files, and some
+			of the members of the stat struct.  A very nice
+			application of recursion; it requires accumulating
+			totals from subtrees.  This one is trickier than
+			pfind.
+			</td>
+    </tr>
+<!-- lsr1ff -->
+    <tr>
+	<td valign=top bgcolor="#EEEEEE"><b>lsr1ff</b><br>
+			<a href="lsr1ff/lsr1ff.pdf">pdf</a>,&nbsp;
+			<a href="lsr1ff/lsr1ff.txt">txt</a>
+			<br><a href="lsr1ff/">dir</a></td>
+	<td valign=top>Recursive directory lister
+			(chapters 3 and 4)<br>
+			This project is to write
+			a version of the Unix ls utility.
+			This project requires writing a version of
+			ls that recursively lists all items in a
+			directory tree.  It involves reading 
+			directories, learning about <i>all</i> file types, 
+			using stat and lstat, understanding
+			symbolic links, file sizes.  A good 
+			application of recursion.
+			</td>
+    </tr>
+<!-- sttyl -->
+    <tr>
+	<td valign=top bgcolor="#EEEEEE"><b>sttyl</b><br>
+			<a href="sttyl/sttyl.pdf">pdf</a>,&nbsp;
+			<a href="sttyl/sttyl.txt">txt</a>
+			<br><a href="sttyl/">dir</a></td>
+	<td valign=top>Terminal Driver Control
+			(chapters 5 and 6)<br>
+			This project is to write
+			a version of the Unix <b>stty</b> utility.
+			It involves understanding the role and details
+			of a device driver, the struct termios type,
+			the ideas of control characters.  The assignment
+			requires building software that is table-driven.
+			</td>
+    </tr>
+<!-- pong -->
+    <tr>
+	<td valign=top bgcolor="#EEEEEE"><b>pong</b><br>
+			<a href="pong/pong.pdf">pdf</a>,&nbsp;
+			<a href="pong/pong.txt">txt</a>
+			<br><a href="pong/">dir</a></td>
+	<td valign=top>Action video game
+			(chapter 7)<br>
+			This project is to write
+			a curses based <b>pong</b> game.
+			Most students like this one a lot; finally they can
+			show their course work to friends and family.
+			More than the fun value, the project requires
+			using curses, timers, signals, and it gets students
+			programming and thinking about concurrent 
+			activities.  The ideas in this chapter prepare students
+			to learn about multithreaded programs.  
+			It also invites object oriented design.
+			</td>
+    </tr>
+<!-- smsh -->
+    <tr>
+	<td valign=top bgcolor="#EEEEEE"><b>smsh</b><br>
+			<a href="smsh/smsh.pdf">pdf</a>,&nbsp;
+			<a href="smsh/smsh.txt">txt</a>
+			<br><a href="smsh/">dir</a></td>
+	<td valign=top>A programmable shell
+			(chapters 8 and 9)<br>
+			This project is to extend
+			the functions of the small shell presented in the text.
+			The core of a Unix course, writing a shell
+			requires understanding fork, exec, wait, the
+			environment, and signals.  This assignment
+			also requires students to learn about writing
+			an interpreter.  Good students can write a
+			version that builds parse trees and then
+			passes them to an execution unit.  This
+			assignment has something for everyone.
+			</td>
+    </tr>
+<!-- netpong -->
+    <tr>
+	<td valign=top bgcolor="#EEEEEE"><b>netpong</b><br>
+			<a href="netpong/netpong.pdf">pdf</a>,&nbsp;
+			<a href="netpong/netpong.txt">txt</a>
+			<br><a href="netpong/">dir</a></td>
+	<td valign=top>A network video game
+			(chapters 10-12)<br>
+			This is a great project.  Students convert their
+			pong game into a two-player version using TCP/IP
+			sockets.  They have to code to an RFC spec, use
+			sockets, curses, select, timers.  Adventurous
+			students can replace the curses interface with
+			an X11 version.
+			</td>
+    </tr>
+<!-- wsng -->
+    <tr>
+	<td valign=top bgcolor="#EEEEEE"><b>wsng</b><br>
+			<a href="wsng/wsng.pdf">pdf</a>,&nbsp;
+			<a href="wsng/wsng.txt">txt</a>
+			<br><a href="wsng/">dir</a></td>
+	<td valign=top>Web Server
+			(chapters 10-12)<br>
+			This project is to
+			extend the simple web server presented
+			in the text.  It provides practice programming
+			with sockets, using a protocol, using fork,
+			exec, I/O redirection, environment variables,
+			directories, and files.
+			</td>
+    </tr>
+<!-- sumac -->
+    <tr>
+	<td valign=top bgcolor="#EEEEEE"><b>sumac</b><br>
+			<a href="sumac/sumac.pdf">pdf</a>,&nbsp;
+			<a href="sumac/sumac.txt">txt</a>
+			<br><a href="sumac/">dir</a></td>
+	<td valign=top>A pop3 client
+			(chapters 10-12)<br>
+			This project is to write an Internet
+			mail client.  The project requires reading
+			and understanding an RFC, using sockets,
+			files, curses, and processes.  Students
+			are often amazed to learn exactly how
+			reading email works.
+			</td>
+    </tr>
+</table>
+</center>
+
+	</td>
+	</tr>
+</table>
+</div>
+
+<br clear="all">
+
+
+
+</body>
+</html>
+

@@ -1,0 +1,66 @@
+
+
+			    Lecture 3			  Outline
+_________________________________________________________________
+
+	  Topics:   Directories, File Attributes, Bits, File Operations
+
+	  Approach: Write our own versions of Unix programs
+
+	  Featured Commands:
+		    ls
+		    ls -l
+
+	  Main Ideas:
+		    A directory is a list of file names
+		    File attributes can be numerical values
+		    File attributes can be yes/no settings
+		    Bitwise operations ( |, & )
+
+	  Agenda
+
+		    ls1
+				   opendir(), readdir(), closedir()
+				   not sorted, and does not support -l
+
+		    file attributes
+				   owner, dates, size, type, permissions
+				   look at chmod(), chown(), chgrp(), touch
+
+		    stat1
+				   stat() system call
+		    stat2
+				   coding yes-no attributes as bits
+				   binary, octal, bit operations
+		    ls2
+				   combine ls1 and stat2
+				   still not sorted, and what about ls -l filename
+
+	  Sections
+
+		    1. files have content AND properties
+		    2. Using ls
+		    3. A brief review of the Unix directory tree
+		    4. Is this just like who? open, read, show, close
+		    5. What is a directory?
+		    6. Can we use open, read, close to get the contents of a directory?
+		    7. OK, OK, so how DO I read the contents of a directory?
+		    8. How close are we to a complete version of ls?
+		    9. How do we add the -l option?
+		    10. How does stat() work?
+		    11. What info do we need from what stat tells us?
+		    12. How close are we NOW?
+		    13. How do we decode the type and file permissions?
+		    14. How do we convert uid to logname?
+		    15. How do we convert gid to group?
+		    16. Building stat2.c : format info just like ls -l
+		    17. Can we combine stat2.c with ls1.c ?
+
+
+
+
+
+
+
+
+

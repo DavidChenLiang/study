@@ -1,0 +1,66 @@
+
+
+
+
+			    Lecture 11			  Outline
+_________________________________________________________________
+
+	  Topics:   Connecting to Processes Near and Far
+
+	  Approach: Three Examples: bc, popen(), timed, rem_execd
+
+	  Today's System Calls: socket(), bind(), listen(), accept(), connect()
+
+	  Outline
+
+	      More Pipes
+
+		    bc in detail
+		       1. Big picture
+		       2. Details of implementation
+		       3. Ideas of client and server
+
+		    popen() - processes that look like files
+		       1. What is popen() ?
+		       2. A simple example ?
+		       3. Writing popen()
+
+
+	      Sockets
+
+		    What For?
+		       Connect processes on different machines
+
+		    An analogy
+		       1. Calling the time service
+		       2. Server and client
+		       3. address family
+		       4. hostname
+		       5. port number
+		       6. setting up a service
+		       7. using a service
+
+		    Reality
+		       1. talking to a time daemon
+		       2. Server and client
+		       3. address family
+		       4. hostname - ( see /etc/hosts )
+		       5. port number - ( see /etc/services )
+		       6. setting up a service
+		       7. using a service
+
+		    A Dialog
+		       1. remote execution
+		       2. using it for file transfer
+
+		    Other Socket based Services
+		       printer, talk, nfs, mail, ftp, telnet, news, dictionary,
+		       names, chat, games, ...
+
+
+
+
+
+
+
+

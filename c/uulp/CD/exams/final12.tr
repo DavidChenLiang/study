@@ -1,0 +1,341 @@
+.de UL
+.if t \&\\$1\l'|0\(ul'\\$2
+.if n .I \\$1 \\$2
+..
+.hy 14
+.sp 2i
+.ft I
+.ps 12
+.ce
+COURSE Final Exam 12
+
+.ps 12
+
+.ce
+DATE
+.ft R
+.sp 24p
+.ps 12p
+
+
+
+.ce
+Your Name Here: \l'2i'
+
+
+
+
+
+.in +1i
+.ll -1i
+.vs 15p
+\fIInstructions\fR:  You have TIME for this exam.  
+Please write your answers on the pages in this exam booklet.  
+No scrap paper or additional sheets will be accepted.  Watch 
+your time and be concise.  Write clearly (illegible answers will 
+be `silently ignored'), and \fIalways\fR check the return value 
+of a system call.  Good luck.
+.in -1i
+.ll +1i
+.bp
+\&.
+.sp 1i
+.in +2.5i
+.TS
+linesize(8) box;
+c | c | c | l
+rfC | rfC | n | n.
+prob	points	got	section
+_
+1	4
+_
+2	4
+_
+3	4
+_
+4	4
+_
+5	4
+_
+6	4
+_
+7	4
+_
+8	4
+_
+
+_
+9	6
+_
+10	6
+_
+11	6
+_
+12	6
+_
+13	6
+_
+
+_
+14	12
+_
+
+_
+15	
+_
+a	6
+_
+b	6
+_
+
+_
+16	
+_
+a	5
+_
+b	5
+_
+c	2
+_
+d	2
+_
+
+_
+
+_
+.TE
+.in -2.5i
+.bp
+\&.
+.sp 0.6i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part One'Eight Problems, each worth 4 points'page 1'
+\l'6.5i'
+.sp 3p
+.ft R
+.ft I
+Problems 1-8:  Short answer questions.  Answer each question clearly,
+precisely, and refer to specific system calls when appropriate.  Write
+your answer in the space provided.
+.br
+
+.ft R
+1. What is a \fIzombie\fR process?  What causes them?  Why are they
+a problem?
+.sp 1.3i
+2. What is the \fIlowest available file descriptor\fR principle?
+Why is it useful?
+.sp 1.3i
+3. What is an inode table?  Name one advantage and one disadvantage
+of using a large inode table?
+.sp 1.3i
+4. What is meant by \fIcanonical mode\fR?  Why is it useful?
+.sp 1.3i
+5. Why do servers create child processes?
+.sp 1.3i
+6. Files that represent terminals support the \fCopen\fR and \fCclose\fR
+system calls but do not support the \fClseek\fR system call.  Why not?
+.bp
+\&.
+.sp 0.4i
+.tl 'Part One'continued'page 2'
+\l'6.5i'
+7. All system calls return -1 on error and other values on success.
+Name two system calls that never return if they succeed.
+.sp 1.1i
+8. The manual and the header files are both useful references for
+programmers.  When would you use man pages, and when would you use
+header files?
+.sp 1.3i
+.tl 'Part Two''Five problems, each worth 6 points'
+\l'6.5i'
+.sp 4p
+Problems 9-13: \fICompare and contrast.  Each of these problems mentions
+two related concepts, system calls, or operations.  For each pair, explain
+briefly and clearly (a) what they have in common, (b) when you would use
+the first item, \fRand\fP (c) when you would use the second item.
+.ft R
+.sp 9p
+9. \fCdatagram socket\fR vs \fCstream socket\fR
+.sp 1.05i
+10. \fCaccept()\fR vs \fCread()\fR
+.sp 1.05i
+11. \fCdup2()\fR vs \fClink()\fR
+.sp 1.05i
+12. \fCutmp\fR vs \fCwtmp\fR
+.sp 1.005i
+13. \fCkill()\fR vs \fCexit()\fR
+.bp
+\&.
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'Three questions, points vary'page 3'
+\l'6.5i'
+.ft R
+`\fIEnhancing Programs\fR'\ \ 
+Many of the projects for the course have involved building
+on programs from class.  These three problems are based on
+projects you did for homework.
+
+14. \fIrm -r\fR\ \ 
+For homework you wrote \fIpfind\fR, a program that operates on a tree of
+files and directories.   For this problem you will write a similar
+program that operates on a tree of files and directories, \fIdeltree\fR.
+Write a complete C program called \fCdeltree.c\fR
+that removes files and directories in and below a specified
+directory.  The program takes as a single argument the name of a directory and
+deletes all files and directories below that directory, the
+contents of that directory, and the directory itself.
+
+Your C program should be complete, ready to compile.  Comment lightly,
+check error codes from system calls.  You may not call external
+programs to do this work.  For example, \fCsystem("chdir x; rm -r .")\fR 
+is not acceptable.
+
+.bp
+\&.
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three''page 4'
+\l'6.5i'
+.ft R
+.sp 6p
+15. An enhancement to pong: save your job and your car
+
+The pong game can be transfixing.  You might lose track of time
+and forget to put money in the parking meter.  Worse, your boss
+might come in and find you playing games on company time; you
+might lose your job.
+Two useful enhancements to the pong game are a parking meter
+timer and a `boss key'.
+
+a) \fIparking meter minder\fR: The first enhancement is to change
+the program so you may press the \fBp\fR key to tell the
+game when you just put money in the meter and want to be reminded
+after two hours pass.  The duration can be a command line option.
+
+How would you change the program to add this feature?  You cannot
+just set an alarm timer because pong already uses the timer to
+keep the ball moving.  Describe the changes to the input part of
+the program, the way you will schedule the reminder, and the
+way you will notify the player.
+.bp
+\&.
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three''page 5'
+\l'6.5i'
+.ft R
+b) \fIBoss Key\fR: You might not want your boss to find
+you playing pong on company time, so you decide to
+add a special keystroke to the game that causes the program
+to clear the screen and run the \fBpine\fR email program.
+When the user exits from \fBpine\fR, the pong game resumes 
+where it left off.
+
+How would you change the program to add this feature?  Be sure
+to explain what happens to the timer ticks that drive the ball
+and what happens to the parking meter minder.  You want to
+be sure to get to the parking meter on time.
+.bp
+\&.
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three''page 6'
+\l'6.5i'
+.ft R
+
+16. \fIWeb Server Stats\fR
+.sp 6p
+Your web server is a big improvement over the original simple
+web server, but adding page hit statistics makes it
+even more useful in a large installation.
+Which pages get lots of hits?  Which
+ones are not popular?  Which ones are so popular that requests
+for them threaten to overload the server or the network capacity?
+As written, the server receives, as arguments to the
+\s-2GET\s+2 method, requests for files, directories, and
+programs.
+
+Your server can answer these questions and manage these problems
+by keeping track of how many times each page is requested.  
+Furthermore, each page could have an owner and an hourly hit quota.
+If you are running a web hosting service, you can charge different
+prices for different page hit quotas.  For example, you could charge
+one rate for up to 20 hits per hour and a higher rate to allow
+1000 hits per hour.
+
+By attaching an email address to each page, your server could
+notify the owner of the page if the hit quota is reached.  The customer
+could then decide to pay for a higher quota.
+
+Finally, the server has to report all the statistics it receives.
+The site administrator needs a way to ask for these reports, and the
+program has to be able to produce these reports.
+
+.UL "Part I: Data Structures [4 points]"
+.sp 6p
+.in +0.2i 
+.ll -0.2i
+a) What data structures would you use to store these statistics and
+user information?  Why?
+.ll +0.2i
+.in -0.2i
+
+.UL "Part II: Tabulating Hits [4 points]"
+.sp 6p
+.in +0.2i 
+.ll -0.2i
+b) How do you modify the web server to accumulate these statistics?
+Where in the program flow do you have to add code?  Describe briefly
+what additions you would make.
+.ll +0.2i
+.in -0.2i
+
+.UL "Part III: Reports [3 points]"
+.sp 6p
+.in +0.2i
+.ll -0.2i
+c) How can you implement the server stats report function?  How would the
+site administrator ask for the report?  How would the program generate it?
+.in -0.2i 
+.ll +0.2i
+
+.UL "Part IV: Enforcing/Notifying [3 points]"
+.sp 6p
+.in +0.2i
+.ll -0.2i
+d) How do you enforce hourly hit quotas?  How do you notify 
+page owners when their pages hit the quotas?  
+.in -0.2i 
+.ll +0.2i
+
+
+.bp
+\&.
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'continued'page 7'
+\l'6.5i'
+.ft R
+.bp
+\&.
+.sp 0.4i
+.ps 10
+.vs 12p
+.ft B
+.tl 'Part Three'continued'page 8'
+\l'6.5i'
+

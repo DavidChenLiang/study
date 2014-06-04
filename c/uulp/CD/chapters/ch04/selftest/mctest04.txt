@@ -1,0 +1,45 @@
+[Chapter 04]
+  4.1) A pointer to a file is called
+    A. an inode
+    B. a link
+
+  4.2) The size of an inode table determines
+    A. the maximum size of a file in the file system
+    B. the maximum number of files in the file system
+
+  4.3) The size of the data area of a file system determines
+    A. the maximum space files may use for storage
+    B. the maximum size of a file in the file system
+
+  4.4) Unix uses indirect blocks to store
+    A. lists of block numbers of data blocks
+    B. symbolic links 
+
+  4.5) The command "ln .. parent" fails because
+    A. .. is not a real directory
+    B. Unix does not allow users to create links to directories
+
+  4.6) The Unix command rm only deletes a file only when
+    A. the system runs out of free blocks
+    B. the last link is removed
+
+  4.7) The chdir system call changes the
+    A. current directory of the calling process
+    B. the name of "." in the current directory 
+
+  4.8) The pwd command prints the
+    A. path to the current directory
+    B. the inode number of the current directory
+
+  4.9) A directory may not be used as a mount point if
+    A. the directory does not exist
+    B. the directory is not empty
+
+  4.10) Unix does not use drive names in paths because
+    A. the colon is a legal character in a filename
+    B. separate disks are mounted as subdirectories
+
+  4.11) A symbolic link may be used to refer
+    A. only to files on other file systems
+    B. to directories 
+

@@ -1,0 +1,62 @@
+.sp 0.6i
+.ft B
+.tl ''Lecture 12'Outline'
+\l'6.5i'
+
+.nf
+.in +1i
+.ta 1i +0.5i
+\fBTopics\fR:	Spotlight on Servers
+
+\fBApproach\fR:	Two major Examples: timeserver, mini web server
+
+\fBToday's System Calls\fR: socket(), bind(), listen(), accept(), connect()
+
+\fBOutline\fR
+
+	Once one used files and programs on one computer.
+	Now files and programs can be anywhere.  How does it work?
+
+    \fBOverview of Client-Server Programming\fR
+
+	Abstracting the main functional units into separate functions.
+	 \fCmake_server_socket(portnum)\fR
+	 \fCconnect_to_server(hostname,portnum)\fR
+	 \fCprocess_request(fd)\fR - \fCtalk_to_server(fd)\fR
+
+    \fBServer Design\fR
+
+	The Time Service
+
+	   1. purpose
+	   2. big picture
+	   3. the server: process_request
+		takes a call
+		computes the time, tells the caller, hangs up
+	   4. the client: talk_to_server
+		makes a call
+		copies reply to stdout
+
+	An Alternate Time Service
+
+	   5. the server: process request
+		takes a call
+		forks - child redirects stdout, execs date
+			parent waits (?)
+
+	Pros and Cons of Using New Processes
+	
+	A Mini Web Server
+
+	   What is a web server? - A remote shell
+	      allows ls, cat, and exec remotely
+
+	   Building a Web Server
+	      The Main steps
+	      The Protocol : explore it with telnet (see rfc1945)
+	      The Main Loop : take request, send reply
+	      Processing the Request
+		error handling
+		listing directories
+		executing programs
+		displaying files

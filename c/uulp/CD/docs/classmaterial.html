@@ -1,0 +1,199 @@
+<html>
+<head>
+	<title>Project-based teaching</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<link rel="Stylesheet" type="text/css" title="phStyle" href="../html/css/style.css">
+	<link rel="icon" href="../phicon.ico" type="image/bmp">
+</head>
+
+<body bgcolor="#ffffff">
+
+<div align="center">
+<table width="80%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+	<td valign=top>
+	<span class="header">Class Material<br>
+<i>Understanding Unix/Linux Programming</i></span><br>
+
+
+<dl>
+<dt>Classroom Material: Outline, Source Code, Slides
+<dd>
+	The classroom material consists of:
+	<p>
+	<ul>
+		<li>Lecture outline
+		<li>Sample programs
+		<li>Listings of sample programs
+		<li>Blackboard images/Slideshow
+		<li>Printout of slideshow
+	</ul>
+	<p>
+	The material has been used for two-hour classes.
+	The lecture outline and code follow the topics
+	in the text closely but not exactly.
+	In this section, I'll explain what my own classes look like
+	and how I use the teaching material.
+	<p>
+	<table border=0 cellpadding=2 cellspacing=2>
+	<tr>
+	<td colspan='2'>Here is a student view of my class</td>
+	</tr>
+	<tr>
+	<td> <img src='classt.jpg' border=0 align='left'></td>
+	<td valign=top>
+		<b>H</b> &nbsp;&nbsp; Everyone gets handouts 
+			containing an outline of the
+		class and copies of all sample programs.
+		<p>
+		<b>L</b> &nbsp;&nbsp; I explain the ideas, demonstrate 
+			and write programs <p>
+		<b>B</b> &nbsp;&nbsp; I write on the blackboard.
+		<p>
+		<b>S,C</b> &nbsp;&nbsp; I write, edit, compile, and 
+			run programs in a computer
+		with the screen image projected for the class to see.
+	</td>
+	</tr>
+	</table>
+	<p>
+	
+<dt>Class Outline
+<dd>
+	The outline is a one-page agenda for the class.
+	The outline includes the main topic for the class, 
+	the main examples, and the sequence of ideas, questions, and
+	answers.  Students and teachers both know what to expect
+	and where they are going.
+	The lecture outlines are in the "handouts" directory in
+	files called <i>outline##.pdf</i>, <i>outline##.txt</i> ,
+	and <i>outline##.tr</i>.
+	A typical outline looks like 
+	<a href='samples/outline03.pdf'>this one</a>
+	from class 3.
+	<p>
+	The class outline corresponds to the sequence of topics
+	and images on the lecture slides.  See below for information
+	about the slides.
+	<p>
+	
+<dt>Sample Code
+<dd>
+	During class, I write programs that demonstrate what
+	Unix does, how programs work, and how to use system calls.
+	The students receive printed copies of the source code to
+	all those programs.  They can look at them before class starts,
+	write notes during class, and review them later.  
+	Many students use them as their main notepad.
+	The sample program printouts are in the "handouts" directory in
+	files called <i>samples##.pdf</i>, <i>samples##.txt</i> ,
+	and <i>samples##.tr</i>.
+	A typical page of sample programs looks like 
+	<a href='samples/samples03.pdf'>this one</a>
+	from class 3.
+	<p>
+	The actual programs, in source form, are in the directory
+	called "code".  
+	These are the files you can copy to your machine and
+	use during lecture if you plan to compile and run programs
+	during class.  They are similar to many programs in the
+	book.  
+	<p>
+<dt>Other Handouts
+<dd>
+	In addition to the class outline and sample code listings,
+	some lectures have other handouts.  These documents provide
+	extra explanations or illustrations of class topics.
+	<p>
+<dt>Blackboards and Slideshows
+<dd>
+	I write on the blackboard during class.  Much of the
+	narrative of the lecture is written on the blackboard.
+	I have included
+	these blackboard images in the form of slideshows.
+	The slideshows come in HTML and PowerPoint versions.
+	The blackboard images use chalk color font on a blackboard
+	color background.  If you don't like that color scheme, the
+	slideshows also come in a whiteboard version, with black
+	font on white background.
+	<p>
+	If you prefer to make your own slides with nicer graphics
+	and your own labels and text, you can use the clipart
+	provided for each chapter.  Each chapter has a clipart 
+	section that contains full-color, computer-rendered 
+	versions of all the images in the book.  You can paste 
+	these images into any presentation program, add your 
+	own labels, arrows, and text, to build your own version.  
+	If you base your work on the slides provided, you can 
+	do a new lecture pretty quickly.
+	<p>
+	I used the clipart images to make HTML slides for chapters
+	1 and 15.  
+	</p>
+
+<dt>Page of Slides
+<dd>
+	The slides directory also has a subdirectory called "onepage"
+	which contains all the slide images
+	in one document.  Students often print this out before class
+	and use it to follow along, adding notes, to the lecture
+	images.  For example, the onepage version for
+	directory of class 10 looks like
+	<a href='samples/onepage10.html'>this</a>.
+	</p>
+
+<dt>File Format
+<dd>
+	Class outlines and sample code handouts are written using troff
+	formating tags.  You can convert the file into Postscript
+	or pdf with standard Unix tools.  
+	To convert a file into Postscript using groff, do this:
+	<pre>
+	groff -Tps XXX.tr > XXX.ps
+	</pre>
+	If you do not have groff (which is free software) you might
+	have troff; many versions of Unix include troff.  
+	<p>
+	If you want to to convert that Postscript file to pdf format, 
+	you can use the ghostscript program, freely available 
+	for Unix and some other platforms.  Use this command
+	<pre>
+	gs -sDEVICE=pdfwrite -sOutputFile=XXX.pdf -q -dNOPAUSE - < XXX.ps
+	</pre>
+	The manual explains what it all means.  gs can also convert
+	Postscript files into many other formats.
+	</p>
+
+<dt>Classes and Text
+<dd>
+	The classes do not cover all the material in the text.
+	The classes sometimes offer slightly different approaches to the 
+	material.  Some of the class examples are simpler than ones in 
+	the text because people have less time to absorb complex
+	programs in class. 
+	</p>
+</dl>
+
+
+
+</td>
+</tr>
+</table>
+</div>
+
+<br clear="all">
+<table border=0 align=right>
+	<tr>
+	<td class="footer">
+	&copy; 2003 <a href="http://www.prenhall.com" target="new">Pearson Education, Inc.</a><br>
+	<a href="../html/notice/legal.html" target="main">Legal Notice</a><br>
+			<a href="../html/notice/privacy.html" target="main">Privacy Statement</a><br>
+			<a href="../html/tech_support.html" target="main">Technical Support Info</a>
+	</td></tr>
+</table>
+
+<BR CLEAR="all">
+
+</body>
+</html>
+

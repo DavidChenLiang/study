@@ -1,0 +1,40 @@
+The ball moves as follows:
+
+	The timer ticks at a regular interval.
+	Each time it ticks the 'ball_move' function
+	is called.
+
+	The way the speed of the ball is determined is
+	there is a number called  'ticks-to-move' that
+	must elapse before the ball moves one screen
+	position.  For example, if the ball is set at
+	10 ticks-to-move in the x direction, then 
+	after each 10 timer ticks pass, the horizonatl
+	position of the ball in increased.
+
+	Similarly, there is a setting for ticks-to-move
+	in the y direction.  Say that number is set
+	at 7.  Then after each seven ticks, the ball
+	moves one screen position in the vertical
+	direction.
+
+	How does the ball know how many ticks have passed
+	since it last moved?  It uses a counter called
+	ticks-to-go which keeps track of how many ticks
+	are left before the ball moves in that direction.
+
+	Therefore, when the ball starts, it sets x_ttg
+	equal to x_ttm and sets y_ttg = y_ttm .
+	At each timer tick, it decrements the x_ttg
+	and y_ttg variables.  If x_ttg hits zero, then
+	the ball is moved in the x-direction and the
+	x_ttg variable is reset to x_ttm.  Similarly
+	if y_ttg hits zero, the ball is moved in the
+	y direction and the counter (y_ttg) is reset
+	to equal y_ttm.
+
+	How does the ball know whether to move left 
+	or right?  It uses x_dir.  If x_dir is +1, the
+	ball moves right each time it moves.  If
+	x_dir is -1, the ball moves left each time it
+	moves.  Same idea for y_dir.
