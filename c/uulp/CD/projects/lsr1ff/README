@@ -1,0 +1,4 @@
+The tools directory has a program that creates a
+Unix domain socket.  This is useful to see if student
+programs identifies sockets correctly.
+

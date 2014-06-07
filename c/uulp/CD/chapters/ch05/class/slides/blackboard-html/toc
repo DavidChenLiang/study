@@ -1,0 +1,10 @@
+Lecture 05
+---------------------------------
+slidename	section in toc
+---------	-----------------
+page001.html	looking at connections
+page004.html	fcntl: setting attributes 
+page006.html	auto-append mode
+page010.html	devices are files
+page013.html	character processing
+page017.html	tty programming

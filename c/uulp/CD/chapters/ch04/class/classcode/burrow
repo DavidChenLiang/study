@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# script   burrow
+# purpose  show how to dig deep holes in a file system
+# method   mkdir x; cd x; repeat  (like on shampoo bottles)
+# warning  sure way to antagonize system managers
+# note	   only run this on your own system, not on one managed by others
+#
+
+	while true
+	do
+		mkdir deepdir
+		cd deepdir
+	done

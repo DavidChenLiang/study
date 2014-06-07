@@ -1,0 +1,16 @@
+Other enhancements:
+
+Dual-Mode
+----------------
+One idea is to have the game, while waiting in server mode,
+to run in the original single-user pong game.  That will
+wait for a connection but play normally with three walls.
+
+When a connection is made, the opposite wall could change
+from | into . (or :) and then become a net.  When the
+other player checked out, the game could revert to its
+single-player, waiting mode.
+
+Another option is if the client program found that the
+opponent quit it could revert to single play mode and
+become a serer able to accept a connection.

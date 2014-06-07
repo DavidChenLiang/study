@@ -1,0 +1,14 @@
+N=1
+while test -d tedwilliams
+do
+	N=`expr $N + 1`
+	cd tedwilliams
+	echo $N
+done
+
+cd ..
+while test -d tedwilliams
+do
+	rmdir tedwilliams
+	cd ..
+done

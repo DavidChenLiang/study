@@ -1,0 +1,125 @@
+0000000    S   c   r   i   p   t       s   t   a   r   t   e   d       o
+0000020    n       M   o   n       M   a   r       1   8       1   9   :
+0000040    1   1   :   5   2       2   0   0   2  \n   %       h   e   l
+0000060    l   o   6       1   0   0  \r  \r  \n 033   [   m 033   (   B
+0000100  033   [   ;   H 033   [   2   J   p   o   s       =       1   0
+0000120   \n  \n  \n  \n  \n  \n  \n  \n  \n  \n               H   e   l
+0000140    l   o 033   [   H  \t  \b   1  \n  \n  \n  \n  \n  \n  \n  \n
+0000160   \n  \n                   H   e   l   l   o 033   [   H  \t  \b
+0000200    2  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n                    
+0000220    H   e  \t   l   o 033   [   H  \t  \b   3  \n  \n  \n  \n  \n
+0000240   \n  \n  \n  \n  \n                           H   e   l   l   o
+0000260  033   [   H  \t  \b   4  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n
+0000300                                H   e   l   l   o 033   [   H  \t
+0000320   \b   5  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n                
+0000340                    H   e   l   l   o 033   [   H  \t  \b   6  \n
+0000360   \n  \n  \n  \n  \n  \n  \n  \n  \n  \t       H   e   l   l   o
+0000400  033   [   H  \t  \b   7  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n
+0000420   \t           H   e   l   l   o 033   [   H  \t  \b   8  \n  \n
+0000440   \n  \n  \n  \n  \n  \n  \n  \n  \t               H   e   l   l
+0000460    o 033   [   H  \t  \b   9  \n  \n  \n  \n  \n  \n  \n  \n  \n
+0000500   \n  \t                   H   e   l   l   o 033   [   H  \t  \b
+0000520   \b   2   0  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \t        
+0000540                H   e  \t   l   o 033   [   H  \t  \b   1  \n  \n
+0000560   \n  \n  \n  \n  \n  \n  \n  \n  \t                           H
+0000600    e   l   l   o 033   [   H  \t  \b   2  \n  \n  \n  \n  \n  \n
+0000620   \n  \n  \n  \n  \t                               H   e   l   l
+0000640    o 033   [   H  \t  \b   3  \n  \n  \n  \n  \n  \n  \n  \n  \n
+0000660   \n  \t                                   H   e   l   l   o 033
+0000700    [   H  \t  \b   4  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \t
+0000720   \t       H   e   l   l   o 033   [   H  \t  \b   5  \n  \n  \n
+0000740   \n  \n  \n  \n  \n  \n  \n  \t  \t           H   e   l   l   o
+0000760  033   [   H  \t  \b   6  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n
+0001000   \t  \t               H   e   l   l   o 033   [   H  \t  \b   7
+0001020   \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \t  \t                
+0001040    H   e   l   l   o 033   [   H  \t  \b   8  \n  \n  \n  \n  \n
+0001060   \n  \n  \n  \n  \n  \t  \t                       H   e  \t   l
+0001100    o 033   [   H  \t  \b   9  \n  \n  \n  \n  \n  \n  \n  \n  \n
+0001120   \n  \t  \t                           H   e   l   l   o 033   [
+0001140    H  \t  \b  \b   3   0  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n
+0001160   \t  \t                               H   e   l   l   o 033   [
+0001200    H  \t  \b  \b   2   9  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n
+0001220   \t  \t                           H   e   l   l   o     033   [
+0001240    H  \t  \b   8  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \t  \t
+0001260                        H   e   l   l   o     033   [   H  \t  \b
+0001300    7  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \t  \t            
+0001320        H   e   l  \t   o     033   [   H  \t  \b   6  \n  \n  \n
+0001340   \n  \n  \n  \n  \n  \n  \n  \t  \t               H   e   l   l
+0001360    o     033   [   H  \t  \b   5  \n  \n  \n  \n  \n  \n  \n  \n
+0001400   \n  \n  \t  \t           H   e   l   l   o     033   [   H  \t
+0001420   \b   4  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \t  \t       H
+0001440    e   l   l   o     033   [   H  \t  \b   3  \n  \n  \n  \n  \n
+0001460   \n  \n  \n  \n  \n  \t  \t   H   e   l   l   o     033   [   H
+0001500   \t  \b   2  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \t        
+0001520                        H   e   l   l   o     033   [   H  \t  \b
+0001540    1  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \t                
+0001560            H   e   l   l   o     033   [   H  \t  \b   0  \n  \n
+0001600   \n  \n  \n  \n  \n  \n  \n  \n  \t                       H   e
+0001620    l   l   o     033   [   H  \t  \b  \b   1   9  \n  \n  \n  \n
+0001640   \n  \n  \n  \n  \n  \n  \t                   H   e   l  \t   o
+0001660      033   [   H  \t  \b   8  \n  \n  \n  \n  \n  \n  \n  \n  \n
+0001700   \n  \t               H   e   l   l   o     033   [   H  \t  \b
+0001720    7  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \t           H   e
+0001740    l   l   o     033   [   H  \t  \b   6  \n  \n  \n  \n  \n  \n
+0001760   \n  \n  \n  \n  \t       H   e   l   l   o     033   [   H  \t
+0002000   \b   5  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \t   H   e   l
+0002020    l   o     033   [   H  \t  \b   4  \n  \n  \n  \n  \n  \n  \n
+0002040   \n  \n  \n                               H   e   l   l   o    
+0002060  033   [   H  \t  \b   3  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n
+0002100                            H   e   l   l   o     033   [   H  \t
+0002120   \b   2  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n                
+0002140        H   e   l   l   o     033   [   H  \t  \b   1  \n  \n  \n
+0002160   \n  \n  \n  \n  \n  \n  \n                   H   e   l  \t   o
+0002200      033   [   H  \t  \b   0  \n  \n  \n  \n  \n  \n  \n  \n  \n
+0002220   \n               H   e   l   l   o     033   [   H  \t  \b   1
+0002240   \n  \n  \n  \n  \n  \n  \n  \n  \n  \n                   H   e
+0002260    l   l   o 033   [   H  \t  \b   2  \n  \n  \n  \n  \n  \n  \n
+0002300   \n  \n  \n                       H   e  \t   l   o 033   [   H
+0002320   \t  \b   3  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n            
+0002340                H   e   l   l   o 033   [   H  \t  \b   4  \n  \n
+0002360   \n  \n  \n  \n  \n  \n  \n  \n                               H
+0002400    e   l   l   o 033   [   H  \t  \b   5  \n  \n  \n  \n  \n  \n
+0002420   \n  \n  \n  \n                                   H   e   l   l
+0002440    o 033   [   H  \t  \b   6  \n  \n  \n  \n  \n  \n  \n  \n  \n
+0002460   \n  \t       H   e   l   l   o 033   [   H  \t  \b   7  \n  \n
+0002500   \n  \n  \n  \n  \n  \n  \n  \n  \t           H   e   l   l   o
+0002520  033   [   H  \t  \b   8  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n
+0002540   \t               H   e   l   l   o 033   [   H  \t  \b   9  \n
+0002560   \n  \n  \n  \n  \n  \n  \n  \n  \n  \t                   H   e
+0002600    l   l   o 033   [   H  \t  \b  \b   2   0  \n  \n  \n  \n  \n
+0002620   \n  \n  \n  \n  \n  \t                       H   e  \t   l   o
+0002640  033   [   H  \t  \b   1  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n
+0002660   \t                           H   e   l   l   o 033   [   H  \t
+0002700   \b   2  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \t            
+0002720                    H   e   l   l   o 033   [   H  \t  \b   3  \n
+0002740   \n  \n  \n  \n  \n  \n  \n  \n  \n  \t                        
+0002760            H   e   l   l   o 033   [   H  \t  \b   4  \n  \n  \n
+0003000   \n  \n  \n  \n  \n  \n  \n  \t  \t       H   e   l   l   o 033
+0003020    [   H  \t  \b   5  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \t
+0003040   \t           H   e   l   l   o 033   [   H  \t  \b   6  \n  \n
+0003060   \n  \n  \n  \n  \n  \n  \n  \n  \t  \t               H   e   l
+0003100    l   o 033   [   H  \t  \b   7  \n  \n  \n  \n  \n  \n  \n  \n
+0003120   \n  \n  \t  \t                   H   e   l   l   o 033   [   H
+0003140   \t  \b   8  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \t  \t    
+0003160                    H   e  \t   l   o 033   [   H  \t  \b   9  \n
+0003200   \n  \n  \n  \n  \n  \n  \n  \n  \n  \t  \t                    
+0003220        H   e   l   l   o 033   [   H  \t  \b  \b   3   0  \n  \n
+0003240   \n  \n  \n  \n  \n  \n  \n  \n  \t  \t                        
+0003260        H   e   l   l   o 033   [   H  \t  \b  \b   2   9  \n  \n
+0003300   \n  \n  \n  \n  \n  \n  \n  \n  \t  \t                        
+0003320    H   e   l   l   o     033   [   H  \t  \b   8  \n  \n  \n  \n
+0003340   \n  \n  \n  \n  \n  \n  \t  \t                       H   e   l
+0003360    l   o     033   [   H  \t  \b   7  \n  \n  \n  \n  \n  \n  \n
+0003400   \n  \n  \n  \t  \t                   H   e   l  \t   o     033
+0003420    [   H  \t  \b   6  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \t
+0003440   \t               H   e   l   l   o     033   [   H  \t  \b   5
+0003460   \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \t  \t           H   e
+0003500    l   l   o     033   [   H  \t  \r  \n  \r  \n  \r  \n  \r  \n
+0003520   \r  \n  \r  \n  \r  \n  \r  \n  \r  \n  \r  \n  \r  \n  \r  \n
+*
+0003560   \r  \n  \r  \n  \r  \n  \r  \n  \r 033   [   m 033   (   B   %
+0003600        e   x   i   t  \r  \r  \n   e   x   i   t  \r  \n  \n   s
+0003620    c   r   i   p   t       d   o   n   e       o   n       M   o
+0003640    n       M   a   r       1   8       1   9   :   1   2   :   0
+0003660    3       2   0   0   2  \n
+0003667

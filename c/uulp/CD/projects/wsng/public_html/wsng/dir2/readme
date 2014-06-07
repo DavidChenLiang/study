@@ -1,0 +1,3 @@
+The program hello.c should be compiled to create hello.cgi so
+that the server can show it can execute programs with .cgi 
+extensions.

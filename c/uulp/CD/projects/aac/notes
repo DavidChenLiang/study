@@ -1,0 +1,31 @@
+
+I've been looking at some of the aac projects and noticed
+that some people read a lot of records into memory and
+keep them there.  One solution I looked at read in all
+sessions for all users into a linked list with a login
+time and logout time.  Then, when it hit EOF, it consulted
+the list to find the total time for each user in the list.
+For really large wtmp files, this approach is risky as
+well as inefficient in terms of:
+
+        a) space - uses lots more than it needs
+        b) time  - searching one long linked list for
+                   each record does not scale well
+                   particularly since each new open session
+                   adds to the list
+                         
+On the other hand, the design has a certain clear modularity:
+
+        1) read in all sessions
+        2) foreach user in list
+                user_total = 0
+                foreach session in list
+                        if session.logname == user
+                                user_total += session.time
+                print user_total
+                total_total += user_total
+
+But the implied space limitation and the n^2 time behavior is
+poor design.      
+
+

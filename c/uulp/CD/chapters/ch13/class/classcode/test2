@@ -1,0 +1,4 @@
+clnt2 &
+sleep 1
+kill 10241
+srv3 &

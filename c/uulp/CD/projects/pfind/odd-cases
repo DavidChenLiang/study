@@ -1,0 +1,24 @@
+ > Hi Bruce and TA folks,
+ > While I was working on "." and ".." logic, I stumbled on something interesting.
+ > Observe the following 4 cases:
+ > ---------
+ > ice% find . -name .
+ > .
+ > ---------
+ > ice% find ./ -name .
+ > ---------
+ > ice% find ~COURSE/hw/pfind -name pfind
+ > /home/COURSE/hw/pfind
+ > find: /home/COURSE/hw/pfind/pft2.d/d1/locked.directory: Permission denied
+ > find: /home/COURSE/hw/pfind/pft2.d/d2/d2: Permission denied
+ > ---------
+ > ice% find ~COURSE/hw/pfind/ -name pfind
+ > find: /home/COURSE/hw/pfind/pft2.d/d1/locked.directory: Permission denied
+ > find: /home/COURSE/hw/pfind/pft2.d/d2/d2: Permission denied
+ > ice%
+ > ----------
+ > My understanding from the above is that find compares the final 
+   dirname in the starting_search_dir with search_str and displays 
+   them if they match(cases 2 and 4 confirm that it does a strcmp).
+ > I have added a new Test Scenario (case 5) in test.pfind which I 
+   think would be a good test. 

@@ -1,0 +1,16 @@
+Here is complete source for two versions of the unix tail
+program.  The manual explains what tail does.
+
+The bsd version is part of the version of unix written
+at the University of California at Berkeley, one of the
+major sites of Unix growth.
+
+The gnu version is part of the version of unix written
+by the Free Software Foundation, a project started in
+the mid 80's by Richard Stallman.
+
+Both programs allow a user to display the last part of
+a file, various options are provided.  
+
+They use different techniques, and quite different coding
+styles.

@@ -1,0 +1,4 @@
+	stty -a 							|
+	sed -e 's/ = /=/g' -e "s/peed \(.*\) baud/peed=\1/"		|
+	tr " " "\012" 							|
+	grep -v "^$"

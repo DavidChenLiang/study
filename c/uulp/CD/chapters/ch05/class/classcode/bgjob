@@ -1,0 +1,11 @@
+#!/bin/sh
+#
+#  bgjob - run this in the background and the
+#          use stty or programs you write to
+#	   change terminal settings now and
+#	   then.  See what this program does.
+while true
+do
+    echostate
+    sleep 15
+done

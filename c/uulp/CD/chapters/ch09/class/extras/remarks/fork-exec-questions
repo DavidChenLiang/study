@@ -1,0 +1,81 @@
+
+> 1)  Is there a place somewhere that you know of where the workings of 
+> the refresh() in curses is described (i.e. source code)?  be interesting 
+> to see how it can be done...
+
+The source for curses will show it in detail.  There are several versions
+of curses. The original one was done at Berkeley.  A fancier one was
+later done at AT&T using barely compatible functions.  An open source
+free version was done later and has now taken over the BSD lineage.
+
+The original bsd sources are at:  
+
+    ftp://ftp.uu.net/systems/unix/bsd-sources/lib/libcurses/
+
+and refresh.c.Z is there.  You have to explore the code some to see
+how the internal version of the screen is kept and how it knows which
+parts to look at.  That earlier code is simpler to follow than the
+later, more complicated versions.
+
+> 3)  & more currently - processes are a little hard to get my head 
+> around, but if I could ask some quick questions to see if I understand 
+> it right -
+
+> A process and the program that resides in it's space are in a sense 2 
+> different things, but when an exec* is called, is a new process then 
+> created, if not, does it have the same pid as it did before the exec* 
+> call or a new one? (I could easily check this out for myself...)
+
+   When a the code in a process calls exec() the kernel runs a new
+   program in that process.  The pid stays the same.  It is possible
+   for one process to chain a sequence of programs forever assuming
+   that each program it ran had an exec() to run the next one.
+
+> Some of the reasons for "cloning" are
+> the clone quickly has all the attributes of the parent process (userid, 
+> privileges, ...) and, by starting up where the fork occurred, it also 
+> has all the environment  information needed to give what's important to 
+> new program (process?)  called by exec*?
+
+   I am not sure about the reasons for cloning but the benefits are 
+   as you describe.
+
+> fork() is done the way it is to allow a call to exec* without having to 
+> lose the parent process but still enables exec* to be called as if there 
+> wasn't a fork - that is, without fork() working the way it does, there 
+> would have to be a whole different way of setting up an exec* if you 
+> wanted to keep the parent around.  Is that a coherent question? I guess 
+> I'm trying to understand why fork() works the way it does...
+
+   The question sounds pretty coherent.  Let me start from scratch to
+   see if that meets some of your questions.
+
+   Programs sometimes want to run other programs, so an o/s has to provide
+   some mechanism for doing that.  One mechanism would be to provide a
+   system call named run_program(programname) that would tell the o/s to
+   launch the named program.  That would work ok, but there are a few
+   questions that come to mind at once.
+
+   a) Should the caller be blocked until the new program ends or should
+      the new program go on its way and let the caller go back to its
+      work?  If so, the run_program() call would need to take some other
+      parameter to tell it whether to block the parent.
+
+      What about setting up file connections or certain priviledges or
+      environment variables?  If those had to be set when you called
+      run_program() then you'd need more options to the run_program()
+      call.  E.g.  run_program("sort", NO_BLOCK, "stdin=/tmp/foo", 
+                                priority=x, ... )
+      A process can set all sorts of attributes.  If the run_program()
+      model were to be maximally flexible, then it would have to allow
+      the caller to specify any combination of attributes to apply to
+      the new program/process.  
+
+      The advantage of fork() then exec() is that those settings do 
+      not need to be duplicated from `set them for me' to `set them
+      for my child'. Instead, the same calls that work for `set them
+      for me' automatically, through fork and exec,  produce the 
+      effects for `set them for the child'.
+
+
+

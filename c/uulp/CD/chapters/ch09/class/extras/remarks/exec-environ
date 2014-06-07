@@ -1,0 +1,90 @@
+
+> Q1. Is this correct:
+> Environment variables are global, i.e., can be accessed by all
+> processes. The "table" in our program, is local, i.e., only
+> visible to our program.
+
+	The environment variables are global only because of
+	the convention that the list of strings pointed to by
+	the global variable  `environ' is copied to the new
+	program by exec().
+
+> execvp() will copy the environment, but not the table;
+> that's why we have to call VLtable2environ() first to export
+> the table, to make all table variables global, so the child
+> (in smsh4.c) can access the same shell variables, if needed.
+
+	The environment is the list of strings that `environ'
+	points at.  That is all there is to it.  Since our
+	table is not the array of strings that environ points
+	to, it is lost when exec() loads a new program.
+
+	We do not want all our variables made available to the
+	new program, so we make a new table that contains a
+	subset of the full table and make environ point to it.
+
+> Q2. Assuming that the above is correct. Here's the part I am confused.
+> In smsh4.c, in execute(), before the child calls execvp(), it
+> calls VLtable2environ(), which assigns storage and copy table
+> variable values to the environment().
+
+> Now, environ is a global variable. If we point it to a new
+> location, what has happened to the old stuff it was pointing to?
+> I can think of two possibilities.
+
+	the old stuff is no longer `the environment' so is not
+	copied to the new program.  The old environment is lost.
+
+> Case 1:
+> Do we have two global variable with the same name pointing to
+> two different things now? In this case, after the child is done,
+> we have to free the memory in the child process.
+
+	No, it's not that bad.  The shell has its table and its
+	original environment.  When it wants to run a command,
+	it calls fork().  The parent leaves the environment
+	alone because it's not going anywhere.
+
+	In the child, though, that process is going to exec()
+	a new program.  That process (the child) will create a
+	new table, copy the strings to it, point environ at the
+	new table and then call exec().
+
+	exec() will copy those strings out of the way, then erase
+	the current code and data for the process and load new code
+	and data. The kernel will then copy those strings from the
+	off-stage storage into the new program and point its environ
+	pointer to that array of strings.
+
+	The new program has those strings.  The previous program and
+	its data are gone, so no deallcoation is needed.  The parent
+	never changed anything so it does not need to do anything.
+
+	The important part is that the environment is just data in the
+	process, so fork() copies that data.  The child has its own
+	copy and the parent still has its copy.
+
+> So it seems like the way to do it is execute a grandchild process
+> to do the execvp() and then free the memory in the child process.
+> (This is what I am trying to do, but have encountered problems
+> I cannot explain. The program keeps reading from the input script
+> file indefinitely. I have tried to make sure all child/grandchild
+> processes have exited. I cannot explain why changing execute()
+> can affect the "while{}" loop in main, which reads in the
+> command line.)
+
+> In this case, it is also ambiguous to have a global variable "environ"
+> used as two different variables. (I guess one can say it is
+> okay, because the two processes are really different processes;
+> I guess "environ" is just a "link" to read the environment;
+> it is not really a single memory space shared by everyone.)
+
+	That is exactly correct.
+
+> Case 2: We have two global variables with the same name, both
+> pointing to the same thing all the time. I think this is not true,
+> but if this is true, what has happened to the stuff that environ
+> was pointing at? Shouldn't we free it first before we point
+> environ at the new memory?
+
+	Not true.

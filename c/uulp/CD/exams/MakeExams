@@ -1,0 +1,36 @@
+#!/bin/sh
+#
+# MakeExams
+#
+#  usage:   MakeExams exam1.tr exam2.tr ...
+#  result:  creates exam1.pdf exam2.pdf ..
+#   
+
+	for f in $*
+	do
+		case $f in
+			*.tr)	output=`basename $f .tr`	;;
+			*)	output=$f.pdf			;;
+		esac
+		#
+		# do not create if output is newer than source
+		#
+		if test -f $output
+		then
+			newer=`ls -t $output $f | head -1`
+			if test "$newer" = "$output"
+			then
+				continue
+			fi
+		fi
+		#
+		# otherwise make it
+		#
+
+		tbl $f 		\
+		|
+		groff -Tps 	\
+		|
+		gs 	-sDEVICE=pdfwrite -q -dNOPAUSE 	\
+			-sOutputFile="$output"	-
+	done

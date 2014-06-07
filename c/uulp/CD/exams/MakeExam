@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# MakeExam
+#
+# Simple pipeline to convert a tbl/troff file to pdf
+#
+# This script requires groff and gs, both freely available
+# for many platforms.
+#
+	tbl $* 		\
+	|
+	groff -Tps 	\
+	|
+	gs -sDEVICE=pdfwrite -q -dNOPAUSE -sOutputFile=- -

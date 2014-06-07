@@ -1,0 +1,10 @@
+Comparing sttyl to the standard system one is tricky on systems
+that contain more than one version of stty.  The sets of bits
+and the action of those bits varies from one version of Unix to
+another.
+
+The test script uses a simple C program called flags.c that has to
+be compiled.  The program prints out, in compact form, the current
+settings for the terminal driver.  The script uses that program to
+determine the effect of running the student program with various
+options.

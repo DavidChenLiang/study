@@ -1,0 +1,7 @@
+The rot.c program is an example of a curses application.  You can run the
+program here, or you can copy it and compile it.
+
+Type    rot filename
+
+and see what happens.  A good example is rot rot.c
+

@@ -1,0 +1,8 @@
+#
+# a shell script a a batch of commands
+#
+	echo "Status of system now. Includes users, files, processes"
+	date
+	who
+	ls
+	ps

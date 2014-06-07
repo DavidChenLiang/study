@@ -1,0 +1,8 @@
+clnt1 & clnt1 & clnt1 & clnt1 &
+sleep 2
+echo killing server
+kill 3911
+sleep 1
+srv1 &
+sleep 1
+clnt1 & clnt1 &
