@@ -2,7 +2,7 @@
 #include <curses.h>
 
 int
-main(void){
+main(int argc, char * argv[]){
     initscr();
     clear();
     move(10,20);
@@ -11,4 +11,5 @@ main(void){
     refresh();
     getch();
     endwin();
+    return 0;
 }
