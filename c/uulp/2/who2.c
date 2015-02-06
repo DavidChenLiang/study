@@ -1,10 +1,13 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <utmp.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <time.h>
 
 #define SHOWHOST
 
+void show_info(struct utmp *utbfup);
 int 
 main()
 {
@@ -22,8 +25,8 @@ main()
     return(0) ;
 }
 
-
-show_info(struct utmp *utbufp)
+void showtime(long timeval);
+void show_info(struct utmp *utbufp)
 {
     if (utbufp->ut_type != USER_PROCESS)
         return;

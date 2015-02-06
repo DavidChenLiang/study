@@ -1,10 +1,12 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <utmp.h>
 #include <fcntl.h>
 #include <unistd.h>
 
 #define SHOWHOST
 
+void show_info(struct utmp *utbufp);
 int 
 main()
 {
@@ -23,11 +25,11 @@ main()
 }
 
 
-show_info(struct utmp *utbufp)
+void show_info(struct utmp *utbufp)
 {
     printf("%-8.8s ",utbufp->ut_name);
     printf("%-8.8s ",utbufp->ut_line);
-    printf("%10ld  ", utbufp->ut_time);
+//    printf("%10ld  ", utbufp->ut_time);
     #ifdef SHOWHOST
     printf("(%s)", utbufp->ut_host);
     #endif
