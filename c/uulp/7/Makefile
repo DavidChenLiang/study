@@ -20,7 +20,16 @@ ticker_demo:
 	
 sigdemo3:
 	$(CC) $(CFLAGS) sigdemo3.c -o sigdemo3 
+
+sigactdemo:
+	$(CC) $(CFLAGS) sigactdemo.c -o sigactdemo 
+
+bounce1d:
+	$(CC) $(CFLAGS) bounce1d.c set_ticker.c -o bounce1d -lncurses
+
+bounce2d:
+	$(CC) $(CFLAGS) bounce2d.c set_ticker.c -o bounce2d -lncurses
 .PHONY:clean
 clean:
 	-rm -rf *.o
-	-rm -rf hello1 hello2 hello3 hello4 hello5 sleep1 ticker_demo sigdemo3
+	-rm -rf hello1 hello2 hello3 hello4 hello5 sleep1 ticker_demo sigdemo3 sigactdemo bounce1d bounce2d
