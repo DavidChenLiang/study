@@ -15,7 +15,12 @@ hello5:
 sleep1:
 	$(CC) $(CFLAGS) sleep1.c -o sleep1 
 	
+ticker_demo:
+	$(CC) $(CFLAGS) ticker_demo.c -o ticker_demo 
+	
+sigdemo3:
+	$(CC) $(CFLAGS) sigdemo3.c -o sigdemo3 
 .PHONY:clean
 clean:
 	-rm -rf *.o
-	-rm -rf hello1 hello2 hello3 hello4 hello5 sleep1
+	-rm -rf hello1 hello2 hello3 hello4 hello5 sleep1 ticker_demo sigdemo3
