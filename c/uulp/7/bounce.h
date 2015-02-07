@@ -15,7 +15,7 @@
  *
  * =====================================================================================
  */
-#define BLANK         '    '
+#define BLANK         ' '
 #define DFL_SYMBOL    'o'
 #define TOP_ROW       5
 #define BOT_ROW       20
