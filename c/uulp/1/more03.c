@@ -2,11 +2,9 @@
 #include <stdio.h>
 #include <termios.h>
 
-#define PAGELEN 24
-#define LINELEN 512
 
+#include "more.h"
 void do_more(FILE *);
-int see_more(FILE *);
 
 int
 main(int argc, char **argv)

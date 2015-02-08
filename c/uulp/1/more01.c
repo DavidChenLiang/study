@@ -1,10 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
-#define PAGELEN 24
-#define LINELEN 512
+#include "more.h"
 
 void do_more(FILE *);
-int see_more();
 
 int
 main(int argc, char **argv)
@@ -30,7 +28,8 @@ void
 do_more(FILE *fp){
     char line[LINELEN];
     int num_of_lines = 0;
-    int see_more(),reply;
+    int see_more();
+    int reply;
 
     
     while(fgets(line,LINELEN, fp)){
@@ -41,7 +40,7 @@ do_more(FILE *fp){
 	    num_of_lines -= reply;
 	}
 	if (fputs(line, stdout) == EOF)
-		exit(1);
+		exit(EXIT_SUCCESS);
 
 	num_of_lines++;
     }

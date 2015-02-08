@@ -1,7 +1,7 @@
 CC=gcc
 OBJ=more01.o more02.o more03.o cp1.o
 CFLAGS=-g3
-disolay:
+display:
 more01:
 more02:
 more03:
