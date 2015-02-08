@@ -9,14 +9,14 @@
 
 void show_info(struct utmp *utbfup);
 int 
-main()
+main(void)
 {
     struct utmp current_record;
     int         utmpfd;
     int         reclen = sizeof(current_record);
     if ( (utmpfd = open(UTMP_FILE, O_RDONLY)) == -1){
         perror(UTMP_FILE);
-        exit(1);
+        exit(EXIT_FAILURE);
     }
     while ( read(utmpfd, &current_record, reclen) == reclen )
        show_info(&current_record);
@@ -32,6 +32,7 @@ void show_info(struct utmp *utbufp)
         return;
     printf("%-8.8s ",utbufp->ut_name);
     printf("%-8.8s ",utbufp->ut_line);
+    printf("%-8.8s ",utbufp->ut_id);
     showtime(utbufp->ut_time);
     #ifdef SHOWHOST
     printf("(%s)", utbufp->ut_host);
@@ -43,5 +44,6 @@ void show_info(struct utmp *utbufp)
 void showtime(long timeval){
     char * cp;
     cp = ctime(&timeval);
-    printf("%12.12s",cp+4);
+    printf("%12.12s",cp);
 }
+
