@@ -37,7 +37,7 @@ main(int argc, char *argv[])
 
     if ((in_fd = open(argv[1],O_RDONLY)) == -1)
 	oops("Cannot open ", argv[1]);
-    if ((out_fd = create(argv[2],COPYMODE)) == -1)
+    if ((out_fd = creat(argv[2],COPYMODE)) == -1)
 	oops("Cannot create ", argv[2]);
 
     while ((n_chars = read(in_fd,buf,BUFFERSIZE)) >0)
