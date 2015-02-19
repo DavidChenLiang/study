@@ -8,7 +8,7 @@ main(void)
 
     arglist[0] = "ls";
     arglist[1] = "-l";
-    arglist[2] = 0;
+    arglist[2] = NULL;
    
     printf("*** about to exec ls -l \n");
     execvp("ls", arglist);

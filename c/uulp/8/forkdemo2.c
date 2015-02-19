@@ -6,10 +6,10 @@
 int
 main(void)
 {
-    printf("before my pid is %d\n",getpid());
+    printf("before my pid is %d,my ppid is %d\n",getpid(),getppid());
     fork();
     fork();
     fork();
-    printf("after my pid is %d\n",getpid());
+    printf("after my pid is %d,my ppid is %d\n",getpid(),getppid());
     return EXIT_SUCCESS;
 }
