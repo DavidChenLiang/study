@@ -10,6 +10,9 @@ static int last_stat = 0;
 
 int syn_err(char *);
 
+/* 
+ * 1 for yes, 0 for no
+ */
 int ok_to_execute()
 {
     int rv = 1;
@@ -24,13 +27,18 @@ int ok_to_execute()
     return rv;
 }
 
+/* 
+ * 1 for yes, 0 for no
+ */
 int is_control_command(char * s)
 {
     return (strcmp(s,"if") == 0   || 
             strcmp(s,"then") == 0 ||
             strcmp(s,"fi") == 0);
 }
-
+/* 
+ * 0 if ok, -1 for syntax error
+ */
 int do_control_command(char ** args)
 {
     char * cmd = args[0];

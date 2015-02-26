@@ -7,7 +7,8 @@
 int execute(char * argv[]){
     int pid;
     int child_info = -1;
-    if (argv[0] == NULL) return 0;
+    if (argv[0] == NULL) 
+	return 0;
     if ((pid  = fork()) == -1)
 	perror("fork");
     else if (pid == 0){

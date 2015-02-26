@@ -52,7 +52,7 @@ char ** splitline(char * line){
 
 	while (is_delim(* cp))
 	    cp++;
-	if (*cp == "\0") break;
+	if (*cp == '\0') break;
 	if (argnum +1 >= spots)
 	{
 	    args = erealloc(args, bufspace + BUFSIZ);

@@ -5,7 +5,7 @@
 #include <sys/wait.h>
 #include "smsh.h"
 
-#define  DFL_PROMPT ">0"
+#define  DFL_PROMPT ">>"
 
 int
 main(void)
@@ -24,7 +24,7 @@ main(void)
         }
         free(cmdline);
     }
-    return 0;
+    return result;
 }
 
 void setup(){
