@@ -7,4 +7,4 @@ changeenv:
 .PHONY:clean
 clean:
 	-rm -rf *.o
-	-rm -rf getenv showenv changeenv 
+	-rm -rf getenv showenv changeenv smsh1
