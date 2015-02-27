@@ -1,12 +1,13 @@
 #include <stdio.h>
+#include <string.h>
 #include "smsh.h"
 
 enum state    {NEUTRAL,WANT_THEN,THEN_BLOCK};
 enum results  {SUCCESS,FAIL};
 
-static int if_state = NEUTRAL;
+static int if_state  = NEUTRAL;
 static int if_result = SUCCESS;
-static int last_stat = 0;
+static int last_stat = 0;                       /* 0 return true from last call */
 
 int syn_err(char *);
 
@@ -32,9 +33,9 @@ int ok_to_execute()
  */
 int is_control_command(char * s)
 {
-    return (strcmp(s,"if") == 0   || 
-            strcmp(s,"then") == 0 ||
-            strcmp(s,"fi") == 0);
+    return (strcmp(s,"if")   == 0   || 
+            strcmp(s,"then") == 0   ||
+            strcmp(s,"fi")   == 0);
 }
 /* 
  * 0 if ok, -1 for syntax error

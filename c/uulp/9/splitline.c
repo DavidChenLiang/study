@@ -50,7 +50,7 @@ char ** splitline(char * line){
     while (*cp != '\0')
     {
 
-	while (is_delim(* cp))
+	while (is_delim(*cp))
 	    cp++;
 	if (*cp == '\0') break;
 	if (argnum +1 >= spots)
@@ -72,7 +72,7 @@ char ** splitline(char * line){
 char * newstr(char * s, int l)
 {
     char * rv = emalloc(1+l);
-    rv[1] = '\0';
+    rv[l] = '\0';
     strncpy(rv,s,l);
     return rv;
 }
