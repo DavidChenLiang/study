@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include "smsh.h"
+
+char * get_current_dir_name(void);
 
 char * next_cmd(char * prompt, FILE *fp){
     char * buf;
@@ -9,7 +12,8 @@ char * next_cmd(char * prompt, FILE *fp){
     int  pos = 0;
     int  c;
     
-    printf("%s",prompt);
+    prompt = get_current_dir_name();
+    printf("%s->",prompt);
     while((c = getc(fp)) != EOF)
     {
 	if (pos + 1 >= bufspace)
