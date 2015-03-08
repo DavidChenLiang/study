@@ -21,8 +21,9 @@
 #include "smsh.h"
 #include "varlib.h"
 
-int okname(char *);
-int assign(char *);
+static int okname(char *);
+static int assign(char *);
+static int findCharFromArgv(char *, char **);
 /* 
  * ===  FUNCTION  ======================================================================
  *         Name:  builtin_command
@@ -57,18 +58,51 @@ builtin_command (char **args, int * resultp)
 	    *resultp = VLstore("PWD",args[1]);
 	    rv = 1;
 	}
-
+    }else if (strcmp(args[0],"exit") == 0)
+    {
+	rv = 1;
     }
+    else if (findCharFromArgv("&",args) == 0)
+    {
+                                                /* implement '&' char processing, which put the porcess running in back groud */
+
+    }                                           
 
     return rv;
 }		/* -----  end of function builtin_command  ----- */
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  findcharfromargv
+ *  Description:  find exact char from argv, like '&' or ';'
+ *  RETURN:       NUll is not find, otherwise return the pointer to the char 
+ * =====================================================================================
+ */
+static
+int
+findCharFromArgv (char * ch, char ** argv)
+{
+    int rv = 1;
+    char * tem = *argv;
+    while (*tem != '\0')
+    {
+	if (strcmp(ch,tem) == 0)
+	{ 
+	    rv = 0;
+	    return rv;
+	}
+	tem++;
+    }
+    
+    return rv;
+}		/* -----  end of function findcharfromargv  ----- */
 /* 
  * ===  FUNCTION  ======================================================================
  *         Name:  assign
  *  Description: execute name = val And ensure that name is legal 
  * =====================================================================================
  */
-    int
+static
+int
 assign (char *str)
 {
     int rv;
@@ -86,7 +120,8 @@ assign (char *str)
  *  Description:  determine is a str is a legal variable name 
  * =====================================================================================
  */
-    int
+static
+int
 okname (char *str )
 {
     char *cp;
