@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 int
 main(int argc, char ** args)
@@ -23,4 +24,5 @@ main(int argc, char ** args)
     fgets(line, 100, stdin);printf("%s", line);
     fgets(line, 100, stdin);printf("%s", line);
     
+    return 0;
 }

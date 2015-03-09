@@ -14,7 +14,7 @@ main(int argc, char ** args)
     fgets(line, 100, stdin);printf("%s", line);
     fgets(line, 100, stdin);printf("%s", line);
     fgets(line, 100, stdin);printf("%s", line);
-    fd  = open("data", O_RDONLY);
+    fd  = open("/etc/passwd", O_RDONLY);
     #ifdef CLOSE_DUP
         close(0);
         newfd =dup(fd);
