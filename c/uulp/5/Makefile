@@ -1,10 +1,10 @@
 CC=gcc
+OBJ=setecho.o echostate.o showtty.o
 CFLAGS=-g3
-OBJ=echostate.o
 echostate:
 setecho:
+showtty:
 .PHONY:clean
 clean:
 	-rm $(OBJ)
-	-rm echostate
-	-rm setecho
+	-rm echostate setecho showtty
