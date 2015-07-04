@@ -9,6 +9,7 @@
 
 #define MOVE_TO_DOWN_LEFT_CORNER() printf("\033[42;0H")
 #define CLEAN_LINE() printf("\033[K")
+#define CONCEAL_CURSOR() printf("\033[?25l")
 int ROW;
 int COL;
 
@@ -83,9 +84,13 @@ do_more(FILE *fp){
 
 int 
 see_more(FILE * cmd){
+    struct winsize wbuf;
+    if (ioctl(0,TIOCGWINSZ,&wbuf) == -1){
+	    perror("ioctl error");
+    }
+    printf("\033[7m--more-- Rows:%d Columns:%d\033[m",wbuf.ws_row, wbuf.ws_col);
+    CONCEAL_CURSOR();
     int c;
-    printf("\033[7m--more--\033[m");
-    printf("\033[?25l");
     while ((c = getc(cmd)) != EOF){
         if (c == 'q')
 		return 0;
