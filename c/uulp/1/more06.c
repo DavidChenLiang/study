@@ -88,8 +88,12 @@ see_more(FILE * cmd){
     if (ioctl(0,TIOCGWINSZ,&wbuf) == -1){
 	    perror("ioctl error");
     }
-    printf("\033[7m--more-- Rows:%d Columns:%d\033[m",wbuf.ws_row, wbuf.ws_col);
-    CONCEAL_CURSOR();
+    printf("\033[7m--more--() Rows:%d Columns:%d Xpixel:%d Ypixel:%d\033[m",
+		                  wbuf.ws_row, 
+				  wbuf.ws_col,
+				  wbuf.ws_xpixel,
+				  wbuf.ws_ypixel);
+    //CONCEAL_CURSOR();
     int c;
     while ((c = getc(cmd)) != EOF){
         if (c == 'q')
