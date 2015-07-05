@@ -17,6 +17,7 @@ main()
         perror(UTMP_FILE);
         exit(1);
     }
+    printf("Type     Pid      Name     Line     Id       User     Session  Host\n");
     while ( read(utmpfd, &current_record, reclen) == reclen )
        show_info(&current_record);
      
@@ -27,8 +28,13 @@ main()
 
 void show_info(struct utmp *utbufp)
 {
+    printf("%-8d ",  utbufp->ut_type);
+    printf("%-8d ",  utbufp->ut_pid);
     printf("%-8.8s ",utbufp->ut_name);
     printf("%-8.8s ",utbufp->ut_line);
+    printf("%-8.8s ",utbufp->ut_id);
+    printf("%-8.8s ",utbufp->ut_user);
+    printf("%-8.8d ",utbufp->ut_session);
 //    printf("%10ld  ", utbufp->ut_time);
     #ifdef SHOWHOST
     printf("(%s)", utbufp->ut_host);
