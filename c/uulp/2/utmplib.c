@@ -19,7 +19,7 @@ int utmp_open(char * filename){
     return fd_utmp;
 }
 
-int utmp_reload(){
+static int utmp_reload(){
     int amt_read;
     amt_read = read(fd_utmp, utmpbuf, NRECS * UTSIZE);    
     num_recs = amt_read/UTSIZE;
