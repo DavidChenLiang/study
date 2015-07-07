@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <utmp.h>
+#include "utmplib.h"
 #include <fcntl.h>
 #include <unistd.h>
 #include <time.h>
@@ -11,11 +12,8 @@ void show_info(struct utmp *utbfup);
 int 
 main(void)
 {
-    struct utmp * utbufp,
-                * utmp_next();
-    int utmp_open();
-    void utmp_close(); 
-    
+    struct utmp * utbufp;
+
     if (utmp_open(UTMP_FILE) == -1){
             perror(UTMP_FILE);
             exit(1);
