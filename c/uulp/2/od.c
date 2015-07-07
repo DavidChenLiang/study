@@ -23,6 +23,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdio.h>
 /* 
  * ===  FUNCTION  ======================================================================
  *         Name:  main
@@ -44,16 +45,22 @@ main ( int argc, char *argv[] )
                 perror("Cannot open file");
                 return -1;
         }
-        char buf;
-        int count = 0;
-        while (read(fd,&buf,1) == 1){
-                printf("%o\n",buf);
-                count++;
+        char c;
+        int newLine = 0;
+        while (read(fd,&c,1) == 1){
+                printf("%o\t",c);
+                fflush(stdout);
+                if (newLine == 16){
+                    printf("\n");
+                    newLine = 0;
+                }
+                newLine++;
         }
-        printf("--%d\n",count);
+        printf ("\n");
+//        printf("--%d--\n",count);
         if (close(fd) == -1){
                 perror("Cannot close file");
                 return -1;
         }
-        return EXIT_FAILURE;
+        return EXIT_SUCCESS;
 }				/* ----------  end of function main  ---------- */
