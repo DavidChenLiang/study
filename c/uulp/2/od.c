@@ -47,14 +47,15 @@ main ( int argc, char *argv[] )
         }
         char c;
         int newLine = 0;
+        printf("%o\t",newLine);
         while (read(fd,&c,1) == 1){
-                printf("%o\t",c);
-                fflush(stdout);
-                if (newLine == 16){
-                    printf("\n");
-                    newLine = 0;
-                }
                 newLine++;
+                if ((newLine % 16) == 0){
+                    printf("\n%o\t",newLine);
+                }
+                printf("%o  ",c);
+                fflush(stdout);
+
         }
         printf ("\n");
 //        printf("--%d--\n",count);
