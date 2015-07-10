@@ -9,8 +9,8 @@ who4:
 cp1:
 n2n:
 lseek:	
-od:
+myod:
 .PHONY:clean
 clean:
 	-rm -rf *.o
-	-rm who1 who2 cp1 n2n lseek who3 who4 who5 od
+	-rm who1 who2 cp1 n2n lseek who3 who4 who5 myod
