@@ -23,6 +23,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
+#include <time.h>
 /* 
  * ===  FUNCTION  ======================================================================
  *         Name:  main
@@ -48,7 +49,7 @@ main ( int argc, char *argv[] )
         int fd;
         if ((fd = open("/var/log/wtmp",O_RDONLY)) == -1){
             perror("Can not open file");
-            exit(0);
+            exit(1);
         }
         struct utmp * utmpBuf; 
         utmpBuf = malloc(sizeof(struct utmp)); 
@@ -61,7 +62,8 @@ main ( int argc, char *argv[] )
                     continue;
             }
             printf("%-8.8s",utmpBuf->ut_name);
-            printf("%-8.8s\n",utmpBuf->ut_line);
+            printf("%-8.8s",utmpBuf->ut_line);
+            printf("%12.12s\n",ctime(&(utmpBuf->ut_time))); 
             count++;
         }
         if (close(fd) == -1){
