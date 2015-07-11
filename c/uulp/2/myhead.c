@@ -34,7 +34,7 @@
 main ( int argc, char *argv[] )
 {
         int opt;
-        int displayCounter;
+        int displayCounter = 10;                /* default print 10 lines of file */
         while ((opt = getopt(argc,argv,"n:")) != -1){
                 switch(opt){
                         case('n'):
