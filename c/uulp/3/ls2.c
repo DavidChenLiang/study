@@ -7,8 +7,21 @@
 #include <dirent.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  strcmpgp
+ *  Description:  
+ * =====================================================================================
+ */
+        static int
+strcmpgp ( const void * p1, const void * p2)
+{
+        return strcmp(*(char * const *)p1,*(char * const *)p2);
+}		/* -----  end of static function strcmpgp  ----- */
 void do_ls(char[]);
+
 int
 main(int ac, char *av[]){
     int opt;
@@ -36,18 +49,28 @@ main(int ac, char *av[]){
 }
 
 void do_ls(char dirname[]){
-    DIR * dir_ptr;                              /* dir descriptor */
+    DIR * dir_ptr;                              /* DIR is dir descriptor */
     struct dirent * direntp;
 
     if ((dir_ptr = opendir(dirname)) == NULL)
         fprintf(stderr, "ls1: Cannot open %s\n", dirname);
     else
      {
-         while ((direntp = readdir(dir_ptr)) != NULL)
-            printf("%s\n",direntp->d_name);
-            if (closedir(dir_ptr)){
+         char * * dirBuf;
+         int dirBufIndex = 0;
+         while ((direntp = readdir(dir_ptr)) != NULL){
+            dirBuf[dirBufIndex] = malloc(sizeof(strlen(direntp->d_name) + 1)); /* malloc for each dir entry */
+            strcpy(dirBuf[dirBufIndex++],direntp->d_name + '\0'); /*  make sure the entry is put*/
+            
+         }  
+         if (closedir(dir_ptr)){                /* try to close the DIR */
                     perror("Can not close dir");
                     exit(0);
-            }
+            }                                    /* end of while */
+         qsort(dirBuf,dirBufIndex,sizeof(char *),strcmpgp);                /* sort thr buf u*/
+         int i = 0;
+         while (dirBuf[i] != NULL){
+                printf("%s\n",dirBuf[i++]);
+         }
      }
 }
