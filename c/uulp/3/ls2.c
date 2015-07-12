@@ -1,17 +1,36 @@
+
+/*-----------------------------------------------------------------------------
+ *  
+ *-----------------------------------------------------------------------------*/
 #include <stdio.h>
 #include <sys/types.h>
 #include <dirent.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 void do_ls(char[]);
 int
 main(int ac, char *av[]){
+    int opt;
+    int longfnd;
+    int hiddenfnd;
+    while (opt = getopt(ac,av,"la") !=-1){
+        switch(opt){
+            case 'l':
+                    longfnd = 1;
+                    break;
+            case 'a':
+                    hiddenfnd = 1;
+                    break;
+            }
+    }
     if (ac == 1) 
         do_ls(".");
     else
-        while (--ac){
-            printf("%s:\n", *++av);
-            do_ls(*av);
+        while (optind < ac){
+            printf("%s:\n", av[optind]);
+            do_ls(av[optind]);
+            optind++;
         }
         
 }
