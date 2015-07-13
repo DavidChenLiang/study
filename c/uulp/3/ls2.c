@@ -41,36 +41,38 @@ main(int ac, char *av[]){
         do_ls(".");
     else
         while (optind < ac){
-            printf("%s:\n", av[optind]);
+            printf("folder is %s\n", av[optind]);
             do_ls(av[optind]);
             optind++;
         }
         
 }
 
-void do_ls(char dirname[]){
-    DIR * dir_ptr;                              /* DIR is dir descriptor */
+void do_ls(char  * dirname){
+    DIR * dir_ptr;                              /* DIR is a dir descriptor */
     struct dirent * direntp;
 
     if ((dir_ptr = opendir(dirname)) == NULL)
         fprintf(stderr, "ls1: Cannot open %s\n", dirname);
     else
      {
-         char * * dirBuf;
-         int dirBufIndex = 0;
+         char * dirNames[256];
+         int  count = 0;
          while ((direntp = readdir(dir_ptr)) != NULL){
-            dirBuf[dirBufIndex] = malloc(sizeof(strlen(direntp->d_name) + 1)); /* malloc for each dir entry */
-            strcpy(dirBuf[dirBufIndex++],direntp->d_name + '\0'); /*  make sure the entry is put*/
-            
+            dirNames[count] = (char *)malloc(strlen(direntp->d_name) + 1); /* malloc for each dir entry */
+            strcpy(dirNames[count],direntp->d_name ); /*  make sure the entry is put*/
+            count++;
          }  
+         dirNames[count]= NULL;
          if (closedir(dir_ptr)){                /* try to close the DIR */
                     perror("Can not close dir");
                     exit(0);
             }                                    /* end of while */
-         qsort(dirBuf,dirBufIndex,sizeof(char *),strcmpgp);                /* sort thr buf u*/
-         int i = 0;
-         while (dirBuf[i] != NULL){
-                printf("%s\n",dirBuf[i++]);
-         }
+            qsort(dirNames,count,sizeof(char *),strcmpgp);                /* sort thr buf u*/
+            int i = 0;
+            while (dirNames[i] != NULL){
+                printf("%s\n",dirNames[i]);
+                i++;
+            }
      }
 }
