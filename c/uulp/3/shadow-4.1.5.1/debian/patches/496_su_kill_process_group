@@ -1,0 +1,29 @@
+Description: su: Kill the child process group, not just the immediate child
+ This is needed now that su no longer starts a controlling terminal when not
+ running an interactive shell.
+Author: Colin Watson <cjwatson@ubuntu.com>
+Forwarded: no
+Last-Update: 2013-07-26
+
+Index: b/src/su.c
+===================================================================
+--- a/src/su.c
++++ b/src/su.c
+@@ -194,7 +194,7 @@
+ static RETSIGTYPE kill_child (int unused(s))
+ {
+ 	if (0 != pid_child) {
+-		(void) kill (pid_child, SIGKILL);
++		(void) kill (-pid_child, SIGKILL);
+ 		(void) fputs (_(" ...killed.\n"), stderr);
+ 	} else {
+ 		(void) fputs (_(" ...waiting for child to terminate.\n"),
+@@ -383,7 +383,7 @@
+ 		(void) fputs ("\n", stderr);
+ 		(void) fputs (_("Session terminated, terminating shell..."),
+ 		              stderr);
+-		(void) kill (pid_child, caught);
++		(void) kill (-pid_child, caught);
+ 	}
+ 
+ 	ret = pam_close_session (pamh, 0);
