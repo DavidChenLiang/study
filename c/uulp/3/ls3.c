@@ -73,11 +73,12 @@ void do_ls(char  * dirname){
                     perror("Can not close dir");
                     exit(0);
             }                                    /* end of while */
-//            qsort(dirNames,count,sizeof(char *),strcmpgp);                /* sort thr buf u*/
+            qsort(dirNames,count,sizeof(char *),strcmpgp);                /* sort thr buf u*/
             printf("total %d\n",count);
             int i = 0;
             while (dirNames[i] != NULL){
                 printf("%s\n",dirNames[i]);
+                free(dirNames[i]);
                 i++;
             }
      }
