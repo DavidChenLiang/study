@@ -19,6 +19,9 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <sys/types.h>
+#include <pwd.h>
+#include <grp.h>
 
 /* 
  * ===  FUNCTION  ======================================================================
@@ -27,11 +30,45 @@
  * =====================================================================================
  */
         int
-parse (char * idString )
+mychown (char * idString ,char * path)
 {
         int retval = -1;
-        char  * delimiter = ":";
-        printf("%s\n",strtok(idString, delimiter));
+        char  delimiter = ':';
+        int i = 0;
+        if (strchr(idString, delimiter) != NULL){
+           while (idString[i++] != ':') {
+                ;
+           }
+        }
+//        printf("i = %d\n",i);
+        char uid[256];
+        int index = 0;
+        for (;index<i-1;index++){
+            uid[index] = idString[index];
+        }
+        uid[index] = '\0';
+//        printf("%s\n",uid); 
+        index =0;
+        char gid[256];
+        int idStrLen = strlen(idString);
+        for (;(index+i)<idStrLen;index++) {
+            gid[index] = idString[index+i];
+        }
+        gid[index] = '\0';
+//        printf("%s\n",gid);
+        struct passwd  *pwd; 
+        if ( (pwd = getpwnam(uid)) != NULL){
+            printf("%s\n",pwd->pw_name);
+        }
+        struct group *grp;
+        if ((grp= getgrnam(gid)) != NULL){
+            printf("%s\n",grp->gr_name);
+             }
+        if (chown(path, pwd->pw_uid,grp->gr_gid)){
+            perror("chown");
+            exit(EXIT_FAILURE);
+        }
+
         return retval;
 }		/* -----  end of function parse  ----- */
 
@@ -54,7 +91,7 @@ main ( int argc, char *argv[] )
             case 'l':;
             }
         }
-        if (parse(argv[optind])){
+        if (mychown(argv[optind],argv[optind+1])){
 
         }
      
