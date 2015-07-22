@@ -40,7 +40,7 @@ main ( int argc, char *argv[] )
                 perror("Can not stat");
                 exit(-1);
         }
-        printf("size %lld\n",buf.st_size);
+        printf("size %lld\n",(unsigned long long)buf.st_blocks);
         
         return EXIT_SUCCESS;
 }				/* ----------  end of function main  ---------- */
