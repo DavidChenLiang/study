@@ -34,13 +34,12 @@ main ( int argc, char *argv[] )
 {
 
         getopt(argc,argv,"h");
-        printf("%s\n",argv[optind]);
         struct stat buf;
         if (stat(argv[optind],&buf) == -1){
                 perror("Can not stat");
                 exit(-1);
         }
-        printf("size %lld\n",(unsigned long long)buf.st_blocks);
+        printf("%lld\t%s\n",(unsigned long long)(buf.st_blocks*512)/1024,argv[optind]);
         
         return EXIT_SUCCESS;
 }				/* ----------  end of function main  ---------- */
