@@ -16,20 +16,20 @@ main(void)
     while(1)
     {
         move(ROW,pos);
-	addstr("Hello");
-	move(LINES - 1, COLS - 1);
-	refresh();
-	sleep(1);
-	move(ROW,pos);
-	addstr("     ");
-	pos += dir;
-	if (pos >= RIGHTEDGE)
-	{
-	    dir = -1;
-	}
-	if (pos <= LEFTEDGE)
-	{
-	    dir = +1;
-	}
+    	addstr("Hello");
+    	move(LINES - 1, COLS - 1);
+	    refresh();
+	    sleep(1);
+	    move(ROW,pos);
+	    addstr("     ");
+            pos += dir;
+            if (pos >= RIGHTEDGE)
+            {
+                dir = -1;
+            }
+            if (pos <= LEFTEDGE)
+            {
+                dir = +1;
+            }
     }
 }
