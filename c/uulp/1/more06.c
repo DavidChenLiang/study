@@ -7,14 +7,14 @@
 
 
 
-#define MOVE_TO_DOWN_LEFT_CORNER() printf("\033[42;0H")
+#define MOVE_TO_DOWN_LEFT_CORNER() printf("\033[%d;0H",ROW)
 #define CLEAN_LINE() printf("\033[K")
 #define CONCEAL_CURSOR() printf("\033[?25l")
 int ROW;
 int COL;
 
 void do_more(FILE *);
-void rowCol();
+void setRowCol();
 
 
 int
@@ -23,7 +23,7 @@ main(int argc, char **argv)
     
     FILE *fp;
     tty_mode(0);
-    rowCol();
+    setRowCol();
     if (argc == 1){
         do_more(stdin);
     }else{
@@ -42,7 +42,7 @@ main(int argc, char **argv)
 }
 
 void 
-rowCol(){
+setRowCol(){
 	//you can also run stty -size to get the information 
 	//ie., stty -size 
 	//return 42 106
