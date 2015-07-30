@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/ioctl.h>
+#include <curses.h>
 
 
 
@@ -15,6 +16,9 @@ int COL;
 
 void do_more(FILE *);
 void setRowCol();
+void tty_mode(int);
+void set_cr_noecho_mode();
+
 
 
 int
@@ -31,7 +35,7 @@ main(int argc, char **argv)
         while(--argc){
 	    if ((fp = fopen(*++argv,"r")) != NULL){
 	        do_more(fp);
-		fclose(fp);
+		    fclose(fp);
 	    }else{
 	        exit(1);
 	    }//if
@@ -99,22 +103,25 @@ see_more(FILE * cmd){
         if (c == 'q')
 		return 0;
 	if (c == ' ')
-		return ROW;
+//		return ROW;
+		return LINES;
 	if (c == '\n')
 		return 1;
     }
     return 0;
 }
 
+void
 tty_mode(int how)
 {
     static struct termios original_mode;
     if (how == 0)
         tcgetattr(0,&original_mode);
     else
-        return tcsetattr(0,TCSANOW, &original_mode);
+        tcsetattr(0,TCSANOW, &original_mode);
 }
 
+void
 set_cr_noecho_mode()
 {
     struct termios    ttystate;
