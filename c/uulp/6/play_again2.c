@@ -24,9 +24,9 @@ int get_response(char * question)
     while (1){
        switch(input = getchar()){
         case 'y':
-        case 'Y': return 0;
+        case 'Y': {fprintf(stdout,"\n");return 0;}
         case 'n':
-        case 'N': return 0;
+        case 'N': {fprintf(stdout,"\n");return 0;}
         case EOF: return 1;
         }
    }
