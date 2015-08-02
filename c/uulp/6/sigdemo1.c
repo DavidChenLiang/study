@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <signal.h>
+y#include <signal.h>
 #include <termios.h>
 
 int
