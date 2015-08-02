@@ -30,19 +30,18 @@ int get_response(char * question,int maxtries)
     fflush(stdout);
     while (1){
        sleep(SLEEPTIME);
-       input = tolower(getchar());
-       switch(input){
-           if (input == 'y')
+       input = tolower(get_ok_char());
+       if (input == 'y')
                return 0;
-           if (input == 'n')
+       if (input == 'n')
                return 1;
-           if (maxtries-- == 0)
+       if (maxtries-- == 0)
                return 2;
-           BEEP;
-        }
+       BEEP;
    }
 }
 
+int 
 get_ok_char(){
     int c;
     while ((c = getchar()) != EOF && strchr("yYnN",c) == NULL)
@@ -62,15 +61,19 @@ void set_cr_noecho_mode(){
 void set_nodelay_mode(){
     int termflags;
     termflags = fcntl(0, F_GETFL);
-    termflags |= O_NDELAY;
+//    termflags |= O_NDELAY;
+    termflags |= O_NONBLOCK;
     fcntl(0,F_SETFL, termflags);
 }
 
 tty_mode(int how){
     static struct termios original_mode;
+    static int original_flags;
     if (how == 0){
         tcgetattr(0,&original_mode);
+        original_flags = fcntl(0,F_GETFL);
     }else {
-        return tcsetattr(0,TCSANOW,&original_mode);
+         tcsetattr(0,TCSANOW,&original_mode);
+         fcntl(0,F_SETFL,original_flags);
     }
 }
