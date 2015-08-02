@@ -7,7 +7,6 @@ main(void){
     
     initscr();
     clear();
-    
     for(i = 0;i< LINES; i++){
         move(i, i+i);
         if (i%2 == 1) standout();

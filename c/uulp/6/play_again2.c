@@ -18,7 +18,7 @@ main(void)
 }
 
 int get_response(char * question)
-{
+
     int input;
     printf("%s (y/n)?",question);
     while (1){

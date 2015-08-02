@@ -22,12 +22,12 @@ main(void)
 	    sleep(1);
 	    move(ROW,pos);
 	    addstr("     ");
-            pos += dir;
-            if (pos >= RIGHTEDGE)
+        pos += dir;
+        if (pos >= RIGHTEDGE)
             {
                 dir = -1;
             }
-            if (pos <= LEFTEDGE)
+        if (pos <= LEFTEDGE)
             {
                 dir = +1;
             }
