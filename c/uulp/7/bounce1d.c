@@ -23,7 +23,11 @@
 #define  MESSAGE "Hello"
 #define  BLANK   "     "
 
-nt
+int row;
+int col;
+int dir;
+
+int
 main(void)
 {
     int delay;
@@ -37,41 +41,37 @@ main(void)
     noecho();
     clear();
 
-    int ROW;
-    int col;
-    int dir;
-
     row = 10;
     col = 0;
     dir = 1;
     delay = 200;
 
-    move(ROW,col);
+    move(row,col);
     addstr(MESSAGE);
     signal(SIGALRM,move_msg);
     set_ticker(delay);
 
     while(1)
     {
-	ndelay = 0;
-	c = getchar();
-	if (c == 'Q') break;
-	if (c == ' ')dir = -dir;
-	if (c == 'f' && delay > 2) ndelay = delay/2;
-	if (c == 's') ndelay = delay * 2;
-	if (ndelay > 0)
-	    set_ticker(delay = ndelay);
-    }
+            ndelay = 0;
+            c = getchar();
+            if (c == 'Q') break;
+            if (c == ' ')dir = -dir;
+            if (c == 'f' && delay > 2) ndelay = delay/2;
+            if (c == 's') ndelay = delay * 2;
+            if (ndelay > 0)
+                set_ticker(delay = ndelay);
+            }
     endwin();
     return 0;
 }
 void move_msg(int signum)
 {
     signal(SIGALRM,move_msg);
-    move(ROW, col);
+    move(row, col);
     addstr(BLANK);
     col += dir;
-    move(ROW, col);
+    move(row, col);
     addstr(MESSAGE);
     refresh();
     if (dir == -1 && col <= 0) dir = 1;
