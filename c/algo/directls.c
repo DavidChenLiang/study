@@ -55,7 +55,37 @@ directls(const char *path, Directory **dir){
                 strcpy(((*dir)[count -1]).name,curdir->d_name);
         }
         closedir(dirptr);
+#ifdef QK
         if (qksort(*dir, count, sizeof(Directory),0, count -1, compare_dir)!= 0)
                 return -1;
+#elif IS
+        if (issort(*dir,count, sizeof(Directory),compare_dir) != 0) 
+                return -1;
+#endif
         return count;
 }
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  main
+ *  Description:  
+ * =====================================================================================
+ */
+        int
+main ( int argc, char *argv[] )
+{
+        Directory * dir;
+        const char path[10] = ".";
+        int count  = directls(path, &dir);
+#ifdef DEBUG
+        fprintf(stdout,"count %d\n",count);
+#endif
+        if (count > 0)
+        { 
+            int i;
+            for (i=0 ;i < count; i++ )
+            fprintf(stdout,"%s\n",dir[i].name);
+        }
+
+        return EXIT_SUCCESS;
+}				/* ----------  end of function main  ---------- */
