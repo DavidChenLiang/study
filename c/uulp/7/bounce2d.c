@@ -15,8 +15,8 @@
  *
  * =====================================================================================
  */
-#include <stdlib.h>
 #include <signal.h>
+#include <stdlib.h>
 #include <curses.h>
 #include "bounce.h"
 struct ppball the_ball;
@@ -24,20 +24,23 @@ void set_up();
 void wrap_up();
 void set_ticker(int);
 int bounce_or_lose(struct ppball *);
+
 int
 main(void)
 {
     int c;
     set_up();
-    while ((c = getchar()) != 'Q')
+    while (((c = getchar()) != 'Q') && ((c = getchar()) != 'q'))
     {
-	if (c == 'f')      the_ball.x_ttm--;
-	else if (c == 's') the_ball.x_ttm++;
-	else if (c == 'F') the_ball.y_ttm--;
-	else if (c == 'S') the_ball.y_ttm++;
+	    if (c == 'f')      the_ball.x_ttm--;
+	    else if (c == 's') the_ball.x_ttm++;
+	    else if (c == 'F') the_ball.y_ttm--;
+	    else if (c == 'S') the_ball.y_ttm++;
     }
     wrap_up();
+    return EXIT_SUCCESS;
 }
+
 void set_up()
 {
     void ball_move(int);
@@ -75,47 +78,50 @@ void ball_move(int signum)
     moved = 0;
     if (the_ball.y_ttm > 0 && the_ball.y_ttg -- == 1)
     {
-	the_ball.y_pos += the_ball.y_dir;
-	the_ball.y_ttg = the_ball.y_ttm;
-	moved = 1;
+	    the_ball.y_pos += the_ball.y_dir;
+	    the_ball.y_ttg = the_ball.y_ttm;
+	    moved = 1;
     }
     if (the_ball.x_ttm > 0 && the_ball.x_ttg-- == 1)
     {
-	the_ball.x_pos += the_ball.x_dir;
-	the_ball.x_ttg = the_ball.x_ttm;
-	moved  = 1;
+	    the_ball.x_pos += the_ball.x_dir;
+	    the_ball.x_ttg = the_ball.x_ttm;
+	    moved  = 1;
     }
     if (moved)
     {
-	mvaddch(y_cur,x_cur,BLANK);
-	mvaddch(y_cur,x_cur,BLANK);
-        mvaddch(the_ball.y_pos,the_ball.x_pos,the_ball.symbol);    
-	bounce_or_lose(&the_ball);
-	move(LINES -1,COLS -1);
-	refresh();
+//	    mvaddch(y_cur,x_cur,BLANK);
+	    mvaddch(y_cur,x_cur,BLANK);
+        mvaddch(the_ball.y_pos,
+                the_ball.x_pos,
+                the_ball.symbol);    
+	    bounce_or_lose(&the_ball);
+	    move(LINES -1,COLS -1);
+	    refresh();
     }
     signal(SIGALRM,ball_move);
 }
+
 int bounce_or_lose(struct ppball * bp)
 {
     int return_val = 0;
     if (bp->y_pos == TOP_ROW)
     {
-	bp->y_dir = 1;
-	return_val = 1;
+	    bp->y_dir = 1;
+	    return_val = 1;
     }else if(bp-> y_pos == BOT_ROW) {
-	bp->y_dir = -1;
-	return_val = 1;
+	    bp->y_dir = -1;
+	    return_val = 1;
     }
+
     if (bp->x_pos == LEFT_EDGE)
     {
-	bp->x_dir = 1;
-	return_val = 1;
+	    bp->x_dir = 1;
+	    return_val = 1;
     }else if (bp->x_pos == RIGHT_EDGE)
     {
-	bp->x_pos = -1;
-	return_val = 1;
-
+	    bp->x_dir = -1;
+	    return_val = 1;
     }
     return return_val;
 }

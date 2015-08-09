@@ -32,8 +32,8 @@ compare_str(const void *str1, const void *str2){
 }
 int
 spell(char (*dictionary)[SPELL_SIZE],
-                int size, 
-                const char *word){
+      int size, 
+      const char *word){
         if (bisearch(dictionary, word, size, SPELL_SIZE,compare_str) >= 0)
                 return 1;
         else 
@@ -50,8 +50,12 @@ spell(char (*dictionary)[SPELL_SIZE],
 int
 main ( int argc, char *argv[] )
 {
-        char *dic[] = {"ab","cd"};
-        int ret = spell(dic,2,"cd");
-        fprintf(stdout, "%d\n",ret);
+        char dic[][SPELL_SIZE] = {{"ab"},{"cd"}};
+        int ret = spell(dic,2,argv[1]);
+        if(ret){
+                fprintf(stdout, "found %s\n",argv[1]);
+        }else{
+                fprintf(stdout, "didn't found match\n");
+        }
         return EXIT_SUCCESS;
 }				/* ----------  end of function main  ---------- */
