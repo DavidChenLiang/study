@@ -22,6 +22,7 @@
 #include <string.h>
 #include "directls.h"
 #include "sort.h"
+extern int b =3;
 static int
 compare_dir(const void *key1, const void *key2){
        int      retval; 

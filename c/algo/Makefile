@@ -14,4 +14,4 @@ bi:
 .PHONY:clean
 clean:
 	-rm -rf *.o
-	-rm -rf qk is bi ls
+	-rm -rf qk is bi ls frame

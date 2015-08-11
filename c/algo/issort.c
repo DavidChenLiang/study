@@ -17,12 +17,16 @@
  */
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include "sort.h"
-
 int
 issort(void *data, int size, int esize,int (*compare)(const void *key1,
                         const void *key2)){
+        
+        extern int b;
+        b = 2;
+        printf("%d\n",b);
         char *a = data;
         void *key;
         int i,
