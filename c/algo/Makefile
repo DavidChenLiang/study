@@ -1,8 +1,8 @@
 CC=gcc
 OBJ=
 CFLAGS=-g -Wall
-frame:
-	$(CC) $(CFLAGS) -o frame frame.c 
+frames:
+	$(CC) $(CFLAGS) -o frames frames.c  list.c
 ls:
 	$(CC) $(CFLAGS) -c list.c
 qk:
@@ -14,4 +14,4 @@ bi:
 .PHONY:clean
 clean:
 	-rm -rf *.o
-	-rm -rf qk is bi ls frame
+	-rm -rf qk is bi ls frames
