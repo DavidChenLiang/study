@@ -32,7 +32,7 @@ void
 list_destroy(List *list){
     void    *data;
     while (list_size(list)>0){
-        if (list_rem_next(list, NULL, (void **)&data) ==0 && list->destroy != NULL)
+        if (list_rem_next(list, NULL, (void **)&data) == 0 && list->destroy != NULL)
             list->destroy(data);
     }
     memset(list, 0, sizeof(List));
@@ -48,8 +48,8 @@ list_ins_next(List *list, ListElmt *element, const void *data){
     if (element == NULL){
         if(list_size(list) == 0) 
             list->tail = new_element;
-            new_element->next = list->head;
-            list->head = new_element;
+        new_element->next = list->head;
+        list->head = new_element;
     }else{
         if (element->next == NULL)
             list->tail = new_element;

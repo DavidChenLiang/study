@@ -18,6 +18,7 @@
 
 
 #include	<stdlib.h>
+#include	<stdio.h>
 #include    "frames.h"
 #include    "list.h"
 
@@ -46,6 +47,13 @@ free_frame(List *frames, int frame_number){
         return -1;
     return 0;
 }
+void
+destroy(void *data){
+    if (data){
+        free(data);
+    }
+    return;
+}
 /* 
  * ===  FUNCTION  ======================================================================
  *         Name:  main
@@ -56,10 +64,37 @@ free_frame(List *frames, int frame_number){
 main ( int argc, char *argv[] )
 {
     List * list = (List *)malloc(sizeof(List));
-    list_init(list,NULL);
+    list_init(list,destroy);
+
     int *data = (int *)malloc(sizeof(int));
     *data = 10;
     list_ins_next(list,NULL,data);
+    
+    data = (int *)malloc(sizeof(int));
+    *data = 20;
+    list_ins_next(list,NULL,data);
+    
+    ListElmt * tempElmt = list->head;
+    int size = list_size(list);
+    printf("size: %d\n",size);
+    while (size >0){
+        int * temp = (int *)(tempElmt->data); 
+        fprintf(stdout,"%d\n",*temp);
+        tempElmt  = tempElmt->next;
+        size--;
+    }
+    tempElmt = list->head;
+    while (tempElmt){
+        if (list->destroy){
+            list->destroy(tempElmt->data);    
+            printf("destroy is not null\n");
+        }else{
+            printf("destroy is null\n");
+            free(tempElmt->data);
+        }
+        tempElmt = tempElmt->next;
+    }
+
     free(list);
     return EXIT_SUCCESS;
 
